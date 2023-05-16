@@ -1,5 +1,4 @@
-<script>
-    import 'bootstrap/dist/css/bootstrap.min.css';
+<script lang ="ts">
     import { Button } from 'sveltestrap';
     const color = 'primary';
 </script>
