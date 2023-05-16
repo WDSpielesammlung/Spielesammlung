@@ -1,5 +1,13 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  bootstrap:
+    specifier: ^5.2.3
+    version: 5.2.3(@popperjs/core@2.11.7)
+  sveltestrap:
+    specifier: ^5.10.0
+    version: 5.10.0(svelte@3.59.1)
+
 devDependencies:
   '@playwright/test':
     specifier: ^1.28.1
@@ -17,7 +25,7 @@ devDependencies:
     specifier: ^2.8.1
     version: 2.10.0(prettier@2.8.8)(svelte@3.59.1)
   svelte:
-    specifier: ^3.54.0
+    specifier: ^3.59.1
     version: 3.59.1
   svelte-check:
     specifier: ^3.0.1
@@ -291,6 +299,10 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
+  /@popperjs/core@2.11.7:
+    resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
+    dev: false
+
   /@sveltejs/adapter-auto@2.0.1(@sveltejs/kit@1.16.3):
     resolution: {integrity: sha512-anxxYMcQy7HWSKxN4YNaVcgNzCHtNFwygq72EA1Xv7c+5gSECOJ1ez1PYoLciPiFa7A3XBvMDQXUFJ2eqLDtAA==}
     peerDependencies:
@@ -400,6 +412,14 @@ packages:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
     dev: true
+
+  /bootstrap@5.2.3(@popperjs/core@2.11.7):
+    resolution: {integrity: sha512-cEKPM+fwb3cT8NzQZYEu4HilJ3anCrWqh3CHAok1p9jXqMPsPTBhU25fBckEJHJ/p+tTxTFTsFQGM+gaHpi3QQ==}
+    peerDependencies:
+      '@popperjs/core': ^2.11.6
+    dependencies:
+      '@popperjs/core': 2.11.7
+    dev: false
 
   /brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -1013,7 +1033,15 @@ packages:
   /svelte@3.59.1:
     resolution: {integrity: sha512-pKj8fEBmqf6mq3/NfrB9SLtcJcUvjYSWyePlfCqN9gujLB25RitWK8PvFzlwim6hD/We35KbPlRteuA6rnPGcQ==}
     engines: {node: '>= 8'}
-    dev: true
+
+  /sveltestrap@5.10.0(svelte@3.59.1):
+    resolution: {integrity: sha512-k6Ob+6G2AMYvBidXHBKM9W28fJqFHbmosqCe/NC8pv6TV7K+v47Yw+zmnLWkjqCzzmjkSLkL48SrHZrlWc9mYQ==}
+    peerDependencies:
+      svelte: ^3.29.0
+    dependencies:
+      '@popperjs/core': 2.11.7
+      svelte: 3.59.1
+    dev: false
 
   /tiny-glob@0.2.9:
     resolution: {integrity: sha512-g/55ssRPUjShh+xkfx9UPDXqhckHEsHr4Vd9zX55oSdGZc/MD0m3sferOkwWtp98bv+kcVfEHtRJgBVJzelrzg==}
