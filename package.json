@@ -26,9 +26,5 @@
 		"vite": "^4.3.0",
 		"vitest": "^0.25.3"
 	},
-	"type": "module",
-	"dependencies": {
-		"bootstrap": "^5.2.3",
-		"sveltestrap": "^5.10.0"
-	}
+	"type": "module"
 }
