@@ -4,26 +4,26 @@
       <li class="logo">
         <a href="/" class="nav-link">
           <span class="link-text logo-text ">Gamebox</span>
-          <img class="logoImg" src="src/images/double-arrow.png" alt="">
+          <img class="logoImg" src="images/Navbar/double-arrow.png" alt="">
         </a>
       </li>
 
       <li class="nav-item">
         <a href="/" class="nav-link">
-            <img src="src/images/flappyBird.webp" alt="">
+            <img src="images/Navbar/flappyBird.webp" alt="">
           <span class="link-text">Flappy Bird</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a href="/" class="nav-link">
-            <img src="src/images/Snake.webp" alt="Problem">
+            <img src="images/Navbar/Snake.webp" alt="Problem">
           <span class="link-text">Snake</span>
         </a>
       </li>
       <li class="nav-item">
         <a href="/" class="nav-link">
-            <img src="src/images/Contact.gif" alt="Problem">
+            <img src="images/Navbar/Contact.gif" alt="Problem">
           <span class="link-text">Impressum</span>
         </a>
       </li>
