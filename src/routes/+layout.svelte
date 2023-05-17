@@ -33,8 +33,7 @@
   </nav>
 
   <main>
-    <h1>CSS is Cool</h1>
-
+    <slot/>
   </main>
 </body>
 <style>
