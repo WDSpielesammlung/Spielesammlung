@@ -1,10 +1,8 @@
 <script lang="ts">
-
-
   let gamecards = [
 		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 6.557, cameraZ : 24.287, modelpath: 'models/flappyBird/scene.gltf' },
-		{ id: 'snake', title: 'Snakelogo', path: '', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 250, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf' },
-		{ id: 'quizDuell', title: 'Quiz Duelllogo', path: '', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 250, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf' }
+		{ id: 'snake', title: 'Snakelogo', path: '', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf' },
+		{ id: 'quizDuell', title: 'Quiz Duelllogo', path: '', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf' }
 	];
   
   function handleBeschreibungClick(i:number) {
@@ -96,11 +94,9 @@
       animate(); 
   }
 
-
-
   onMount(() => {
     for (const gamecard of gamecards) {
-      renderModelsThreeJs(gamecard.id,gamecard.cameraFov,gamecard.cameraNear,gamecard.cameraFar,gamecard.cameraX,gamecard.cameraY,gamecard.cameraZ,gamecard.path)
+      renderModelsThreeJs(gamecard.id,gamecard.cameraFov,gamecard.cameraNear,gamecard.cameraFar,gamecard.cameraX,gamecard.cameraY,gamecard.cameraZ,gamecard.modelpath)
     }
   })
 
@@ -132,7 +128,7 @@
             {#if gamecard.clicked}
               {gamecard.description}
             {:else}
-            	<div class="renderObject" id={gamecard.id}></div>
+              <div class="renderObject" id={gamecard.id}></div>
             {/if}
           </div>
         </div>
