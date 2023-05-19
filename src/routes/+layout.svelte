@@ -1,6 +1,6 @@
-<body>
-	<nav class="navbar">
-		<ul class="navbar-nav">
+<body id="body">
+	<nav id="navbar" class="navbar">
+		<ul id="navbar-nav" class="navbar-nav">
 			<li class="logo">
 				<a href="/" class="nav-link">
 					<span class="link-text logo-text">Gamebox</span>
