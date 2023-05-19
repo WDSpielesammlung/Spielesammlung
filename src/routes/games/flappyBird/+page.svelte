@@ -3,11 +3,10 @@
     import Pipe from '../components/Pipe.svelte';
     import Bird from '../components/Bird.svelte';
     const game = new GameController();
-
+    let fullscreen = false;
     let frame = game.newGame();
-    
+
     function enterFullscreen(element : any) {
-      console.log("a")
     if(element.requestFullscreen) {
     element.requestFullscreen();
      } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
@@ -15,14 +14,14 @@
   } else if(element.webkitRequestFullscreen) {  // iOS Safari
     element.webkitRequestFullscreen();
   }
-}
+  }
 
     function jump() {
         game.jump();
     }
   
     function startGame() {
-      enterFullscreen(document.documentElement);  
+      enterFullscreen(document.getElementById("game"));
       frame = game.start();
     }
   
@@ -53,20 +52,20 @@
     );
     background-size: 350% 350%;
     background-repeat: repeat 0 0; 
-	  animation: gradient linear infinite 5s;
+    animation: gradient linear infinite 5s;
           width: 100%;
           position: absolute;
           bottom: 0;
           left: 0;
       }
       @keyframes gradient {
-	0% {
-		background-position: 0% 0%;
-	}
+  0% {
+    background-position: 0% 0%;
+  }
   
-	100% {
-		background-position: 100% 100%;
-	}}
+  100% {
+    background-position: 100% 100%;
+  }}
       #init-screen {
       user-select: none;
       position: absolute;
@@ -77,6 +76,7 @@
     }
     #init-screen h2 {
       text-align: center;
+      color: white;
     }
     #init-screen button {
       font-family: monospace;
@@ -111,11 +111,11 @@
     }
     
   
-
-.stars,
-.twinkleMask,
-.twinkleMask2,
-.clouds {
+  
+  .stars,
+  .twinkleMask,
+  .twinkleMask2,
+  .clouds {
     z-index: -10;
     position: absolute;
     top: 0;
@@ -125,41 +125,41 @@
     width: 100%;
     height: 100%;
     display: block;
-}
-
-.stars {
+  }
+  
+  .stars {
     background: #000 url('https://wolf.drjm.co.uk/nightsky/stars.jpg') repeat top center;
-}
-
-.twinkleMask {
+  }
+  
+  .twinkleMask {
     background: transparent url('https://wolf.drjm.co.uk/nightsky/twinklemask.png') repeat top center;
     z-index: -9;
     animation: twinkleFrames 700s linear infinite;
-}
-
-.twinkleMask2 {
+  }
+  
+  .twinkleMask2 {
     background: transparent url('https://wolf.drjm.co.uk/nightsky/twinkleMask2.png') repeat top center;
     z-index: -8;
     height: 100%;
     animation: twinkleFrames2 300s linear infinite;
-}
-
-.clouds {
+  }
+  
+  .clouds {
     background: transparent url('https://wolf.drjm.co.uk/nightsky/clouds.png') repeat top center;
     z-index: -7;
     height: 100%;
     animation: cloudsFrames 300s linear infinite;
-}
-
-.fogContainer {
+  }
+  
+  .fogContainer {
     width: 100%;
     height: 100%;
     overflow: hidden;
     position: relative;
     z-index: -6;
-}
-
-.fog {
+  }
+  
+  .fog {
     position: absolute;
     z-index: -10;
     left: -50%;
@@ -172,71 +172,71 @@
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: linear-gradient(-5deg, "#00000000 0%, #ffffff15 40%, #74590121 45%, #8b845b21 55%, #00000000 70%");
-}
-
-@keyframes fogFrames {
+  }
+  
+  @keyframes fogFrames {
     0% {
         transform: none;
     }
-
+  
     10% {
         transform: scaleY(.75) translate(5%, -2%) rotate(15deg);
     }
-
+  
     25% {
         transform: scaleY(1) translate(10%, 7%);
     }
-
+  
     50% {
         transform: scaleY(0.5) rotate(-15deg);
     }
-
+  
     75% {
         transform: scaleY(0.2) translate(7%, -2%);
     }
-
+  
     100% {
         transform: none;
     }
-
-}
-
-@keyframes twinkleFrames {
+  
+  }
+  
+  @keyframes twinkleFrames {
     from {
         background-position: 0 0;
     }
-
+  
     to {
         background-position: -10000px 5000px;
     }
-}
-
-@keyframes twinkleFrames2 {
+  }
+  
+  @keyframes twinkleFrames2 {
     from {
         background-position: 0 0;
     }
-
+  
     to {
         background-position: 10000px 5000px;
     }
-}
-
-@keyframes cloudsFrames {
+  }
+  
+  @keyframes cloudsFrames {
     from {
         background-position: 0 0;
     }
-
+  
     to {
         background-position: 10000px 0;
     }
-}
-
-  </style>
+  }
   
+  </style>
+  <body>
   <main
     style="width: 100%; height: 100%; overflow: hidden; margin:0px; padding: 0px; "
     class="game" id="game">
-
+  
     <div class="stars"></div>
     <div class="twinkleMask"></div>
     <div class="twinkleMask2"></div>
@@ -244,12 +244,14 @@
     <div class="fogContainer">
       <div class="fog"></div>
     </div>
-
-    <section id="score">{frame.score}</section>
   
+    {#if fullscreen}
+    <section id="score">{frame.score}</section>
     <Bird bird={frame.bird} />
     <Pipe pipePair="{frame.firstPipe}" />
     <Pipe pipePair="{frame.secondPipe}" />
+    <section style="height: {frame.ground.height}vh;" id="ground" ></section>
+    {/if}
     {#if frame.gameOver || !frame.gameStarted}
     <section id="init-screen">
       {#if frame.gameOver}
@@ -259,15 +261,13 @@
       <button on:click="{startGame}">Start Game</button>
     </section>
     {/if}
-  <section style="height: {frame.ground.height}vh;" id="ground" ></section>
   
   </main>
+  </body>
   
-  <svelte:window on:click="{jump}" on:keydown|preventDefault={(e)=> {
-         console.log(e)
-
+  <svelte:window on:click="{jump}" on:keydown|preventDefault={(e)=> {  
    if(e.code === "Space")
     {
       jump();
     }
-  }} />
+  }} on:fullscreenchange ={ (e) => {fullscreen = document.fullscreenElement ? true : false;}} />

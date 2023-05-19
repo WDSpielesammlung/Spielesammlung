@@ -1,27 +1,27 @@
-export interface Frame {
+export type Frame = {
     firstPipe: PipePair;
     secondPipe: PipePair;
+    height: number,
+    width:number,
     bird: Bird;
     gameOver: boolean;
     gameStarted: boolean;
-    width: number;
-    height: number;
     score: number;
     ground: Ground;
   }
   
-  export interface Bird {
+  export type Bird = {
     top: number;
     left: number;
     size: number;
     rotate: number;
   }
   
-  export interface Ground {
+  export type Ground = {
     height: number;
   }
   
-  export interface PipePair {
+  export type PipePair = {
     topPipe: Pipe;
     bottomPipe: Pipe;
     show: boolean;
@@ -29,28 +29,27 @@ export interface Frame {
     width: number;
   }
   
-  export interface Pipe {
+  export type Pipe = {
     top: number;
     height: number;
   }
   
   export class GameController {
     private frame!: Frame;
-  
     private velocity = 0;
   
     constructor(
       public readonly height = 100,
       public readonly width = 100,
       public readonly pipeWidth = 5,
-      public readonly pipeGap = 15,
+      public readonly pipeGap = 20,
       public readonly minTopForTopPipe = 7,
       public readonly maxTopForTopPipe = 35,
-      public readonly generateNewPipePercent = 0.2,
+      public readonly generateNewPipePercent = 0.7,
       public readonly speed = 0.5,
       public readonly groundHeight = 2,
       public readonly birdX = 4,
-      public readonly birdSize = 10,
+      public readonly birdSize = 5,
       public readonly gravity = 0.5,
       public readonly jumpVelocity = 1,
       public readonly slowVelocityBy = 0.03
@@ -85,6 +84,7 @@ export interface Frame {
       if (this.frame.gameOver || !this.frame.gameStarted) {
         return this.frame;
       }
+      //eine function move pipes
       this.frame.firstPipe = this.movePipe(
         this.frame.firstPipe,
         this.frame.secondPipe
@@ -93,10 +93,9 @@ export interface Frame {
         this.frame.secondPipe,
         this.frame.firstPipe
       );
-  
-      if (
-        this.frame.bird.top >=
-        this.height - this.groundHeight - this.birdSize
+      
+      //function check gameOver
+      if (this.frame.bird.top >=this.height - this.groundHeight - this.birdSize
       ) {
         this.frame.bird.top = this.height - this.groundHeight - this.birdSize;
         this.frame.gameOver = true;
@@ -108,7 +107,7 @@ export interface Frame {
         return this.frame;
       }
   
-      // Gravity section
+      //Move bird function
       if (this.velocity > 0) {
         this.velocity -= this.slowVelocityBy;
       }
@@ -124,12 +123,12 @@ export interface Frame {
         this.frame.bird.rotate=20} 
       this.frame.bird.top += Math.pow(this.gravity, 2) - this.velocity;
   
-      // Add score
+      //check score funtion
       if (this.frame.firstPipe.left + this.pipeWidth == this.birdX - this.speed) {
         this.frame.score += 1;
       }
   
-      // Add Score
+      
       if (
         this.frame.secondPipe.left + this.pipeWidth ==
         this.birdX - this.speed
@@ -147,11 +146,13 @@ export interface Frame {
     }
   
     public jump() {
-      if (this.velocity <= 0) {
+      //evtl <0.5 ??
+      if (this.velocity <= 0.5) {
         this.velocity += this.jumpVelocity;
       }
     }
-  
+    
+    //Hilfe fü check game over
     private hasCollidedWithPipe() {
       if (
         this.frame.firstPipe.show &&
@@ -183,7 +184,8 @@ export interface Frame {
         left <= this.birdX + this.birdSize && left + this.pipeWidth >= this.birdX
       );
     }
-  
+    
+    //bei move pipe
     private randomYForTopPipe(): number {
       return (
         this.minTopForTopPipe +

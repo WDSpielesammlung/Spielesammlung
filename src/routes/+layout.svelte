@@ -49,14 +49,17 @@
 
 body {
   color: black;
-  background-color: white;
+  background-color: transparent;
   margin: 0;
   padding: 0;
+  height:max-content
+
 }
 
 main {
   margin-left: 5rem;
   padding: 1rem;
+  height:max-content
 }
 
 .navbar {

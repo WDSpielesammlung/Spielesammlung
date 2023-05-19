@@ -6,7 +6,7 @@
   <style>
     .bird {
       position: absolute;
-      transform: rotate(45deg);
+      background-color: green;
     }
   </style>
 
