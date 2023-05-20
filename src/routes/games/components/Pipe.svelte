@@ -32,7 +32,7 @@
     .pipeBottom::before {
     content: "";
     position: absolute;
-    z-index: 100;
+    z-index: 1;
     left: -0.5vw;
     height: 0.5vh;
     width: 6vw;
@@ -122,15 +122,15 @@
 		background-position: 100% 100%;
 	}}
 
-    .pipeTop::before {
+  .pipeTop::before {
     content: "";
     position: absolute;
-    top: +100%;
-    z-index: 1;
+    top: calc(100% - (0.5 * 1vh ));
+    z-index: 0.5;
     left: -0.5vw;
     height: 0.5vh;
     width: 6vw;
-    border-radius: 6px 6px 0 0;
+    border-radius: 0.6vh 0.6vh 0 0;
     background: linear-gradient(
         90deg,
         rgba(255, 0, 0, 1) 0%,
@@ -150,21 +150,19 @@
     );
     background-size: 350% 350%;
     background-repeat: repeat 0 0; 
-	  animation: gradient linear infinite 5s;
-    
+	  animation: gradient linear infinite 5s;    
   }
-
   .pipeTop::after {
     content: "";
     position: absolute;
-    top: +100%;
+    top: calc(100% - (2 * 1vh ));
     left: -0.5vw;
     height: 2vh;
     width: 6vw;
     border-radius: 0.6vh;
-    border-bottom: solid 7px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 4px 0.5px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    border-bottom: solid 0.7vh rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0.4vh 0.05vh rgba(0, 0, 0, 0.5);
+    border-radius: 1vh;
     background: linear-gradient(
         90deg,
         rgba(255, 0, 0, 1) 0%,
@@ -184,8 +182,7 @@
     );
     background-size: 350% 350%;
     background-repeat: repeat 0 0; 
-	  animation: gradient linear infinite 5s;
-  }
+	  animation: gradient linear infinite 5s;}
   </style>
   
   {#if pipePair.show }

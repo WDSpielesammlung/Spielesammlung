@@ -6,8 +6,7 @@
   <style>
     .bird {
       position: absolute;
-      background-color: green;
     }
   </style>
 
-<img class="bird" style="transform: rotate({bird.rotate}deg); width: {bird.size}vh; height: {bird.size}vh; top: {bird.top}vh; left: {bird.left}vw" src="/images/Navbar/flappyBird.webp" alt="" >
+<img class="bird" style="transform: rotate({bird.rotate}deg); width: {bird.size}vw; height: {bird.size}vh; top: {bird.top}vh; left: {bird.left}vw" src="/images/Navbar/FlappyBirdAnimated.gif" alt="" >

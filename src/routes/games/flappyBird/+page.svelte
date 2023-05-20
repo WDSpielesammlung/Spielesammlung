@@ -9,9 +9,9 @@
     function enterFullscreen(element : any) {
     if(element.requestFullscreen) {
     element.requestFullscreen();
-     } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+     } else if(element.msRequestFullscreen) {     
     element.msRequestFullscreen();
-  } else if(element.webkitRequestFullscreen) {  // iOS Safari
+  } else if(element.webkitRequestFullscreen) {  
     element.webkitRequestFullscreen();
   }
   }
@@ -21,35 +21,44 @@
     }
   
     function startGame() {
-      enterFullscreen(document.getElementById("game"));
       frame = game.start();
+    }
+
+    function play() {
+      enterFullscreen(document.getElementById("game"));
     }
   
     setInterval(() => {
-        frame = game.nextFrame();
+        if(frame.gameStarted&&!frame.gameOver)
+          {frame = game.nextFrame();}
     }, 1000 / 60);
-  </script>
+
+    let difficulties = [
+		{ id: 0, text: `Hard` },
+		{ id: 1, text: `Medium` },
+		{ id: 2, text: `Easy` }
+	];
+  let selected = difficulties[1];
+  
+
+	function updateDifficulty() {
+		game.setDifficulty(selected.id)
+	}
+
+
+	function leave() {
+		document.exitFullscreen();
+	}
+</script>
   
   <style>
-   
+   @font-face {
+  font-family:"Minecraft";
+  src: url("fonts/Minecraft.ttf") format("truetype");
+  }
     #ground {
-      background: linear-gradient(
-        -45deg,
-        rgba(255, 0, 0, 1) 0%,
-        rgba(255, 154, 0, 1) 7%,
-        rgba(208, 222, 33, 1) 15%,
-        rgba(79, 220, 74, 1) 25%,
-        rgba(63, 218, 216, 1) 30%,
-        rgba(47, 201, 226, 1) 40%,
-        rgba(28, 127, 238, 1) 47%,
-        rgba(95, 21, 242, 1) 55%,
-        rgba(186, 12, 248, 1) 62%,
-        rgba(251, 7, 217, 1) 70%,
-        rgba(255, 0, 0, 1) 78%,
-        rgba(255, 154, 0, 1) 85%,
-        rgba(208, 222, 33, 1) 95%,
-        rgba(63, 218, 216, 1) 100%
-    );
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    z-index:-1;
     background-size: 350% 350%;
     background-repeat: repeat 0 0; 
     animation: gradient linear infinite 5s;
@@ -66,48 +75,125 @@
   100% {
     background-position: 100% 100%;
   }}
-      #init-screen {
-      user-select: none;
+      #start-screen {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-50%);
-      font-family: monospace;
+      top:20vh;
+      left:0vh;
+      width:100vw;      
+    }
+    #start-screen h2 {
+      text-align: center;
+      color: white;
+      font-family: Minecraft;
+      font-size: calc(20px + 2vh);
+
+    }
+    .button {
+      font-size: calc(20px + 2vh);
+      font-weight: bold;
+      z-index: 2;
+      border: white;
+      color:white;
+      padding:10px;
+      border-style: solid;
+      border-width: 0.15vh;
+      font-family: Minecraft;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+     background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      margin: 1vw;
+
+    }
+  
+    .flex{
+      display: flex;
+      flex-direction:row;
+      justify-content:center;
+    }
+
+    #init-screen {
+      position: absolute;
+      top:10vh;
+      left:0vh;
+      width:100vw; 
     }
     #init-screen h2 {
       text-align: center;
       color: white;
+      font-family: Minecraft;
+      font-size: calc(20px + 2vh);
     }
-    #init-screen button {
-      font-family: monospace;
-      font-size: 16px;
-      border: none;
-      border-radius: none;
-      background-color: ghostwhite;
-      padding: 10px;
-      cursor: pointer;
-      outline: none;
-      transition: ease-in-out 0.2s font-size;
-      display: block;
-      margin: 0 auto;
-    }
+
+    #init-screen h1 {
+      text-align: center;
+      font-family: Minecraft;
+      font-size: calc(20px + 5vh);
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+}
+
+    
+
+    /* The container must be positioned relative: */
+.custom-select {
+  font-size: calc(20px + 2vh);
+    font-weight: bold;
+    margin-right: 1vw;
+
+}
+
+.custom-select select{
+  font-size: calc(20px + 2vh);
+    font-weight: bold;
+    font-family: Minecraft;
+      border: white;
+      color:white;
+      padding:10px;
+      border-style: solid;
+      border-width: 0.15vh;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+     background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      margin: 1vw;
+
+
   
-    #init-screen button:active,
-    #init-screen button:focus {
-      outline: none;
-      font-size: 15px;
-    }
-  
+}
+
+.custom-select option {
+  font-size: calc(20px + 2vh);
+    font-weight: bold;
+    font-family: Minecraft;
+      color:white;
+      padding:5px;
+      background-color:  black;
+      margin: 1vw;
+
+}
+
+
+
+
     #score {
       position: absolute;
-      right: 10px;
-      top: 10px;
-      font-size: 20px;
-      z-index: 10;
-      padding: 5px;
-      font-family: cursive;
-      background-color: white;
-      user-select: none;
+      right: 1vh;
+      top: 1vh;
+      font-size: calc(20px + 2vh);
+      font-weight: bold;
+      z-index: 2;
+      border: white;
+      color:white;
+      padding:10px;
+      border-style: solid;
+      border-width: 0.15vh;
+      font-family: Minecraft;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 1000% 1000%;
+    background-repeat: repeat 0 0; 
+    animation: gradient linear infinite 30s;
     }
     
   
@@ -246,22 +332,52 @@
     </div>
   
     {#if fullscreen}
-    <section id="score">{frame.score}</section>
+    <section id="score">{frame.score }</section>
     <Bird bird={frame.bird} />
-    <Pipe pipePair="{frame.firstPipe}" />
-    <Pipe pipePair="{frame.secondPipe}" />
+      {#each frame.pipes as pipe}
+      <Pipe pipePair="{pipe}"></Pipe>
+	    {/each}
     <section style="height: {frame.ground.height}vh;" id="ground" ></section>
-    {/if}
     {#if frame.gameOver || !frame.gameStarted}
-    <section id="init-screen">
+    <section id="start-screen">
+      {#if frame.newHighscore}
+      <h2>New Highscore!!</h2>
+    {/if}
       {#if frame.gameOver}
         <h2>Game Over</h2>
-        <h2>Score {frame.score}</h2>
+        <h2>Score: {frame.score}</h2>
       {/if}
-      <button on:click="{startGame}">Start Game</button>
+      <div class="flex">
+        <span>
+      <button class="button" on:click="{startGame}">Start Game</button>
+    </span>
+    <span>
+      <button class="button" on:click="{leave}">Leave Game</button>
+    </span>
+    </div>
     </section>
     {/if}
-  
+    {:else}
+    <section id="init-screen">
+      <h1>Flappy Bird</h1>
+      <div class="flex">
+        <div class="custom-select">
+          <select bind:value={selected} on:change="{updateDifficulty}">
+            {#each difficulties as diff}
+              <option value={diff}>
+                {diff.text}
+              </option>
+            {/each}
+          </select>
+        </div>
+    <span>
+      <button class="button" on:click="{play}">Play</button>
+    </span>
+    </div>
+    <h2>Your Personal Highscore: </h2>
+    <h2>Overall Highscore: </h2>
+    </section>
+    {/if}
   </main>
   </body>
   
@@ -270,4 +386,6 @@
     {
       jump();
     }
-  }} on:fullscreenchange ={ (e) => {fullscreen = document.fullscreenElement ? true : false;}} />
+  }} on:fullscreenchange ={ (e) => {
+    fullscreen = document.fullscreenElement ? true : false;
+  }} />
