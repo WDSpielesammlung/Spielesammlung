@@ -120,6 +120,7 @@ export type Frame = {
       this.moveBird(this.frame.bird)
       if ( this.checkScore(this.frame.bird,this.frame.pipes,this.speed) )
       {
+        console.log("score")
         this.frame.score +=1;
       }
       this.frame.gameOver = this.checkGameOver(this.frame.bird, this.frame.height, this.frame.ground.height, this.frame.pipes)
@@ -136,7 +137,9 @@ export type Frame = {
     {
       for(let i = 0; i<pipes.length; i++)
       {
-        if (pipes[i].left + pipes[i].width == bird.left - speed) {
+        
+        if(pipes[i].left< (bird.left-pipes[i].width) && pipes[i].left>=bird.left-pipes[i].width-speed)
+        {
           return true;
         }
       }
