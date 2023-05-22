@@ -2,28 +2,56 @@
 <nav class="navbar">
     <ul class="navbar-nav">
       <li class="logo">
-        <a href="/" class="nav-link">
+        <a href="/" class="logo-link">
           <span class="link-text logo-text ">Gamebox</span>
-          <img class="logoImg" src="images/Navbar/double-arrow.png" alt="">
+          <img class="logoImg" src="images/Navbar/DoubleArrow.png" alt="">
         </a>
       </li>
 
       <li class="nav-item">
         <a href="/" class="nav-link">
-            <img src="images/Navbar/flappyBird.webp" alt="">
+            <img src="images/Navbar/FlappyBirdAnimated.gif" alt="">
+            <img class="static-image" src="images/Navbar/FlappyBirdStatic.png" alt="">
           <span class="link-text">Flappy Bird</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a href="/" class="nav-link">
-            <img src="images/Navbar/Snake.webp" alt="Problem">
+            <img src="images/Navbar/SnakeAnimated.gif" alt="">
+            <img class="static-image" src="images/Navbar/SnakeStatic.png" alt="">
           <span class="link-text">Snake</span>
         </a>
       </li>
+
       <li class="nav-item">
         <a href="/" class="nav-link">
-            <img src="images/Navbar/Contact.gif" alt="Problem">
+            <img src="images/Navbar/SpaceInvadersAnimated.gif" alt="">
+            <img class="static-image" src="images/Navbar/SpaceInvadersStatic.png" alt="">
+          <span class="link-text">Space Invaders</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+            <img src="" alt="">
+            <img class="static-image" src="" alt="">
+          <span class="link-text">Wordle</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+            <img src="" alt="">
+            <img class="static-image" src="" alt="">
+          <span class="link-text">Quizduell</span>
+        </a>
+      </li>
+      
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+            <img src="images/Navbar/SmileyAnimated.gif" alt="">
+            <img class="static-image" src="images/Navbar/SmileyStatic.png" alt="">
           <span class="link-text">Impressum</span>
         </a>
       </li>
@@ -37,9 +65,15 @@
   </main>
 </body>
 <style>
+
+@font-face {
+  font-family:"Minecraft";
+  src: url("fonts/Minecraft.ttf") format("truetype");
+}
+
     :root {
   font-size: 16px;
-  font-family: 'Open Sans';
+  font-family: 'Minecraft';
   --text-primary: #b6b6b6;
   --text-secondary: #ececec;
   --bg-primary: #23232e;
@@ -58,6 +92,13 @@ main {
   transition: margin-left var(--transition-speed) ease;
   z-index: -9999;
 }
+
+.static-image{
+  position:absolute;
+  background: #23232e;
+  transition: var(--transition-speed);
+}
+
 .navbar {
   position: fixed;
   background-color: var(--bg-primary);
@@ -105,12 +146,23 @@ main {
   color: var(--text-secondary);
 }
 
+.nav-link:hover > .static-image{
+  opacity:0;
+  background: #141418;
+}
+
 .link-text {
   display: none;
   margin-left: 1rem;
 }
 
 .nav-link img {
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 1.5rem;
+}
+
+.logo-link img {
   width: 2rem;
   min-width: 2rem;
   margin: 0 1.5rem;
@@ -143,6 +195,23 @@ main {
 
 .navbar:hover .logo img {
   transform: rotate(-180deg);
+}
+
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  filter: grayscale(100%) opacity(0.7);
+  transition: var(--transition-speed);
+}
+
+.navbar:hover .logo-link {
+  filter: grayscale(0%) opacity(1);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
 }
 
 .nav-item img {
