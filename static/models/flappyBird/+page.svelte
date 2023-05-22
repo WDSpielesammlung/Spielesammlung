@@ -1,8 +1,8 @@
 <script lang="ts">
   let gamecards = [
-		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear :0.1, cameraFar : 2000, cameraX : -6.939, cameraY : 6.838, cameraZ : 18.486, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6 },
-		{ id: 'snake', title: 'Snakelogo', path: '', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6 },
-		{ id: 'quizDuell', title: 'Quiz Duelllogo', path: '', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 250, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6 }
+		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 6.557, cameraZ : 24.287, modelpath: 'models/flappyBird/scene.gltf' },
+		{ id: 'snake', title: 'Snakelogo', path: '', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf' },
+		{ id: 'quizDuell', title: 'Quiz Duelllogo', path: '', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0, cameraZ : 17, modelpath: 'models/flappyBird/scene.gltf' }
 	];
   
   function handleBeschreibungClick(i:number) {
@@ -16,7 +16,7 @@
   import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
   
-  function renderModelsThreeJs(containerID:string,cameraFov : number, cameraNear : number, cameraFar : number, cameraX : number, cameraY : number, cameraZ : number, modelpath: string, moveObjectY:number){
+  function renderModelsThreeJs(containerID:any,cameraFov : number, cameraNear : number, cameraFar : number, cameraX : number, cameraY : number, cameraZ : number, modelpath: string){
     let renderer: THREE.WebGLRenderer;
     let scene: THREE.Scene;
     let camera: THREE.PerspectiveCamera;
@@ -25,8 +25,6 @@
     let rotationSpeed: number;
 
     const container = document.getElementById(containerID)!;
-    console.log(containerID);
-
     const width = container.clientWidth;
     const height = container.clientHeight;
     scene = new THREE.Scene();
@@ -39,22 +37,28 @@
     const loader = new GLTFLoader();
     /**load model in scene*/
     loader.load(modelpath, function (gltf) {
-      gltf.scene.position.y = moveObjectY;
-      
       scene.add(gltf.scene);
-
-      /**Lights*/
-
-       // Lichteinstellungen
-      const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Ambient Light mit weißer Farbe und Intensität 1
-      scene.add(ambientLight);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional Light mit weißer Farbe und Intensität 1
-      directionalLight.position.set(0, 1, 1); // Setze die Position des Directional Lights
-      scene.add(directionalLight);
-
     });
 
+    /**Lights*/
+    const light = new THREE.PointLight(0xffffff, 1, 100);
+      light.position.set(0, 0, 10);
+      scene.add(light);
+
+      const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+      pointLight.position.set(0, 0, 10);
+      scene.add(pointLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      directionalLight.position.set(1, 1, 1);
+      scene.add(directionalLight);
+
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.2);
+      scene.add(ambientLight);
+
+      const backLight = new THREE.PointLight(0xffffff, 0.5);
+      backLight.position.set(0, 0, -15);
+      scene.add(backLight);
 
       renderer = new THREE.WebGLRenderer({ alpha: true });
       renderer.setSize(width, height);
@@ -73,17 +77,18 @@
 
       window.addEventListener('resize', ()=>{
         // Fenstergröße aktualisieren
+        const container = document.getElementById(containerID)!;
+        let width = container.clientWidth;
+        let height = container.clientHeight;
 
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
       }); // Anpassung bei Fenstergrößenänderung
-      function animate(){
+      const animate = () => {
           requestAnimationFrame(animate);
-          // Rotation des Modells um seine eigene Achse
-        
+          scene.rotation.y += rotationSpeed;
           controls.update(); // Maussteuerung aktualisieren
-          console.log(scene.rotation.y)
           renderer.render(scene, camera);
       };
       animate(); 
@@ -91,7 +96,7 @@
 
   onMount(() => {
     for (const gamecard of gamecards) {
-      renderModelsThreeJs(gamecard.id,gamecard.cameraFov,gamecard.cameraNear,gamecard.cameraFar,gamecard.cameraX,gamecard.cameraY,gamecard.cameraZ,gamecard.modelpath, gamecard.moveObjectY)
+      renderModelsThreeJs(gamecard.id,gamecard.cameraFov,gamecard.cameraNear,gamecard.cameraFar,gamecard.cameraX,gamecard.cameraY,gamecard.cameraZ,gamecard.modelpath)
     }
   })
 
@@ -201,6 +206,7 @@ body {
   min-height: 40vh;
   display: flex;
   justify-content: space-around;
+  z-index: -1;
   margin-bottom: 10vh;
 
 }
@@ -226,13 +232,9 @@ body {
     .field3,
     .field4 {
       padding: 10px;
+      border: 1px solid black;
+      margin-bottom: 10px;
       flex-grow: 1;
-      z-index: 1;
-    }
-    .renderObject{
-      height: 100%;
-      width: 100%;
-      
     }
     /*Button Beschreibung*/
     .beschreibung {
