@@ -44,7 +44,7 @@
         <a href="/" class="nav-link">
             <img src="" alt="">
             <img class="static-image" src="" alt="">
-          <span class="link-text">Quizduell</span>
+          <span class="link-text">Quiz</span>
         </a>
       </li>
       
