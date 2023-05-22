@@ -60,7 +60,7 @@
     </ul>
   </nav>
 
-  <main>
+  <main class="mainContent">
     <slot/>
   </main>
 </body>
@@ -83,14 +83,14 @@
 
 body {
   color: black;
-  background-color: white;
   margin: 0;
   padding: 0;
+  max-width: 100%;
 }
-
 main {
-  margin-left: 5rem;
-  padding: 1rem;
+  margin-left:5rem;
+  transition: margin-left var(--transition-speed) ease;
+  z-index: -9999;
 }
 
 .static-image{
@@ -103,9 +103,10 @@ main {
   position: fixed;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
-  overflow: scroll;
+  overflow: auto;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
+  z-index: 999999;
 }
 
 .navbar-nav {
@@ -245,7 +246,9 @@ main {
   }
 
   main {
-    margin: 0;
+    margin:0;
+    margin-bottom: 5rem;
+    
   }
 }
 
@@ -259,6 +262,10 @@ main {
 
   .navbar:hover {
     width: 16rem;
+  }
+  .navbar:hover + .mainContent{
+    margin-left: 16rem;
+    transition: margin-left var(--transition-speed) ease;
   }
 
   .navbar:hover .link-text {
