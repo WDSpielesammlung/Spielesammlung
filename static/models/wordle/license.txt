@@ -1,0 +1,11 @@
+Model Information:
+* title:	Alphabet Blocks
+* source:	https://sketchfab.com/3d-models/alphabet-blocks-ef3ca21ee4354987b33468824f32f1de
+* author:	JMDavis (https://sketchfab.com/hunbjorn)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Alphabet Blocks" (https://sketchfab.com/3d-models/alphabet-blocks-ef3ca21ee4354987b33468824f32f1de) by JMDavis (https://sketchfab.com/hunbjorn) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
