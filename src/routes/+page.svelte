@@ -1,9 +1,9 @@
 <script lang="ts">
   let gamecards = [
-		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '/games/flappybird', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear :0.1, cameraFar : 2000, cameraX : -6.939, cameraY : 6.838, cameraZ : 18.486, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6,moveSceneX: 0 },
-		{ id: 'snake', title: 'Snakelogo', path: '/games/snake', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 0, cameraZ : 19.1, modelpath: '/models/snake/scene.gltf',moveObjectY: 0,moveSceneX: 0  },
-		{ id: 'spaceInvader', title: 'spaceInvaderlogo', path: '/games/spaceinvader', clicked:false, description: 'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 520, cameraY : 0, cameraZ : 586.877, modelpath: '/models/spaceInvader/scene.gltf',moveObjectY: -6,moveSceneX: -500  },
-    { id: 'wordle', title: 'wordlelogo', path: '/games/wordle', clicked:false, description: 'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 10, cameraZ : 30, modelpath: '/models/wordle/scene.gltf',moveObjectY: -6,moveSceneX: 0 },
+		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '/games/flappybird', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear :0.1, cameraFar : 2000, cameraX : -6.939, cameraY : 6.838, cameraZ : 25.486, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6,moveSceneX: 0 },
+		{ id: 'snake', title: 'Snakelogo', path: '/games/snake', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 0, cameraZ : 25.1, modelpath: '/models/snake/scene.gltf',moveObjectY: 0,moveSceneX: 0  },
+		{ id: 'spaceInvader', title: 'spaceInvaderlogo', path: '/games/spaceinvader', clicked:false, description: 'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 520, cameraY : 0, cameraZ : 666.877, modelpath: '/models/spaceInvader/scene.gltf',moveObjectY: -6,moveSceneX: -500  },
+    { id: 'wordle', title: 'wordlelogo', path: '/games/wordle', clicked:false, description: 'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 10, cameraZ : 35, modelpath: '/models/wordle/scene.gltf',moveObjectY: -6,moveSceneX: 0 },
     { id: 'quizDuell', title: 'Quiz Duelllogo', path: '/games/quiz', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0.32, cameraZ : 1.383, modelpath: '/models/quiz/scene.gltf',moveObjectY: -0.1,moveSceneX: 0  }
 	];
   
@@ -27,7 +27,6 @@
     let rotationSpeed: number;
 
     const container = document.getElementById(containerID)!;
-    console.log(containerID);
 
     const width = container.clientWidth;
     const height = container.clientHeight;
@@ -64,11 +63,18 @@
       renderer.setClearColor(0x000000, 0); // Hintergrundfarbe auf transparent setzen
       container.appendChild(renderer.domElement);
 
+      //Deaktiviere Mausrad
+      container.addEventListener('wheel', function (event) {
+        event.preventDefault();
+      }, { passive: false });
+      //
+
       controls = new OrbitControls(camera, renderer.domElement); // Maussteuerung hinzufügen
       controls.enableDamping = true; // sanftes Schwingen bei der Rotation aktivieren
       controls.dampingFactor = 0.05; // Schwingungsintensität einstellen
       controls.rotateSpeed = 0.5; // Rotationsgeschwindigkeit einstellen
-      
+      controls.enableZoom = false;
+
       controls.addEventListener('change', ()=>{
         rotationSpeed = baseRotationSpeed + controls.getAzimuthalAngle() * 0.0001;
       }); // Ereignislistener für Maussteuerung hinzufügen
