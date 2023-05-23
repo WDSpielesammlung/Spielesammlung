@@ -1,5 +1,5 @@
 import { canvas, canvasCtx } from '../../Store';
-let c: HTMLCanvasElement;
+let c: HTMLCanvasElement | null;
 let ctx: CanvasRenderingContext2D | null;
 canvas.subscribe((canvas) => (c = canvas));
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
@@ -23,16 +23,18 @@ export class Player {
 		this.height = innerHeight / 7;
 		this.image = new Image();
 		this.image.src = 'images/SpaceInvaders/player.png';
+		ctx!.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 	}
 
 	onMouseMove(e: any) {
+		const bounds = c!.getBoundingClientRect();
 		ctx!.clearRect(this.position.x, this.position.y, this.width, this.height);
-		var bounds = c.getBoundingClientRect();
 		this.position.x = e.x - bounds.left - scrollX;
 		this.draw();
 	}
 
 	draw() {
+		console.log('drawing' + ctx);
 		ctx!.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 	}
 }

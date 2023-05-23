@@ -1,31 +1,62 @@
 <script lang="ts">
 	import { Gameloop } from './Gameloop';
+	import { Player } from './Player';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../Store';
-	let c: HTMLCanvasElement;
-	let navbar: HTMLElement | null;
+	let c: HTMLCanvasElement | null;
+	let canvastest: HTMLCanvasElement;
+	let mainWindow: HTMLElement | null;
+	let fullscreen = false;
 
 	function KeyboardHandler(e: any) {
-		if (e.keyCode === 27) {
-			if (navbar!.style.display === 'none') {
-				navbar!.style.display = 'block';
-			} else {
-				navbar!.style.display = 'none';
-			}
+		if (e.keyCode === 13) {
+			console.log($canvas);
+			$canvas!.width = innerWidth;
+			$canvas!.height = innerHeight;
+			canvasCtx.set($canvas!.getContext('2d'));
+			const game: Gameloop = new Gameloop();
 		}
 	}
 
-	onMount(() => {
-		navbar = document.getElementById('navbar');
-		c.width = innerWidth;
-		c.height = innerHeight;
-		canvas.set(c);
-		canvasCtx.set(c.getContext('2d'));
-		const game: Gameloop = new Gameloop();
-		document.onkeydown = (e) => KeyboardHandler(e);
+	function onFullscreenChange() {
+		fullscreen = document.fullscreenElement ? true : false;
+		if (fullscreen) {
+			mainWindow!.style.cursor = 'none';
+		} else {
+			$canvas!.hidden = true;
+			mainWindow!.style.cursor = 'auto';
+		}
+	}
 
-		//canvas.addEventListener('mousemove', (e) => player.onMouseMove(e, canvas));
+	function enterFullScreen(element: any) {
+		if (element.requestFullscreen) {
+			element.requestFullscreen();
+		} else if (element.mozRequestFullScreen) {
+			element.mozRequestFullScreen(); // Firefox
+		} else if (element.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen(); // Safari
+		} else if (element.msRequestFullscreen) {
+			element.msRequestFullscreen(); // IE/Edge
+		}
+	}
+
+	function startGame() {
+		$canvas!.hidden = false;
+		console.log('start game');
+		enterFullScreen(mainWindow);
+		console.log(document.getElementById('canvas'));
+
+		const game: Gameloop = new Gameloop();
+	}
+
+	onMount(() => {
+		mainWindow = document.getElementById('game');
+		document.onkeydown = (e) => KeyboardHandler(e);
+		$canvas!.width = innerWidth;
+		$canvas!.height = innerHeight;
+		canvasCtx.set($canvas!.getContext('2d'));
 	});
+	console.log('am ende:' + $canvas);
 </script>
 
 <main
@@ -33,8 +64,23 @@
 	class="game"
 	id="game"
 >
-	<canvas bind:this={c} />
+	<!-- {#if fullscreen} -->
+	<canvas id="canvas" hidden bind:this={$canvas} />
+	<!-- {:else} -->
+	{#if !fullscreen}
+		<section id="init-screen">
+			<h1>Space Invaders</h1>
+			<div class="flex">
+				<span>
+					<button class="button" on:click={startGame}>Play</button>
+				</span>
+			</div>
+			<h2>Your Personal Highscore:</h2>
+			<h2>Overall Highscore:</h2>
+		</section>
+	{/if}
 </main>
+<svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={(e) => {}} />
 
 <style>
 	/* canvas {

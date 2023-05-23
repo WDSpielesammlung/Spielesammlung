@@ -1,6 +1,6 @@
 import { Player } from './Player';
 import { canvas } from '../../Store';
-let c: HTMLCanvasElement;
+let c: HTMLCanvasElement | null;
 canvas.subscribe((canvas) => (c = canvas));
 export class Gameloop {
 	score: number;
@@ -12,6 +12,7 @@ export class Gameloop {
 
 	startGame() {
 		const player: Player = new Player();
-		c.addEventListener('mousemove', (e) => player.onMouseMove(e));
+		player.draw();
+		c!.addEventListener('mousemove', (e) => player.onMouseMove(e));
 	}
 }
