@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Gameloop } from './Gameloop';
+	import { Game } from './Game';
 	import { Player } from './Player';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../Store';
@@ -14,7 +14,6 @@
 			$canvas!.width = innerWidth;
 			$canvas!.height = innerHeight;
 			canvasCtx.set($canvas!.getContext('2d'));
-			const game: Gameloop = new Gameloop();
 		}
 	}
 
@@ -42,11 +41,8 @@
 
 	function startGame() {
 		$canvas!.hidden = false;
-		console.log('start game');
 		enterFullScreen(mainWindow);
-		console.log(document.getElementById('canvas'));
-
-		const game: Gameloop = new Gameloop();
+		const game: Game = new Game();
 	}
 
 	onMount(() => {
@@ -56,7 +52,6 @@
 		$canvas!.height = innerHeight;
 		canvasCtx.set($canvas!.getContext('2d'));
 	});
-	console.log('am ende:' + $canvas);
 </script>
 
 <main

@@ -23,18 +23,15 @@ export class Player {
 		this.height = innerHeight / 7;
 		this.image = new Image();
 		this.image.src = 'images/SpaceInvaders/player.png';
-		ctx!.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 	}
 
 	onMouseMove(e: any) {
 		const bounds = c!.getBoundingClientRect();
 		ctx!.clearRect(this.position.x, this.position.y, this.width, this.height);
 		this.position.x = e.x - bounds.left - scrollX;
-		this.draw();
 	}
 
 	draw() {
-		console.log('drawing' + ctx);
 		ctx!.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 	}
 }
