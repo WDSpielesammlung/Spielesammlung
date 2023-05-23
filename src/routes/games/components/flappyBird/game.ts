@@ -88,8 +88,7 @@ export type Frame = {
       public readonly gravity = 0.6,
       public readonly jumpVelocity = 0.7,
       public readonly slowVelocityBy = 0.02,
-      public readonly score = new Audio('/sounds/score1.mp3'),
-      public readonly gameOverSound = new Audio('/sounds/gameOver.mp3'),
+      
 
 
     ) {}
@@ -144,7 +143,9 @@ export type Frame = {
         
         if(pipes[i].left< (bird.left-pipes[i].width) && pipes[i].left>=bird.left-pipes[i].width-speed)
         {
-          this.score.play();
+          var score = new Audio('/sounds/score1.mp3')
+
+          score.play();
           return true;
         }
       }
@@ -156,7 +157,9 @@ export type Frame = {
 
         if ( this.hasCollidedWithPipe(bird,pipes) || this.checkHitGround(bird, height, groundHeight))
         {
-          this.gameOverSound.play();
+          var gameOverSound = new Audio('/sounds/gameOver.mp3')
+
+          gameOverSound.play();
           
           return true;
 

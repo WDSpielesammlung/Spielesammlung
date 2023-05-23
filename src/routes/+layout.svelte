@@ -4,30 +4,30 @@
         <li class="logo">
           <a href="/" class="logo-link">
             <span class="link-text logo-text ">Gamebox</span>
-            <img class="logoImg" src="images/Navbar/DoubleArrow.png" alt="">
+            <img class="logoImg" src="/images/Navbar/DoubleArrow.png" alt="">
           </a>
         </li>
   
         <li class="nav-item">
           <a href="/" class="nav-link">
-              <img src="images/Navbar/FlappyBirdAnimated.gif" alt="">
-              <img class="static-image" src="images/Navbar/FlappyBirdStatic.png" alt="">
+              <img src="/images/Navbar/FlappyBirdAnimated.gif" alt="">
+              <img class="static-image" src="/images/Navbar/FlappyBirdStatic.png" alt="">
             <span class="link-text">Flappy Bird</span>
           </a>
         </li>
   
         <li class="nav-item">
           <a href="/" class="nav-link">
-              <img src="images/Navbar/SnakeAnimated.gif" alt="">
-              <img class="static-image" src="images/Navbar/SnakeStatic.png" alt="">
+              <img src="/images/Navbar/SnakeAnimated.gif" alt="">
+              <img class="static-image" src="/images/Navbar/SnakeStatic.png" alt="">
             <span class="link-text">Snake</span>
           </a>
         </li>
   
         <li class="nav-item">
           <a href="/" class="nav-link">
-              <img src="images/Navbar/SpaceInvadersAnimated.gif" alt="">
-              <img class="static-image" src="images/Navbar/SpaceInvadersStatic.png" alt="">
+              <img src="/images/Navbar/SpaceInvadersAnimated.gif" alt="">
+              <img class="static-image" src="/images/Navbar/SpaceInvadersStatic.png" alt="">
             <span class="link-text">Space Invaders</span>
           </a>
         </li>
@@ -50,8 +50,8 @@
         
         <li class="nav-item">
           <a href="/" class="nav-link">
-              <img src="images/Navbar/SmileyAnimated.gif" alt="">
-              <img class="static-image" src="images/Navbar/SmileyStatic.png" alt="">
+              <img src="/images/Navbar/SmileyAnimated.gif" alt="">
+              <img class="static-image" src="/images/Navbar/SmileyStatic.png" alt="">
             <span class="link-text">Impressum</span>
           </a>
         </li>

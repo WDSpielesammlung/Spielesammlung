@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { GameController } from "../components/game";
-    import Pipe from '../components/Pipe.svelte';
-    import Bird from '../components/Bird.svelte';
+    import { GameController } from "../components/flappyBird/game";
+    import Pipe from '../components/flappyBird/Pipe.svelte';
+    import Bird from '../components/flappyBird/Bird.svelte';
     const game = new GameController();
     let fullscreen = false;
     let frame = game.newGame();
