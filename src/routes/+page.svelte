@@ -1,15 +1,34 @@
 <script lang="ts">
+  type Gamecard = {
+    id:string,
+    cameraFov : number,
+     cameraNear : number,
+      cameraFar : number,
+     cameraX : number,
+      cameraY : number,
+      cameraZ : number,
+     modelpath: string,
+      moveObjectY:number,
+      moveSceneX:number,
+      requestAnimationFrame:number
+  }
+
   let gamecards = [
-		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '/games/flappybird', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear :0.1, cameraFar : 2000, cameraX : -6.939, cameraY : 6.838, cameraZ : 25.486, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6,moveSceneX: 0 },
-		{ id: 'snake', title: 'Snakelogo', path: '/games/snake', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 0, cameraZ : 25.1, modelpath: '/models/snake/scene.gltf',moveObjectY: 0,moveSceneX: 0  },
-		{ id: 'spaceInvader', title: 'spaceInvaderlogo', path: '/games/spaceinvader', clicked:false, description: 'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 520, cameraY : 0, cameraZ : 666.877, modelpath: '/models/spaceInvader/scene.gltf',moveObjectY: -6,moveSceneX: -500  },
-    { id: 'wordle', title: 'wordlelogo', path: '/games/wordle', clicked:false, description: 'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 10, cameraZ : 35, modelpath: '/models/wordle/scene.gltf',moveObjectY: -6,moveSceneX: 0 },
-    { id: 'quizDuell', title: 'Quiz Duelllogo', path: '/games/quiz', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0.32, cameraZ : 1.383, modelpath: '/models/quiz/scene.gltf',moveObjectY: -0.1,moveSceneX: 0  }
+		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '/games/flappybird', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear :0.1, cameraFar : 2000, cameraX : -6.939, cameraY : 6.838, cameraZ : 25.486, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6,moveSceneX: 0, requestAnimationFrame: 0 },
+		{ id: 'snake', title: 'Snakelogo', path: '/games/snake', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 0, cameraZ : 25.1, modelpath: '/models/snake/scene.gltf',moveObjectY: 0,moveSceneX: 0,requestAnimationFrame: 0  },
+		{ id: 'spaceInvader', title: 'spaceInvaderlogo', path: '/games/spaceinvader', clicked:false, description: 'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 520, cameraY : 0, cameraZ : 666.877, modelpath: '/models/spaceInvader/scene.gltf',moveObjectY: -6,moveSceneX: -500 ,requestAnimationFrame: 0 },
+    { id: 'wordle', title: 'wordlelogo', path: '/games/wordle', clicked:false, description: 'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 10, cameraZ : 35, modelpath: '/models/wordle/scene.gltf',moveObjectY: -6,moveSceneX: 0,requestAnimationFrame: 0 },
+    { id: 'quizDuell', title: 'Quiz Duelllogo', path: '/games/quiz', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0.32, cameraZ : 1.383, modelpath: '/models/quiz/scene.gltf',moveObjectY: -0.1,moveSceneX: 0,requestAnimationFrame: 0  }
 	];
   
+  function cancelAnimations(){
+    gamecards.forEach(gamecard => cancelAnimationFrame(gamecard.requestAnimationFrame));
+  }
+
   function handleBeschreibungClick(i:number) {
     gamecards[i].clicked = !gamecards[i].clicked; // Hier wird der "clicked"-Wert der entsprechenden Gamecard geändert
-    console.log(gamecards[i].clicked); // Beispielhaft wird die Beschreibung in der Konsole ausgegeben
+    
+    //console.log(gamecards[i].clicked); // Beispielhaft wird die Beschreibung in der Konsole ausgegeben
   }
   /**Three js part*/
   // JS/TS
@@ -18,7 +37,7 @@
   import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
   
-  function renderModelsThreeJs(containerID:string,cameraFov : number, cameraNear : number, cameraFar : number, cameraX : number, cameraY : number, cameraZ : number, modelpath: string, moveObjectY:number, moveSceneX:number){
+  function renderModelsThreeJs(gamecard:Gamecard){
     let renderer: THREE.WebGLRenderer;
     let scene: THREE.Scene;
     let camera: THREE.PerspectiveCamera;
@@ -26,22 +45,22 @@
     let baseRotationSpeed = 0.01;
     let rotationSpeed: number;
 
-    const container = document.getElementById(containerID)!;
-
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const container = document.getElementById(gamecard.id)!;
+  
+    let width = container.clientWidth;
+    let height = container.clientHeight;
     scene = new THREE.Scene();
     scene.position.y = 0;
-    scene.position.x = moveSceneX;
+    scene.position.x = gamecard.moveSceneX;
 
-    camera = new THREE.PerspectiveCamera(cameraFov, width / height, cameraNear, cameraFar);
-    camera.position.set(cameraX, cameraY, cameraZ); // positioniere die Kamera vor dem Objekt
+    camera = new THREE.PerspectiveCamera(gamecard.cameraFov, width / height, gamecard.cameraNear, gamecard.cameraFar);
+    camera.position.set(gamecard.cameraX, gamecard.cameraY, gamecard.cameraZ); // positioniere die Kamera vor dem Objekt
     camera.lookAt(scene.position); // schaue auf das Zentrum der Szene
 
     const loader = new GLTFLoader();
     /**load model in scene*/
-    loader.load(modelpath, function (gltf) {
-      gltf.scene.position.y = moveObjectY;
+    loader.load(gamecard.modelpath, function (gltf) {
+      gltf.scene.position.y = gamecard.moveObjectY;
       
       scene.add(gltf.scene);
 
@@ -82,17 +101,16 @@
 
       window.addEventListener('resize', ()=>{
         // Fenstergröße aktualisieren
-
+         width = container.clientWidth;
+         height = container.clientHeight;
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
       }); // Anpassung bei Fenstergrößenänderung
       function animate(){
-          requestAnimationFrame(animate);
+          gamecard.requestAnimationFrame = requestAnimationFrame(animate);
           // Rotation des Modells um seine eigene Achse
-        
           controls.update(); // Maussteuerung aktualisieren
-          console.log(scene.rotation.y)
           renderer.render(scene, camera);
       };
       animate(); 
@@ -100,7 +118,7 @@
 
   onMount(() => {
     for (const gamecard of gamecards) {
-      renderModelsThreeJs(gamecard.id,gamecard.cameraFov,gamecard.cameraNear,gamecard.cameraFar,gamecard.cameraX,gamecard.cameraY,gamecard.cameraZ,gamecard.modelpath, gamecard.moveObjectY, gamecard.moveSceneX)
+      renderModelsThreeJs(gamecard)
     }
   })
 
@@ -123,18 +141,20 @@
           </div>
           <div class="field3">
             <div class="wrap">
-              <button class="buttonSpielen"><a class='pagelink'  href={gamecard.path}>Spielen</a></button>
+              <button class="buttonSpielen"><a class='pagelink' on:click={cancelAnimations} href={gamecard.path}>Spielen</a></button>
             </div>
           </div>
         </div>
         <div class="right-column">
           <div class="field4">
-            {#if gamecard.clicked}
+            <!-- {#if gamecard.clicked}
+              
               {gamecard.description}
-            {:else}
-              <div class="renderObject" id={gamecard.id}></div>
+            {:else} -->
 
-            {/if}
+              <div id={gamecard.id + "description"} hidden = {!gamecard.clicked}>{gamecard.description}</div>
+              <div class="renderObject" hidden= {gamecard.clicked} id={gamecard.id}></div>
+            <!-- {/if} -->
           </div>
         </div>
       </div>
