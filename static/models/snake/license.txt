@@ -1,0 +1,11 @@
+Model Information:
+* title:	Snaky Snake - Snake Universe
+* source:	https://sketchfab.com/3d-models/snaky-snake-snake-universe-41b542fd707148f9b35b44e62ef26318
+* author:	nicoplv (https://sketchfab.com/nicoplv)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Snaky Snake - Snake Universe" (https://sketchfab.com/3d-models/snaky-snake-snake-universe-41b542fd707148f9b35b44e62ef26318) by nicoplv (https://sketchfab.com/nicoplv) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
