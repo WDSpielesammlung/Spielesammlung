@@ -42,15 +42,15 @@ export type Frame = {
       if(this.difficulty === 0)
       {
         this.pipeGap = 18,
-        this.generateNewPipePercent = 0.4,
-        this.speed = 0.5,
-        this.minTopForTopPipe = 5,
-        this.maxTopForTopPipe = 70
+        this.generateNewPipePercent = 0.5,
+        this.speed = 0.45,
+        this.minTopForTopPipe = 15,
+        this.maxTopForTopPipe = 65
       }
       else if(this.difficulty === 1)
       {
         this.pipeGap = 20,
-        this.generateNewPipePercent = 0.4,
+        this.generateNewPipePercent = 0.6,
         this.speed = 0.4,
         this.minTopForTopPipe = 15,
         this.maxTopForTopPipe = 60
@@ -75,10 +75,10 @@ export type Frame = {
     private highscore = 0;
     constructor(
       public  pipeGap = 20,
-      public  generateNewPipePercent = 0.5,
-      public  speed = 0.5,
-      public  minTopForTopPipe = 5,
-      public  maxTopForTopPipe = 70,
+      public  generateNewPipePercent = 0.4,
+      public  speed = 0.4,
+      public  minTopForTopPipe = 15,
+      public  maxTopForTopPipe = 60,
       public readonly height = 100,
       public readonly width = 100,
       public readonly pipeWidth = 5,
@@ -201,14 +201,14 @@ export type Frame = {
     {
       if (this.velocity > 0) {
         this.velocity -= this.slowVelocityBy;
-        bird.rotate = -20*(this.velocity/this.jumpVelocity);
+        bird.rotate = -30*(this.velocity/this.jumpVelocity);
       }
       else if(this.velocity === 0)
       {
         bird.rotate = 0
       }
       else{ 
-        bird.rotate=25*(this.gravity)
+        bird.rotate=40*(this.gravity)
       } 
       bird.top += this.gravity - this.velocity;
       if(bird.top<0)
