@@ -36,6 +36,7 @@ export type Frame = {
   
   export class GameController {
     private difficulty = 1;
+
 	  setDifficulty(selected: number) {
 		  this.difficulty = selected;
       if(this.difficulty === 0)
@@ -84,9 +85,13 @@ export type Frame = {
       public readonly groundHeight = 2,
       public readonly birdX = 4,
       public readonly birdSize = 5,
-      public readonly gravity = 0.4,
-      public readonly jumpVelocity = 1,
-      public readonly slowVelocityBy = 0.02
+      public readonly gravity = 0.6,
+      public readonly jumpVelocity = 0.7,
+      public readonly slowVelocityBy = 0.02,
+      public readonly score = new Audio('/sounds/score1.mp3'),
+      public readonly gameOverSound = new Audio('/sounds/gameOver.mp3'),
+
+
     ) {}
   
     public newGame() {
@@ -120,7 +125,6 @@ export type Frame = {
       this.moveBird(this.frame.bird)
       if ( this.checkScore(this.frame.bird,this.frame.pipes,this.speed) )
       {
-        console.log("score")
         this.frame.score +=1;
       }
       this.frame.gameOver = this.checkGameOver(this.frame.bird, this.frame.height, this.frame.ground.height, this.frame.pipes)
@@ -140,6 +144,7 @@ export type Frame = {
         
         if(pipes[i].left< (bird.left-pipes[i].width) && pipes[i].left>=bird.left-pipes[i].width-speed)
         {
+          this.score.play();
           return true;
         }
       }
@@ -151,7 +156,10 @@ export type Frame = {
 
         if ( this.hasCollidedWithPipe(bird,pipes) || this.checkHitGround(bird, height, groundHeight))
         {
+          this.gameOverSound.play();
+          
           return true;
+
         }
         return false;
 
@@ -259,11 +267,11 @@ export type Frame = {
     }
     
     public jump() {
-      if (this.velocity <= 1) {
+      if (this.velocity <= 1.3) {
         this.velocity += this.jumpVelocity;
       }
-      if (this.velocity > 1.5) {
-        this.velocity =1.5;
+      if (this.velocity > 2) {
+        this.velocity =2;
       }
     }
     

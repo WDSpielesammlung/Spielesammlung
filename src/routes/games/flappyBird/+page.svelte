@@ -31,7 +31,7 @@
     setInterval(() => {
         if(frame.gameStarted&&!frame.gameOver)
           {frame = game.nextFrame();}
-    }, 1000 / 60);
+    }, 1000 / 90);
 
     let difficulties = [
 		{ id: 0, text: `Hard` },
@@ -79,7 +79,8 @@
       position: absolute;
       top:20vh;
       left:0vh;
-      width:100vw;      
+      width:100vw; 
+      z-index:5;     
     }
     #start-screen h2 {
       text-align: center;
