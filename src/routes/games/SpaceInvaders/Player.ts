@@ -15,21 +15,21 @@ export class Player {
 	image: HTMLImageElement;
 
 	constructor() {
-		this.width = innerWidth / 15;
-		this.height = innerHeight / 7;
+		this.width = innerWidth / 12;
+		this.height = innerHeight / 6;
 		this.position = {
 			x: innerWidth / 2,
 			y: innerHeight - this.height
 		};
 		this.image = new Image();
-		this.image.src = '/images/SpaceInvaders/player.png';
+		this.image.src = '/images/SpaceInvaders/spaceship.png';
+		this.image.translate;
 	}
 
 	draw() {
 		ctx!.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 	}
 	update() {
-		console.log(this.height);
 		this.draw();
 	}
 }

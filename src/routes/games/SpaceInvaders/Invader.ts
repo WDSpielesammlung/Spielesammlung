@@ -4,28 +4,22 @@ let ctx: CanvasRenderingContext2D | null;
 canvas.subscribe((canvas) => (c = canvas));
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
 
-type Point2D = {
+type Position = {
 	x: number;
 	y: number;
 };
 export class Invader {
-	position: Point2D;
-	velocity: Point2D;
+	position: Position;
+
 	width: number;
 	height: number;
 	image: HTMLImageElement;
 
-	constructor() {
-		this.width = innerWidth / 25;
-		this.height = innerHeight / 12;
-		this.velocity = {
-			x: 2,
-			y: 2
-		};
-		this.position = {
-			x: innerWidth / 2,
-			y: innerHeight - this.height
-		};
+	constructor(position: Position) {
+		this.width = innerWidth / 30;
+		this.height = innerHeight / 15;
+
+		this.position = position;
 		this.image = new Image();
 		this.image.src = '/images/SpaceInvaders/invader.png';
 	}
@@ -33,9 +27,9 @@ export class Invader {
 	draw() {
 		ctx!.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 	}
-	update() {
+	update(velocity: Position) {
 		this.draw();
-		this.position.x += this.velocity.x;
-		this.position.y += this.velocity.y;
+		this.position.x += velocity.x;
+		this.position.y += velocity.y;
 	}
 }

@@ -8,8 +8,12 @@
 
 	function KeyboardHandler(e: any) {
 		switch (e.key) {
-			case ' ':
-				Game.shoot();
+			case 's':
+				Game.bulletVelocityUpgrade();
+				break;
+			case 'r':
+				Game.firerateUpgrade();
+				break;
 		}
 	}
 
