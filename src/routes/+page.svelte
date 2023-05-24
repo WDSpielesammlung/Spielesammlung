@@ -16,7 +16,7 @@
   let gamecards = [
 		{ id: 'flappyBird', title: 'Flappy Birdlogo', path: '/games/flappybird', clicked:false, description: 'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear :0.1, cameraFar : 2000, cameraX : -6.939, cameraY : 6.838, cameraZ : 25.486, modelpath: 'models/flappyBird/scene.gltf',moveObjectY: -6,moveSceneX: 0, requestAnimationFrame: 0 },
 		{ id: 'snake', title: 'Snakelogo', path: '/games/snake', clicked:false, description: 'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 0, cameraZ : 25.1, modelpath: '/models/snake/scene.gltf',moveObjectY: 0,moveSceneX: 0,requestAnimationFrame: 0  },
-		{ id: 'spaceInvader', title: 'spaceInvaderlogo', path: '/games/spaceinvader', clicked:false, description: 'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 520, cameraY : 0, cameraZ : 666.877, modelpath: '/models/spaceInvader/scene.gltf',moveObjectY: -6,moveSceneX: -500 ,requestAnimationFrame: 0 },
+		{ id: 'spaceInvader', title: 'spaceInvaderlogo', path: '/games/spaceinvader', clicked:false, description: 'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 70.5, cameraZ : 657.877, modelpath: '/models/spaceInvader/scene.gltf',moveObjectY: 0,moveSceneX: 0 ,requestAnimationFrame: 0 },
     { id: 'wordle', title: 'wordlelogo', path: '/games/wordle', clicked:false, description: 'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 2000, cameraX : 0, cameraY : 10, cameraZ : 35, modelpath: '/models/wordle/scene.gltf',moveObjectY: -6,moveSceneX: 0,requestAnimationFrame: 0 },
     { id: 'quizDuell', title: 'Quiz Duelllogo', path: '/games/quiz', clicked:false, description: 'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.', zurOrientierung:'Ab hier ThreeJS', cameraFov : 50, cameraNear : 0.1, cameraFar : 1000, cameraX : 0, cameraY : 0.32, cameraZ : 1.383, modelpath: '/models/quiz/scene.gltf',moveObjectY: -0.1,moveSceneX: 0,requestAnimationFrame: 0  }
 	];
@@ -36,8 +36,13 @@
   import * as THREE from 'three';
   import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
   
   function renderModelsThreeJs(gamecard:Gamecard){
+
     let renderer: THREE.WebGLRenderer;
     let scene: THREE.Scene;
     let camera: THREE.PerspectiveCamera;
@@ -45,13 +50,15 @@
     let baseRotationSpeed = 0.01;
     let rotationSpeed: number;
 
+
     const container = document.getElementById(gamecard.id)!;
   
     let width = container.clientWidth;
     let height = container.clientHeight;
     scene = new THREE.Scene();
+    
+
     scene.position.y = 0;
-    scene.position.x = gamecard.moveSceneX;
 
     camera = new THREE.PerspectiveCamera(gamecard.cameraFov, width / height, gamecard.cameraNear, gamecard.cameraFar);
     camera.position.set(gamecard.cameraX, gamecard.cameraY, gamecard.cameraZ); // positioniere die Kamera vor dem Objekt
@@ -61,7 +68,6 @@
     /**load model in scene*/
     loader.load(gamecard.modelpath, function (gltf) {
       gltf.scene.position.y = gamecard.moveObjectY;
-      
       scene.add(gltf.scene);
 
       /**Lights*/
@@ -74,8 +80,20 @@
       directionalLight.position.set(0, 1, 1); // Setze die Position des Directional Lights
       scene.add(directionalLight);
 
+       // Animation für das Erscheinen des Modells beim Scrollen
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to(gltf.scene.rotation, {
+      scrollTrigger: {
+          trigger: document.getElementById(gamecard.id ),
+          start: "bottom 100%",
+          end: "top 0%",
+          // markers: true,
+          scrub: true,
+          toggleActions: "restart pause resume pause"
+        },
+        y: Math.PI,
+      });
     });
-
 
       renderer = new THREE.WebGLRenderer({ alpha: true });
       renderer.setSize(width, height);
@@ -107,6 +125,7 @@
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
       }); // Anpassung bei Fenstergrößenänderung
+
       function animate(){
           gamecard.requestAnimationFrame = requestAnimationFrame(animate);
           // Rotation des Modells um seine eigene Achse
@@ -131,7 +150,7 @@
     </div>
     {#each gamecards as gamecard, i}
     <div class = "containerhülle">
-      <div class="containerCard">
+      <div class="containerCard" id={gamecard.id + "objectreact"}>
         <div class="left-column">
           <div class="field1">{gamecard.title} HIER MUSS NOCH EIN IMG HIN</div>
           <div class="field2">
