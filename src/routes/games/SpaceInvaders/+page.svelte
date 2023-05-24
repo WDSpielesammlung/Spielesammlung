@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { startGame, shoot } from './Game';
+	import * as Game from './Game';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
 	let c: HTMLCanvasElement | null;
@@ -9,7 +9,7 @@
 	function KeyboardHandler(e: any) {
 		switch (e.key) {
 			case ' ':
-				shoot();
+				Game.shoot();
 		}
 	}
 
@@ -38,7 +38,7 @@
 	function start() {
 		$canvas!.hidden = false;
 		enterFullScreen(mainWindow);
-		startGame();
+		Game.startGame();
 	}
 
 	onMount(() => {
@@ -70,7 +70,7 @@
 		</section>
 	{/if}
 </main>
-<svelte:window on:fullscreenchange={onFullscreenChange} />
+<svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={Game.onMouseMove} />
 
 <style>
 	/* canvas {
