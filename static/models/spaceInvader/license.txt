@@ -1,11 +1,11 @@
 Model Information:
-* title:	Pixel Art (Space Invaders)
-* source:	https://sketchfab.com/3d-models/pixel-art-space-invaders-fcaca339f60d4bb59dc0727e5c733651
-* author:	Alex_F (https://sketchfab.com/Alex_F)
+* title:	Chibi UFO - Low Poly
+* source:	https://sketchfab.com/3d-models/chibi-ufo-low-poly-26fc3ada37264aa482b02e3d38ed1ba6
+* author:	dammne (https://sketchfab.com/dammne)
 
 Model License:
 * license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 * requirements:	Author must be credited. Commercial use is allowed.
 
 If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
-This work is based on "Pixel Art (Space Invaders)" (https://sketchfab.com/3d-models/pixel-art-space-invaders-fcaca339f60d4bb59dc0727e5c733651) by Alex_F (https://sketchfab.com/Alex_F) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+This work is based on "Chibi UFO - Low Poly" (https://sketchfab.com/3d-models/chibi-ufo-low-poly-26fc3ada37264aa482b02e3d38ed1ba6) by dammne (https://sketchfab.com/dammne) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
