@@ -5,22 +5,21 @@ type Point2D = {
 	x: number;
 	y: number;
 };
-export class Bullet {
+export class InvaderBullet {
 	position: Point2D;
 	velocity: number;
-	radius: number;
-	constructor(position: Point2D, velocity: number) {
+	width: number;
+	height: number;
+
+	constructor(position: Point2D) {
 		this.position = position;
-		this.velocity = velocity;
-		this.radius = 3;
+		this.velocity = 5;
+		this.width = screen.width / 600;
+		this.height = screen.height / 75;
 	}
 
 	draw() {
-		ctx!.beginPath();
-		ctx!.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-		ctx!.fillStyle = 'red';
-		ctx!.fill();
-		ctx!.closePath();
+		ctx?.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
 	update() {
 		this.draw();

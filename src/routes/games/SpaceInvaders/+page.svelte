@@ -2,20 +2,8 @@
 	import * as Game from './Game';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
-	let c: HTMLCanvasElement | null;
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
-
-	function KeyboardHandler(e: any) {
-		switch (e.key) {
-			case 's':
-				Game.bulletVelocityUpgrade();
-				break;
-			case 'r':
-				Game.firerateUpgrade();
-				break;
-		}
-	}
 
 	function onFullscreenChange() {
 		fullscreen = document.fullscreenElement ? true : false;
@@ -23,6 +11,7 @@
 			mainWindow!.style.cursor = 'none';
 		} else {
 			$canvas!.hidden = true;
+			Game.leaveGame();
 			mainWindow!.style.cursor = 'auto';
 		}
 	}
@@ -47,9 +36,9 @@
 
 	onMount(() => {
 		mainWindow = document.getElementById('game');
-		document.onkeydown = (e) => KeyboardHandler(e);
-		$canvas!.width = innerWidth;
-		$canvas!.height = innerHeight;
+		document.onkeydown = (e) => Game.KeyboardHandler(e);
+		$canvas!.width = screen.width;
+		$canvas!.height = screen.height;
 		canvasCtx.set($canvas!.getContext('2d'));
 	});
 </script>
