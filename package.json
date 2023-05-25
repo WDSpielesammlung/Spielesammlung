@@ -11,7 +11,10 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"prepare": "pnpm run smui-theme-light && pnpm run smui-theme-dark",
+		"smui-theme-light": "smui-theme compile static/smui.css -i src/theme -i ./node_modules",
+		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark -i ./node_modules"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.1",
