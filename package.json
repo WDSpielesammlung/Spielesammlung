@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"gsap": "^3.11.5",
 		"@playwright/test": "^1.34.1",
 		"three": "^0.152.2",
 		"three-addons": "^1.2.0"

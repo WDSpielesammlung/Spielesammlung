@@ -53,19 +53,19 @@
 		{
 			id: 'spaceInvader',
 			title: 'spaceInvaderlogo',
-			path: '/games/SpaceInvaders',
+			path: '/games/spaceinvader',
 			clicked: false,
 			description:
 				'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
-			cameraX: 520,
-			cameraY: 0,
-			cameraZ: 666.877,
+			cameraX: 0,
+			cameraY: 70.5,
+			cameraZ: 657.877,
 			modelpath: '/models/spaceInvader/scene.gltf',
-			moveObjectY: -6,
-			moveSceneX: -500,
+			moveObjectY: 0,
+			moveSceneX: 0,
 			requestAnimationFrame: 0
 		},
 		{
@@ -122,6 +122,9 @@
 	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
 	function renderModelsThreeJs(gamecard: Gamecard) {
 		let renderer: THREE.WebGLRenderer;
 		let scene: THREE.Scene;
@@ -135,8 +138,8 @@
 		let width = container.clientWidth;
 		let height = container.clientHeight;
 		scene = new THREE.Scene();
+
 		scene.position.y = 0;
-		scene.position.x = gamecard.moveSceneX;
 
 		camera = new THREE.PerspectiveCamera(
 			gamecard.cameraFov,
@@ -151,7 +154,6 @@
 		/**load model in scene*/
 		loader.load(gamecard.modelpath, function (gltf) {
 			gltf.scene.position.y = gamecard.moveObjectY;
-
 			scene.add(gltf.scene);
 
 			/**Lights*/
@@ -163,6 +165,20 @@
 			const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional Light mit weißer Farbe und Intensität 1
 			directionalLight.position.set(0, 1, 1); // Setze die Position des Directional Lights
 			scene.add(directionalLight);
+
+			// Animation für das Erscheinen des Modells beim Scrollen
+			gsap.registerPlugin(ScrollTrigger);
+			gsap.to(gltf.scene.rotation, {
+				scrollTrigger: {
+					trigger: document.getElementById(gamecard.id),
+					start: 'bottom 100%',
+					end: 'top 0%',
+					// markers: true,
+					scrub: true,
+					toggleActions: 'restart pause resume pause'
+				},
+				y: Math.PI
+			});
 		});
 
 		renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -199,6 +215,7 @@
 			camera.updateProjectionMatrix();
 			renderer.setSize(width, height);
 		}); // Anpassung bei Fenstergrößenänderung
+
 		function animate() {
 			gamecard.requestAnimationFrame = requestAnimationFrame(animate);
 			// Rotation des Modells um seine eigene Achse
@@ -223,7 +240,7 @@
 		</div>
 		{#each gamecards as gamecard, i}
 			<div class="containerhülle">
-				<div class="containerCard">
+				<div class="containerCard" id={gamecard.id + 'objectreact'}>
 					<div class="left-column">
 						<div class="field1">{gamecard.title} HIER MUSS NOCH EIN IMG HIN</div>
 						<div class="field2">
