@@ -3,18 +3,23 @@ import { Bullet } from './Bullet';
 import { Grid } from './Grid';
 import { canvas, canvasCtx } from '../../../Store';
 import { InvaderBullet } from './InvaderBullet';
+import { Particle } from './Particle';
 
 let c: HTMLCanvasElement | null;
 canvas.subscribe((canvas) => (c = canvas));
 let ctx: CanvasRenderingContext2D | null;
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
 
+let spawnIntervall: number;
 let animationFrame: number;
 let player: Player;
 let grids: Grid[];
-let spawnIntervall: number;
+let bullets: Bullet[];
+let invaderBullets: InvaderBullet[];
 let timeoutIDs: any[];
 let intervallIDs: any[];
+let particles: Particle[];
+let ambientSound: HTMLAudioElement;
 
 let playerattributes = {
 	score: 0,
@@ -26,8 +31,6 @@ let upgradeCost = {
 	bulletvelocityUpgrade: 10,
 	firerateUpgrade: 10
 };
-let bullets: Bullet[];
-let invaderBullets: InvaderBullet[];
 let gameRunning: boolean = false;
 
 export function startGame() {
@@ -35,18 +38,23 @@ export function startGame() {
 	resetTimer();
 	cancelAnimationFrame(animationFrame);
 	gameRunning = true;
-	spawnIntervall = 10000;
+	spawnIntervall = 15000;
 	player = new Player();
 	grids = [new Grid()];
 	bullets = [];
 	invaderBullets = [];
 	timeoutIDs = [];
 	intervallIDs = [];
+	particles = [];
 	playerattributes.score = 0;
 	playerattributes.money = 0;
 	playerattributes.bulletVelocity = -5;
 	playerattributes.firerate = 500;
 	upgradeCost.bulletvelocityUpgrade = 10;
+	ambientSound = new Audio('/sounds/background.mp3');
+	ambientSound.loop = true;
+	ambientSound.play();
+	background();
 	spawnInvader();
 	increaseDifficulty();
 	shoot();
@@ -64,6 +72,7 @@ function resetTimer() {
 }
 
 export function leaveGame() {
+	ambientSound.pause();
 	resetTimer();
 	cancelAnimationFrame(animationFrame);
 	document.exitFullscreen();
@@ -117,7 +126,9 @@ function increaseDifficulty() {
 }
 
 export function firerateUpgrade() {
+	const upgradeSound = new Audio('/sounds/cash.mp3');
 	if (playerattributes.money >= upgradeCost.firerateUpgrade) {
+		upgradeSound.play();
 		playerattributes.money -= upgradeCost.firerateUpgrade;
 		playerattributes.firerate *= 0.9;
 		upgradeCost.firerateUpgrade = Math.floor(upgradeCost.firerateUpgrade * 1.25);
@@ -125,7 +136,9 @@ export function firerateUpgrade() {
 }
 
 export function bulletVelocityUpgrade() {
+	const upgradeSound = new Audio('/sounds/cash.mp3');
 	if (playerattributes.money >= upgradeCost.firerateUpgrade) {
+		upgradeSound.play();
 		playerattributes.money -= upgradeCost.firerateUpgrade;
 		playerattributes.bulletVelocity *= 1.1;
 		upgradeCost.bulletvelocityUpgrade = Math.floor(upgradeCost.bulletvelocityUpgrade * 1.25);
@@ -142,6 +155,7 @@ export function KeyboardHandler(e: any) {
 			break;
 		case 'a':
 			if (!gameRunning) {
+				ambientSound.pause();
 				startGame();
 			}
 			break;
@@ -150,6 +164,23 @@ export function KeyboardHandler(e: any) {
 				leaveGame();
 			}
 			break;
+	}
+}
+
+function background() {
+	for (let i = 0; i < 100; i++) {
+		particles.push(
+			new Particle(
+				{
+					x: Math.random() * screen.width,
+					y: Math.random() * screen.height
+				},
+				{ x: 0, y: 0.5 },
+				Math.random() * (screen.height / 300),
+				'white',
+				false
+			)
+		);
 	}
 }
 
@@ -165,6 +196,18 @@ function animate() {
 	ctx!.fillStyle = 'black';
 	ctx?.fillRect(0, 0, screen.width, screen.height);
 	update();
+	particles.forEach((particle, pIndex) => {
+		//Position der Sterne nach oben setzen, wenn sie denn Bildschirm verlassen
+		if (particle.position.y - particle.radius >= screen.height) {
+			particle.position.x = Math.random() * screen.width;
+			particle.position.y = -particle.radius;
+		}
+		if (particle.opacity <= 0) {
+			particles.splice(pIndex, 1);
+		} else {
+			particle.update();
+		}
+	});
 	if (gameRunning) {
 		player.update();
 		invaderBullets.forEach((invaderBullet, iBIndex) => {
@@ -180,6 +223,8 @@ function animate() {
 				invaderBullet.position.y <= player.position.y + player.height
 			) {
 				gameRunning = false;
+				const gameOverSound = new Audio('/sounds/gameOver.mp3');
+				gameOverSound.play();
 			}
 		});
 		bullets.forEach((bullet, bIndex) => {
@@ -193,6 +238,15 @@ function animate() {
 		grids.forEach((grid, g) => {
 			grid.update();
 			grid.invaders.forEach((invader, i) => {
+				if (
+					invader.position.y + invader.height >= player.position.y &&
+					invader.position.x + invader.width >= player.position.x &&
+					invader.position.x <= player.position.x + player.width
+				) {
+					gameRunning = false;
+					const gameOverSound = new Audio('/sounds/gameOver.mp3');
+					gameOverSound.play();
+				}
 				invader.update({ x: grid.velocity.x, y: grid.velocity.y });
 				bullets.forEach((bullet, b) => {
 					//Kollisions Abfrage
@@ -209,6 +263,23 @@ function animate() {
 						if (invaderFound && bulletFound) {
 							grid.invaders.splice(i, 1);
 							bullets.splice(b, 1);
+							const hitSound = new Audio('/sounds/hitmarker.mp3');
+							hitSound.play();
+
+							for (let i = 0; i < 15; i++) {
+								particles.push(
+									new Particle(
+										{
+											x: invader.position.x + invader.width / 2,
+											y: invader.position.y + invader.height / 2
+										},
+										{ x: (Math.random() - 0.5) * 2, y: (Math.random() - 0.5) * 2 },
+										Math.random() * (screen.height / 150),
+										'#BAA0DE',
+										true
+									)
+								);
+							}
 						}
 						//Größe und Position des Grids an entfernte Invader anpassen
 						if (grid.invaders.length > 0) {
@@ -236,11 +307,12 @@ function update() {
 	const bulletvelocityText: string =
 		'[s] +10% bullet speed  (' + upgradeCost.bulletvelocityUpgrade + '$)';
 	const gameoverText = 'Game Over!';
+	const endScoreText = 'Score: ' + playerattributes.score;
 	const playAgainText = 'press [a] to play again';
 	const exitText = 'press [e] to exit';
-
+	const fontSize = screen.height / 35;
 	ctx!.fillStyle = 'white';
-	ctx!.font = '30px Arial';
+	ctx!.font = fontSize + 'px Arial';
 	if (gameRunning) {
 		ctx!.fillText(
 			moneyText,
@@ -269,15 +341,21 @@ function update() {
 		);
 
 		ctx!.fillText(
+			endScoreText,
+			screen.width / 2 - ctx!.measureText(endScoreText).width / 2,
+			(screen.height / 10) * 4.5
+		);
+
+		ctx!.fillText(
 			playAgainText,
 			screen.width / 2 - ctx!.measureText(playAgainText).width / 2,
-			(screen.height / 10) * 4.5
+			(screen.height / 10) * 5
 		);
 
 		ctx!.fillText(
 			exitText,
 			screen.width / 2 - ctx!.measureText(exitText).width / 2,
-			(screen.height / 10) * 5
+			(screen.height / 10) * 5.5
 		);
 	}
 }

@@ -1,4 +1,4 @@
-import { canvas, canvasCtx } from '../../../Store';
+import { canvasCtx } from '../../../Store';
 let ctx: CanvasRenderingContext2D | null;
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
 type Point2D = {
@@ -18,7 +18,7 @@ export class Bullet {
 	draw() {
 		ctx!.beginPath();
 		ctx!.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-		ctx!.fillStyle = 'red';
+		ctx!.fillStyle = '#00FF00';
 		ctx!.fill();
 		ctx!.closePath();
 	}

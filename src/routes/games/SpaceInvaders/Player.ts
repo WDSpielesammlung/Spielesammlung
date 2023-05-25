@@ -1,4 +1,4 @@
-import { canvas, canvasCtx } from '../../../Store';
+import { canvasCtx } from '../../../Store';
 let ctx: CanvasRenderingContext2D | null;
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
 

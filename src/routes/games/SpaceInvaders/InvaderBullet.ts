@@ -1,4 +1,4 @@
-import { canvas, canvasCtx } from '../../../Store';
+import { canvasCtx } from '../../../Store';
 let ctx: CanvasRenderingContext2D | null;
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
 type Point2D = {
@@ -19,7 +19,8 @@ export class InvaderBullet {
 	}
 
 	draw() {
-		ctx?.fillRect(this.position.x, this.position.y, this.width, this.height);
+		ctx!.fillStyle = '#FF0000';
+		ctx!.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
 	update() {
 		this.draw();
