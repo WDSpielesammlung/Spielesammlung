@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//  generator client {
+//  provider = "prisma-client-js"
+//}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String
+  password String
+  highscores Highscore[]
+  //Profilepic? or for what do we want to store images?
+}
+
+model Highscore {
+  score Int
+  game String? //game in which the score was made, optional cause allTimeHighscore isnt for a specific game
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+}
