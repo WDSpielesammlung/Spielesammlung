@@ -20,7 +20,7 @@ export const actions: Actions = {
 				}
 			});
 			if (!user) {
-				return fail(400, { message: 'user does not  exists' });
+				return fail(400, { message: 'user does not  exist' });
 			}
 			const userPassword = await bcrypt.compare(password, user.password);
 			if (!userPassword) {
