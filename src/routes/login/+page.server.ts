@@ -37,7 +37,6 @@ export const actions: Actions = {
 					sameSite: 'strict',
 					maxAge: 60 * 60 * 24
 				});
-				throw redirect;
 			}
 		} catch (error) {
 			console.log('database connection failed \n' + error);

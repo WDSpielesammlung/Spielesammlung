@@ -36,6 +36,7 @@ export const actions: Actions = {
 					password: await bcrypt.hash(password, 10)
 				}
 			});
+			return { status: 201 };
 		} catch (error) {
 			console.log('database connection failed \n' + error);
 		}
