@@ -1,4 +1,4 @@
-import type { Actions } from '../api/wordle/$types';
+import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { db } from '../../lib/database';
 import bcrypt from 'bcrypt';
