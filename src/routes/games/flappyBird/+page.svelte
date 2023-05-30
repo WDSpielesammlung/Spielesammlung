@@ -20,18 +20,22 @@
         game.jump();
     }
   
-    function startGame() {
-      frame = game.start();
+      let interval: NodeJS.Timer;
+
+      function startGame() {
+        interval = setInterval(() => {
+        if(frame.gameStarted&&!frame.gameOver)
+          {frame = game.nextFrame();}
+          console.log("INTERVAL")
+      }, 1000 / 90);
+       frame = game.start();
     }
 
     function play() {
       enterFullscreen(document.getElementById("game"));
     }
   
-    setInterval(() => {
-        if(frame.gameStarted&&!frame.gameOver)
-          {frame = game.nextFrame();}
-    }, 1000 / 90);
+    
 
     let difficulties = [
 		{ id: 0, text: `Hard` },
@@ -389,4 +393,9 @@
     }
   }} on:fullscreenchange ={ (e) => {
     fullscreen = document.fullscreenElement ? true : false;
+    if(!fullscreen)
+    {
+      clearInterval(interval);
+      frame.gameOver = true;
+    }
   }} />
