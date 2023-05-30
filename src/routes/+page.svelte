@@ -53,7 +53,7 @@
 		{
 			id: 'spaceInvader',
 			title: 'spaceInvaderlogo',
-			path: '/games/spaceinvader',
+			path: '/games/SpaceInvaders',
 			clicked: false,
 			description:
 				'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.',
