@@ -73,13 +73,13 @@ function resetTimer() {
 
 async function gameOver() {
 	if (gameRunning) {
+		gameRunning = false;
 		console.log('gameover');
 		await fetch('/api/spaceInvaders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ score: playerattributes.score })
 		});
-		gameRunning = false;
 		const gameOverSound = new Audio('/sounds/gameOver.mp3');
 		gameOverSound.play();
 	}

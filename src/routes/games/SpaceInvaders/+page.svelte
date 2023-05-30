@@ -2,8 +2,10 @@
 	import * as Game from './Game';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
+	import type { PageData } from './$types';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
+	export let data: PageData;
 
 	function onFullscreenChange() {
 		fullscreen = document.fullscreenElement ? true : false;
@@ -40,6 +42,7 @@
 		$canvas!.width = screen.width;
 		$canvas!.height = screen.height;
 		canvasCtx.set($canvas!.getContext('2d'));
+		console.log(data);
 	});
 </script>
 

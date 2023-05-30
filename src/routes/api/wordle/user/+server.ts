@@ -1,10 +1,14 @@
 import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
 //get highscore for current user
-export async function GET({ locals }) {
+export async function GET({ url }) {
+	const userId = url.searchParams.get('userId');
+	if (!userId) {
+		throw error(400, { message: 'userId not set' });
+	}
 	try {
 		const highscore = await db.wordle.findUnique({
-			where: { userId: locals.user.id }
+			where: { userId: userId }
 		});
 
 		if (!highscore) {
