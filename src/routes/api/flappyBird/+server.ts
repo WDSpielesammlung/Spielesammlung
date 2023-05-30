@@ -17,8 +17,8 @@ export async function POST({ request, locals }) {
 					data: { score: body.score, difficulty: body.difficulty }
 				});
 				return json({ message: 'new highscore added' }, { status: 201 });
-			} catch (error) {
-				console.log('database connection failed \n' + error);
+			} catch (err) {
+				throw error(500, { message: 'database connection failed, error: ' + err });
 			}
 		} else {
 			return json({ message: 'old highscore greater than current sore' }, { status: 200 });
@@ -33,8 +33,8 @@ export async function POST({ request, locals }) {
 				}
 			});
 			return json({ message: 'new highscore added' }, { status: 201 });
-		} catch (error) {
-			console.log('database connection failed \n' + error);
+		} catch (err) {
+			throw error(500, { message: 'database connection failed, error: ' + err });
 		}
 	}
 }
@@ -48,7 +48,7 @@ export async function GET({ url }) {
 			where: { difficulty: difficulty }
 		});
 		return json(highscores, { status: 200 });
-	} catch (error) {
-		console.log('database connection failed \n' + error);
+	} catch (err) {
+		throw error(500, { message: 'database connection failed, error: ' + err });
 	}
 }
