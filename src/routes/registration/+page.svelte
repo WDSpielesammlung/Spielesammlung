@@ -1,32 +1,30 @@
 <main>
-    <LayoutGrid style="vertical-align: middle">
-        <Cell spanDevices={{desktop: 6, tablet: 4, phone: 12}}>
-            <p>test</p>
-        </Cell>
-        <Cell spanDevices={{desktop: 6, tablet: 4, phone: 12}}>
-            <Textfield bind:value={email} label="Email" variant="filled">
-                <HelperText slot="helper">sample@mail.com</HelperText>
-            </Textfield>
-            <Textfield bind:value={username} label="Username" variant="filled">
-                <HelperText slot="helper">Be crative : )</HelperText>
-            </Textfield>
-            <Textfield bind:value={password} label="Password" variant="filled">
-                <HelperText slot="helper">Your password has to be at least 8 Characters long</HelperText>
-            </Textfield>
-            <Textfield bind:value={password} label="Repeat Password" variant="filled">
-                <HelperText slot="helper">Repeat the password you stated above</HelperText>
-            </Textfield>
-        </Cell>
-    </LayoutGrid>
-    
+<div class="w-full h-screen flex items-center justify-center">
+    <form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white" action="/register" method="post"> 
+        <div>
+            <label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
+                <span>Username</span>
+                <input type="text" id="username" placeholder="Username" class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </label>
+        </div>
+        <div>
+            <label for="email" class="label block text-gray-700 text-sm font-bold mb-2">
+                <span>E-Mail</span>
+                <input type="email" id="email" placeholder="E-Mail" class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> 
+            </label>
+        </div>
+        <div>
+            <label for="pass" class="label block text-gray-700 text-sm font-bold mb-2">
+                <span>Password</span>
+                <input type="password" id="pass" placeholder="Password" class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> 
+            </label>
+        </div>
+        <div>
+            <label for="passRepeat" class="label block text-gray-700 text-sm font-bold mb-2">
+                <span>Repeat password</span>
+                <input type="password" id="passRepeat" placeholder="repeat password" class="input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"> 
+            </label>
+        </div>
+    </form>
+</div>
 </main>
-
-<script lang="ts">
-    import Textfield from '@smui/textfield';
-    import HelperText from '@smui/textfield/helper-text';
-    import LayoutGrid, { Cell } from '@smui/layout-grid';
-
-    let email = ' ';
-    let username = ' ';
-    let password = ' ';
-</script>
