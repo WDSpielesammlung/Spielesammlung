@@ -9,7 +9,7 @@
         </li>
   
         <li class="nav-item">
-          <a href="/" class="nav-link">
+          <a href="#flappyBird" class="nav-link" on:click|preventDefault={scrollIntoView}>
               <img src="/images/Navbar/FlappyBirdAnimated.gif" alt="">
               <img class="static-image" src="/images/Navbar/FlappyBirdStatic.png" alt="">
             <span class="link-text">Flappy Bird</span>
@@ -17,15 +17,15 @@
         </li>
   
         <li class="nav-item">
-          <a href="/" class="nav-link">
-              <img src="/images/Navbar/SnakeAnimated.gif" alt="">
+          <a href="#snake" class="nav-link" on:click|preventDefault={scrollIntoView}>
+              <img src="/images/Navbar/SnakeAnimated.gif" alt="" >
               <img class="static-image" src="/images/Navbar/SnakeStatic.png" alt="">
             <span class="link-text">Snake</span>
           </a>
         </li>
   
         <li class="nav-item">
-          <a href="/" class="nav-link">
+          <a href="#spaceInvader" class="nav-link" on:click|preventDefault={scrollIntoView}>
               <img src="/images/Navbar/SpaceInvadersAnimated.gif" alt="">
               <img class="static-image" src="/images/Navbar/SpaceInvadersStatic.png" alt="">
             <span class="link-text">Space Invaders</span>
@@ -33,7 +33,7 @@
         </li>
   
         <li class="nav-item">
-          <a href="/" class="nav-link">
+          <a href="#wordle" class="nav-link" on:click|preventDefault={scrollIntoView}>
               <img src="" alt="">
               <img class="static-image" src="" alt="">
             <span class="link-text">Wordle</span>
@@ -41,7 +41,7 @@
         </li>
   
         <li class="nav-item">
-          <a href="/" class="nav-link">
+          <a href="#quizDuell" class="nav-link" on:click|preventDefault={scrollIntoView}>
               <img src="" alt="">
               <img class="static-image" src="" alt="">
             <span class="link-text">Quiz</span>
@@ -64,8 +64,40 @@
       <slot/>
     </main>
   </body>
+
+  <script lang="ts">
+
+  import { goto } from '$app/navigation';
+  import {page} from '$app/stores';
+    	
+    //function for navigation bar
+    function scrollIntoView({target}:any) {
+      var j = 1;
+      //with for-loop page is faster
+      //while loop would check case too often -> page is slower
+      for(var i = 0; i< j; i++){
+        if(target.tagName != "A"){
+          j++;
+          target = target.parentElement;
+        }
+      }
+
+      const el = document.querySelector(target.getAttribute('href'));
+      //redirect to correct game if you're currently in a game:
+      if ($page.url.pathname != "/") {
+        goto("/" + target.getAttribute('href'))
+        return;
+      };
+      el.scrollIntoView({
+        behavior: "smooth"
+      });
+      //change URL to recognize Game e.g. (...)#flappyBird
+      window.history.replaceState({}, "", "/"+ target.getAttribute('href') );
+    }
+  </script>
+
   <style>
-  
+   
   @font-face {
     font-family:"Minecraft";
     src: url("fonts/Minecraft.ttf") format("truetype");
