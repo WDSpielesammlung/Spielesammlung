@@ -232,58 +232,57 @@
 	});
 </script>
 
-<body>
-	<div class="backgroundRainbow" />
-	<content class="contentClass">
-		<div class="container">
-			<h1 class="animated-text">The Gamebox</h1>
-		</div>
-		{#each gamecards as gamecard, i}
-			<div class="containerhülle">
-				<div class="containerCard" id={gamecard.id + 'objectreact'}>
-					<div class="left-column">
-						<div class="field1">{gamecard.title} HIER MUSS NOCH EIN IMG HIN</div>
-						<div class="field2">
-							<div class="wrap">
-								<button on:click={() => handleBeschreibungClick(i)} class="beschreibung"
-									>Beschreibung</button
-								>
-							</div>
-						</div>
-						<div class="field3">
-							<div class="wrap">
-								<button class="buttonSpielen"
-									><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
-									></button
-								>
-							</div>
+<div class="backgroundRainbow" />
+<content class="contentClass">
+	<div class="container">
+		<h1 class="animated-text">The Gamebox</h1>
+	</div>
+	{#each gamecards as gamecard, i}
+		<div class="containerhülle">
+			<div class="containerCard" id={gamecard.id + 'objectreact'}>
+				<div class="left-column">
+					<div class="field1">{gamecard.title} HIER MUSS NOCH EIN IMG HIN</div>
+					<div class="field2">
+						<div class="wrap">
+							<button on:click={() => handleBeschreibungClick(i)} class="beschreibung"
+								>Beschreibung</button
+							>
 						</div>
 					</div>
-					<div class="right-column">
-						<div class="field4">
-							<!-- {#if gamecard.clicked}
+					<div class="field3">
+						<div class="wrap">
+							<button class="buttonSpielen"
+								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
+								></button
+							>
+						</div>
+					</div>
+				</div>
+				<div class="right-column">
+					<div class="field4">
+						<!-- {#if gamecard.clicked}
               
               {gamecard.description}
             {:else} -->
 
-							<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
-								{gamecard.description}
-							</div>
-							<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
-							<!-- {/if} -->
+						<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
+							{gamecard.description}
 						</div>
+						<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
+						<!-- {/if} -->
 					</div>
 				</div>
 			</div>
-		{/each}
-	</content>
-</body>
+		</div>
+	{/each}
+</content>
 
 <style>
-	body {
+	.body {
 		color: white;
 		margin: 0;
 		padding: 0;
+		background-color: transparent;
 	}
 	.backgroundRainbow {
 		position: fixed; /* Festlegung der Positionierung */
@@ -294,7 +293,7 @@
 		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
-		z-index: -999999999;
+		z-index: -1;
 	}
 	@keyframes gradient {
 		0% {

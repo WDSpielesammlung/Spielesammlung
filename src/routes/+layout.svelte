@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
-	
+
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-modern.css';
 
@@ -10,73 +10,70 @@
 
 	// Finally, your application's global stylesheet (sometimes labeled 'app.css')
 	import '../app.postcss';
-							
 </script>
 
-<body>
-	<nav class="navbar">
-		<ul class="navbar-nav">
-			<li class="logo">
-				<a href="/" class="logo-link">
-					<span class="link-text logo-text">Gamebox</span>
-					<img class="logoImg" src="/images/Navbar/DoubleArrow.png" alt="" />
-				</a>
-			</li>
+<nav class="navbar">
+	<ul class="navbar-nav">
+		<li class="logo">
+			<a href="/" class="logo-link">
+				<span class="link-text logo-text">Gamebox</span>
+				<img class="logoImg" src="/images/Navbar/DoubleArrow.png" alt="" />
+			</a>
+		</li>
 
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<img src="/images/Navbar/FlappyBirdAnimated.gif" alt="" />
-					<img class="static-image" src="/images/Navbar/FlappyBirdStatic.png" alt="" />
-					<span class="link-text">Flappy Bird</span>
-				</a>
-			</li>
+		<li class="nav-item">
+			<a href="/" class="nav-link">
+				<img src="/images/Navbar/FlappyBirdAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/FlappyBirdStatic.png" alt="" />
+				<span class="link-text">Flappy Bird</span>
+			</a>
+		</li>
 
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<img src="/images/Navbar/SnakeAnimated.gif" alt="" />
-					<img class="static-image" src="/images/Navbar/SnakeStatic.png" alt="" />
-					<span class="link-text">Snake</span>
-				</a>
-			</li>
+		<li class="nav-item">
+			<a href="/" class="nav-link">
+				<img src="/images/Navbar/SnakeAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/SnakeStatic.png" alt="" />
+				<span class="link-text">Snake</span>
+			</a>
+		</li>
 
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<img src="/images/Navbar/SpaceInvadersAnimated.gif" alt="" />
-					<img class="static-image" src="/images/Navbar/SpaceInvadersStatic.png" alt="" />
-					<span class="link-text">Space Invaders</span>
-				</a>
-			</li>
+		<li class="nav-item">
+			<a href="/" class="nav-link">
+				<img src="/images/Navbar/SpaceInvadersAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/SpaceInvadersStatic.png" alt="" />
+				<span class="link-text">Space Invaders</span>
+			</a>
+		</li>
 
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<img src="" alt="" />
-					<img class="static-image" src="" alt="" />
-					<span class="link-text">Wordle</span>
-				</a>
-			</li>
+		<li class="nav-item">
+			<a href="/" class="nav-link">
+				<img src="" alt="" />
+				<img class="static-image" src="" alt="" />
+				<span class="link-text">Wordle</span>
+			</a>
+		</li>
 
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<img src="" alt="" />
-					<img class="static-image" src="" alt="" />
-					<span class="link-text">Quiz</span>
-				</a>
-			</li>
+		<li class="nav-item">
+			<a href="/" class="nav-link">
+				<img src="" alt="" />
+				<img class="static-image" src="" alt="" />
+				<span class="link-text">Quiz</span>
+			</a>
+		</li>
 
-			<li class="nav-item">
-				<a href="/" class="nav-link">
-					<img src="/images/Navbar/SmileyAnimated.gif" alt="" />
-					<img class="static-image" src="/images/Navbar/SmileyStatic.png" alt="" />
-					<span class="link-text">Impressum</span>
-				</a>
-			</li>
-		</ul>
-	</nav>
+		<li class="nav-item">
+			<a href="/" class="nav-link">
+				<img src="/images/Navbar/SmileyAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/SmileyStatic.png" alt="" />
+				<span class="link-text">Impressum</span>
+			</a>
+		</li>
+	</ul>
+</nav>
 
-	<main class="mainContent">
-		<slot />
-	</main>
-</body>
+<main class="mainContent">
+	<slot />
+</main>
 
 <style>
 	@font-face {

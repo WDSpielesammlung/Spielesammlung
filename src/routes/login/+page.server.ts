@@ -9,8 +9,18 @@ export const actions: Actions = {
 		const username = String(data.get('username'));
 		const password = String(data.get('password'));
 
-		if (!username || !password) {
-			return fail(400, { message: 'invalid input' });
+		if (!username) {
+			return fail(400, {
+				message: 'Please enter your Username!',
+				username: username,
+				password: password
+			});
+		}
+
+		if (!password) {
+			return fail(400, { message: 'Please enter your Password!',
+			username: username,
+			password: password });
 		}
 
 		try {
