@@ -22,7 +22,7 @@ export async function POST({ request, locals }) {
 				throw error(500, { message: 'database connection failed, error: ' + err });
 			}
 		} else {
-			return json({ message: 'old highscore greater than current sore' }, { status: 200 });
+			return json({ message: 'old highscore greater than current score' }, { status: 200 });
 		}
 	} else {
 		try {
