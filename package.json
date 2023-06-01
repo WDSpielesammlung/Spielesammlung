@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "pnpm prisma db push && pnpm prisma generate && vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -36,6 +36,5 @@
 		"gsap": "^3.11.5",
 		"three": "^0.152.2",
 		"three-addons": "^1.2.0"
-
 	}
 }
