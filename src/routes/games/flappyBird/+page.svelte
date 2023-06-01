@@ -23,10 +23,10 @@
       let interval: NodeJS.Timer;
 
       function startGame() {
+        clearInterval(interval);
         interval = setInterval(() => {
         if(frame.gameStarted&&!frame.gameOver)
           {frame = game.nextFrame();}
-          console.log("INTERVAL")
       }, 1000 / 90);
        frame = game.start();
     }
@@ -323,7 +323,7 @@
   }
   
   </style>
-  <body>
+
   <main
     style="width: 100%; height: 100%; overflow: hidden; margin:0px; padding: 0px; "
     class="game" id="game">
@@ -384,8 +384,7 @@
     </section>
     {/if}
   </main>
-  </body>
-  
+
   <svelte:window on:click="{jump}" on:keydown|preventDefault={(e)=> {  
    if(e.code === "Space")
     {
@@ -399,3 +398,4 @@
       frame.gameOver = true;
     }
   }} />
+
