@@ -42,7 +42,6 @@
 		$canvas!.width = screen.width;
 		$canvas!.height = screen.height;
 		canvasCtx.set($canvas!.getContext('2d'));
-		console.log(data);
 	});
 </script>
 
@@ -67,14 +66,3 @@
 	{/if}
 </main>
 <svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={Game.onMouseMove} />
-
-<style>
-	/* canvas {
-		background-color: aqua;
-	} */
-	canvas {
-		background-color: blueviolet;
-		width: 100vw;
-		height: 100vh;
-	}
-</style>
