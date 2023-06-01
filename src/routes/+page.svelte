@@ -16,7 +16,7 @@
 	let gamecards = [
 		{
 			id: 'flappyBird',
-			title: 'Flappy Birdlogo',
+			title: 'Flappy Bird',
 			path: '/games/flappyBird',
 			clicked: false,
 			description:
@@ -34,7 +34,7 @@
 		},
 		{
 			id: 'snake',
-			title: 'Snakelogo',
+			title: 'Snake',
 			path: '/games/snake',
 			clicked: false,
 			description:
@@ -52,7 +52,7 @@
 		},
 		{
 			id: 'spaceInvader',
-			title: 'spaceInvaderlogo',
+			title: 'Space Invaders',
 			path: '/games/SpaceInvaders',
 			clicked: false,
 			description:
@@ -70,7 +70,7 @@
 		},
 		{
 			id: 'wordle',
-			title: 'wordlelogo',
+			title: 'Wordle',
 			path: '/games/wordle',
 			clicked: false,
 			description:
@@ -88,7 +88,7 @@
 		},
 		{
 			id: 'quizDuell',
-			title: 'Quiz Duelllogo',
+			title: 'Quiz',
 			path: '/games/quiz',
 			clicked: false,
 			description:
@@ -224,35 +224,88 @@
 		}
 		animate();
 	}
+	function renderTextOnMouseposition(gamecard: Gamecard) {
+		const containerhülle = document.getElementById((gamecard.id+'containerhülle'))!;
+		const containerfield1 = document.getElementById((gamecard.id+'field1'))!;
+		containerhülle.addEventListener('mousemove', function(event) {
+			const rect = containerhülle.getBoundingClientRect();
+			const x = event.clientX - rect.left;
+			const y = event.clientY - rect.top;
+			
+			const xRotation = (x - rect.width / 2) / rect.width * 50;
+			const yRotation = (y - rect.height / 2) / rect.height * 50;
+			containerfield1.style.transform = 'rotateX(' + yRotation + 'deg) rotateY(' + xRotation + 'deg)';
+		});
+		containerhülle.addEventListener("mouseleave", function() {
+			containerfield1.style.transform = "none";
+		});
+	}
+
+	function animationGamecardContainer(gamecard: Gamecard){
+		// Ziel-DIV-Container
+		const targetElement = document.getElementById(gamecard.id+'containerhülle')!;
+
+		// Optionen für den Intersection Observer
+		const options = {
+		root: null, // Das gesmate Viewport-Fenster muss überwacht werden
+		rootMargin: '0px',
+		threshold: 0.5 //threshold-Option legt fest, ab welchem sichtbaren Anteil des Elements die Ein- bzw. Ausblendung erfolgt
+		};
+
+		// Funktion, die aufgerufen wird, wenn das Ziel-DIV-Container in den sichtbaren Bereich kommt
+		function fadeInElement(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+			entries.forEach(function(entry) {
+				if (entry.isIntersecting) {
+					// Ziel-DIV-Container ist sichtbar
+					targetElement.style.opacity = '1';
+					targetElement.style.transition = 'opacity 1.2s ease-in-out'; // Hier kannst du die Übergangszeit anpassen
+					observer.unobserve(entry.target); // Beobachtung beenden, sobald das Ziel-DIV-Container sichtbar ist
+				}else{
+					targetElement.style.opacity = '0.1';
+					        targetElement.style.transition = "opacity 0.3s ease-in-out"; // Hier kannst du die Übergangszeit anpassen
+
+				}
+			});
+		}
+
+		// Intersection Observer erstellen
+		var observer = new IntersectionObserver(fadeInElement, options);
+
+		// Ziel-DIV-Container beobachten
+		observer.observe(targetElement);
+	}
 
 	onMount(() => {
 		for (const gamecard of gamecards) {
 			renderModelsThreeJs(gamecard);
+			renderTextOnMouseposition(gamecard);
+			animationGamecardContainer(gamecard);
 		}
+		
 	});
+	
 </script>
 
-<body>
 	<div class="backgroundRainbow" />
-	<content class="contentClass">
+	<content class="contentClass" id='content'>
 		<div class="container">
 			<h1 class="animated-text">The Gamebox</h1>
 		</div>
 		{#each gamecards as gamecard, i}
-			<div class="containerhülle">
+			<div class="containerhülle" id={gamecard.id+'containerhülle'}>
 				<div class="containerCard" id={gamecard.id + 'objectreact'}>
 					<div class="left-column">
-						<div class="field1">{gamecard.title} HIER MUSS NOCH EIN IMG HIN</div>
+						<div class="field1" id={gamecard.id+'field1'}>{gamecard.title}</div>
 						<div class="field2">
 							<div class="wrap">
-								<button on:click={() => handleBeschreibungClick(i)} class="beschreibung"
-									>Beschreibung</button
-								>
+								<button on:click={() => handleBeschreibungClick(i)} class="beschreibung">
+									Beschreibung
+								</button>
 							</div>
 						</div>
 						<div class="field3">
 							<div class="wrap">
-								<button class="buttonSpielen"
+								<button class="buttonSpielen" 
 									><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
 									></button
 								>
@@ -261,30 +314,19 @@
 					</div>
 					<div class="right-column">
 						<div class="field4">
-							<!-- {#if gamecard.clicked}
-              
-              {gamecard.description}
-            {:else} -->
-
 							<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
 								{gamecard.description}
 							</div>
 							<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
-							<!-- {/if} -->
 						</div>
 					</div>
 				</div>
 			</div>
 		{/each}
 	</content>
-</body>
+
 
 <style>
-	body {
-		color: white;
-		margin: 0;
-		padding: 0;
-	}
 	.backgroundRainbow {
 		position: fixed; /* Festlegung der Positionierung */
 		top: 0;
@@ -307,8 +349,12 @@
 			background-position: 0% 50%;
 		}
 	}
+	
 	.contentClass {
 		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
+		color: white;
+		margin: 0;
+		padding: 0;
 	}
 	.container {
 		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
@@ -346,7 +392,11 @@
 		display: flex;
 		justify-content: space-around;
 		margin-bottom: 10vh;
+		transform: 0.3s;
+		transform-style: preserve-3d;
+  		transform: translateZ(0);
 	}
+	
 	.containerCard {
 		display: flex;
 		width: 80%;
@@ -371,6 +421,10 @@
 		padding: 10px;
 		flex-grow: 1;
 		z-index: 1;
+	}
+	.field1{
+		font-size: 3rem;
+  		text-align: center;
 	}
 	.renderObject {
 		height: 100%;
