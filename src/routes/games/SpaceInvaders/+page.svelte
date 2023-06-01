@@ -2,6 +2,7 @@
 	import * as Game from './Game';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
+	import type { PageData } from './$types';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
 
@@ -64,14 +65,3 @@
 	{/if}
 </main>
 <svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={Game.onMouseMove} />
-
-<style>
-	/* canvas {
-		background-color: aqua;
-	} */
-	canvas {
-		background-color: blueviolet;
-		width: 100vw;
-		height: 100vh;
-	}
-</style>

@@ -66,7 +66,7 @@
 <style>
 	@font-face {
 		font-family: 'Minecraft';
-		src: url('fonts/Minecraft.ttf') format('truetype');
+		src: url('/fonts/Minecraft.ttf') format('truetype');
 	}
 
 	:root {

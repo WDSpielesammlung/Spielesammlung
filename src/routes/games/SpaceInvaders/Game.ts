@@ -71,6 +71,20 @@ function resetTimer() {
 	});
 }
 
+async function gameOver() {
+	if (gameRunning) {
+		gameRunning = false;
+		console.log('gameover');
+		await fetch('/api/spaceInvaders', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ score: playerattributes.score })
+		});
+		const gameOverSound = new Audio('/sounds/gameOver.mp3');
+		gameOverSound.play();
+	}
+}
+
 export function leaveGame() {
 	ambientSound.pause();
 	resetTimer();
@@ -222,9 +236,7 @@ function animate() {
 				invaderBullet.position.x <= player.position.x + player.width &&
 				invaderBullet.position.y <= player.position.y + player.height
 			) {
-				gameRunning = false;
-				const gameOverSound = new Audio('/sounds/gameOver.mp3');
-				gameOverSound.play();
+				gameOver();
 			}
 		});
 		bullets.forEach((bullet, bIndex) => {
@@ -243,9 +255,7 @@ function animate() {
 					invader.position.x + invader.width >= player.position.x &&
 					invader.position.x <= player.position.x + player.width
 				) {
-					gameRunning = false;
-					const gameOverSound = new Audio('/sounds/gameOver.mp3');
-					gameOverSound.play();
+					gameOver();
 				}
 				invader.update({ x: grid.velocity.x, y: grid.velocity.y });
 				bullets.forEach((bullet, b) => {
