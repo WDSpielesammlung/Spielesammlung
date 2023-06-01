@@ -72,10 +72,10 @@
     	
     //function for navigation bar
     function scrollIntoView({target}:any) {
-      var j = 1;
+      let j = 1;
       //with for-loop page is faster
       //while loop would check case too often -> page is slower
-      for(var i = 0; i< j; i++){
+      for(let i = 0; i< j; i++){
         if(target.tagName != "A"){
           j++;
           target = target.parentElement;
@@ -100,7 +100,7 @@
    
   @font-face {
     font-family:"Minecraft";
-    src: url("fonts/Minecraft.ttf") format("truetype");
+    src: url("/fonts/Minecraft.ttf") format("truetype");
   }
   
       :root {

@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  username      String        @unique
+  password      String
+  userAuthToken String?       @unique
+  flappybird    flappybird[]
+  spaceinvader  spaceinvader?
+  snake         snake?
+  wordle        wordle?
+  quiz          quiz?
+}
+
+model flappybird {
+  id         String @id @default(uuid())
+  score      Int    @default(0)
+  difficulty String
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
+}
+
+model spaceinvader {
+  id     String @id @default(uuid())
+  score  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model snake {
+  id     String @id @default(uuid())
+  score  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model wordle {
+  id     String @id @default(uuid())
+  score  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model quiz {
+  id     String @id @default(uuid())
+  score  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
