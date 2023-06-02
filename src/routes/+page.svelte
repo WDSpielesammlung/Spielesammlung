@@ -225,45 +225,45 @@
 		animate();
 	}
 	function renderTextOnMouseposition(gamecard: Gamecard) {
-		const containerhülle = document.getElementById((gamecard.id+'containerhülle'))!;
-		const containerfield1 = document.getElementById((gamecard.id+'field1'))!;
-		containerhülle.addEventListener('mousemove', function(event) {
+		const containerhülle = document.getElementById(gamecard.id + 'containerhülle')!;
+		const containerfield1 = document.getElementById(gamecard.id + 'field1')!;
+		containerhülle.addEventListener('mousemove', function (event) {
 			const rect = containerhülle.getBoundingClientRect();
 			const x = event.clientX - rect.left;
 			const y = event.clientY - rect.top;
-			
-			const xRotation = (x - rect.width / 2) / rect.width * 50;
-			const yRotation = (y - rect.height / 2) / rect.height * 50;
-			containerfield1.style.transform = 'rotateX(' + yRotation + 'deg) rotateY(' + xRotation + 'deg)';
+
+			const xRotation = ((x - rect.width / 2) / rect.width) * 50;
+			const yRotation = ((y - rect.height / 2) / rect.height) * 50;
+			containerfield1.style.transform =
+				'rotateX(' + yRotation + 'deg) rotateY(' + xRotation + 'deg)';
 		});
-		containerhülle.addEventListener("mouseleave", function() {
-			containerfield1.style.transform = "none";
+		containerhülle.addEventListener('mouseleave', function () {
+			containerfield1.style.transform = 'none';
 		});
 	}
 
-	function animationGamecardContainer(gamecard: Gamecard){
+	function animationGamecardContainer(gamecard: Gamecard) {
 		// Ziel-DIV-Container
-		const targetElement = document.getElementById(gamecard.id+'containerhülle')!;
+		const targetElement = document.getElementById(gamecard.id + 'containerhülle')!;
 
 		// Optionen für den Intersection Observer
 		const options = {
-		root: null, // Das gesmate Viewport-Fenster muss überwacht werden
-		rootMargin: '0px',
-		threshold: 0.5 //threshold-Option legt fest, ab welchem sichtbaren Anteil des Elements die Ein- bzw. Ausblendung erfolgt
+			root: null, // Das gesmate Viewport-Fenster muss überwacht werden
+			rootMargin: '0px',
+			threshold: 0.5 //threshold-Option legt fest, ab welchem sichtbaren Anteil des Elements die Ein- bzw. Ausblendung erfolgt
 		};
 
 		// Funktion, die aufgerufen wird, wenn das Ziel-DIV-Container in den sichtbaren Bereich kommt
 		function fadeInElement(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
-			entries.forEach(function(entry) {
+			entries.forEach(function (entry) {
 				if (entry.isIntersecting) {
 					// Ziel-DIV-Container ist sichtbar
 					targetElement.style.opacity = '1';
 					targetElement.style.transition = 'opacity 1.2s ease-in-out'; // Hier kannst du die Übergangszeit anpassen
 					observer.unobserve(entry.target); // Beobachtung beenden, sobald das Ziel-DIV-Container sichtbar ist
-				}else{
+				} else {
 					targetElement.style.opacity = '0.1';
-					        targetElement.style.transition = "opacity 0.3s ease-in-out"; // Hier kannst du die Übergangszeit anpassen
-
+					targetElement.style.transition = 'opacity 0.3s ease-in-out'; // Hier kannst du die Übergangszeit anpassen
 				}
 			});
 		}
@@ -281,50 +281,47 @@
 			renderTextOnMouseposition(gamecard);
 			animationGamecardContainer(gamecard);
 		}
-		
 	});
-	
 </script>
 
-	<div class="backgroundRainbow" />
-	<content class="contentClass" id='content'>
-		<div class="container">
-			<h1 class="animated-text">The Gamebox</h1>
-		</div>
-		{#each gamecards as gamecard, i}
-			<div class="containerhülle" id={gamecard.id+'containerhülle'}>
-				<div class="containerCard" id={gamecard.id + 'objectreact'}>
-					<div class="left-column">
-						<div class="field1" id={gamecard.id+'field1'}>{gamecard.title}</div>
-						<div class="field2">
-							<div class="wrap">
-								<button on:click={() => handleBeschreibungClick(i)} class="beschreibung">
-									Beschreibung
-								</button>
-							</div>
-						</div>
-						<div class="field3">
-							<div class="wrap">
-								<button class="buttonSpielen" 
-									><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
-									></button
-								>
-							</div>
+<div class="backgroundRainbow" />
+<content class="contentClass" id="content">
+	<div class="container">
+		<h1 class="animated-text">The Gamebox</h1>
+	</div>
+	{#each gamecards as gamecard, i}
+		<div class="containerhülle" id={gamecard.id + 'containerhülle'}>
+			<div class="containerCard" id={gamecard.id + 'objectreact'}>
+				<div class="left-column">
+					<div class="field1" id={gamecard.id + 'field1'}>{gamecard.title}</div>
+					<div class="field2">
+						<div class="wrap">
+							<button on:click={() => handleBeschreibungClick(i)} class="beschreibung">
+								Beschreibung
+							</button>
 						</div>
 					</div>
-					<div class="right-column">
-						<div class="field4">
-							<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
-								{gamecard.description}
-							</div>
-							<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
+					<div class="field3">
+						<div class="wrap">
+							<button class="buttonSpielen"
+								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
+								></button
+							>
 						</div>
 					</div>
 				</div>
+				<div class="right-column">
+					<div class="field4">
+						<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
+							{gamecard.description}
+						</div>
+						<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
+					</div>
+				</div>
 			</div>
-		{/each}
-	</content>
-
+		</div>
+	{/each}
+</content>
 
 <style>
 	.backgroundRainbow {
@@ -336,7 +333,8 @@
 		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
-		z-index: -999999999;
+		z-index: -1;
+		z-index: -1;
 	}
 	@keyframes gradient {
 		0% {
@@ -349,7 +347,7 @@
 			background-position: 0% 50%;
 		}
 	}
-	
+
 	.contentClass {
 		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
 		color: white;
@@ -394,9 +392,9 @@
 		margin-bottom: 10vh;
 		transform: 0.3s;
 		transform-style: preserve-3d;
-  		transform: translateZ(0);
+		transform: translateZ(0);
 	}
-	
+
 	.containerCard {
 		display: flex;
 		width: 80%;
@@ -422,9 +420,9 @@
 		flex-grow: 1;
 		z-index: 1;
 	}
-	.field1{
+	.field1 {
 		font-size: 3rem;
-  		text-align: center;
+		text-align: center;
 	}
 	.renderObject {
 		height: 100%;

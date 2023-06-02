@@ -39,6 +39,7 @@ export const actions: Actions = {
 			return { status: 201 };
 		} catch (error) {
 			console.log('database connection failed \n' + error);
+			return fail(500, {message: 'Internal Server Error'})
 		}
 	}
 };
