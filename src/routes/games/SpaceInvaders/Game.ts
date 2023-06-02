@@ -20,6 +20,8 @@ let timeoutIDs: any[];
 let intervallIDs: any[];
 let particles: Particle[];
 let ambientSound: HTMLAudioElement;
+let highscore = false;
+let colorChange = 0;
 
 let playerattributes = {
 	score: 0,
@@ -37,6 +39,7 @@ export function startGame() {
 	//alle Variablen auf Anfangszustand setzen
 	resetTimer();
 	cancelAnimationFrame(animationFrame);
+	highscore = false;
 	gameRunning = true;
 	spawnIntervall = 15000;
 	player = new Player();
@@ -74,12 +77,15 @@ function resetTimer() {
 async function gameOver() {
 	if (gameRunning) {
 		gameRunning = false;
-		console.log('gameover');
-		await fetch('/api/spaceInvaders', {
+		const response = await fetch('/api/spaceInvaders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ score: playerattributes.score })
 		});
+		console.log(response.status);
+		if (response.status === 201) {
+			highscore = true;
+		}
 		const gameOverSound = new Audio('/sounds/gameOver.mp3');
 		gameOverSound.play();
 	}
@@ -320,7 +326,9 @@ function update() {
 	const endScoreText = 'Score: ' + playerattributes.score;
 	const playAgainText = 'press [a] to play again';
 	const exitText = 'press [e] to exit';
+	const highscoreText = 'NEW HIGHSCORE!';
 	const fontSize = screen.height / 35;
+
 	ctx!.fillStyle = 'white';
 	ctx!.font = fontSize + 'px Arial';
 	if (gameRunning) {
@@ -344,6 +352,17 @@ function update() {
 
 		ctx!.fillText(scoreText, 0, (screen.height / 10) * 6.5);
 	} else {
+		if (highscore) {
+			const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+			ctx!.fillStyle = colors[colorChange];
+			colorChange = (colorChange + 1) % colors.length;
+			ctx!.fillText(
+				highscoreText,
+				screen.width / 2 - ctx!.measureText(highscoreText).width / 2,
+				(screen.height / 10) * 3.5
+			);
+		}
+		ctx!.fillStyle = 'white';
 		ctx!.fillText(
 			gameoverText,
 			screen.width / 2 - ctx!.measureText(gameoverText).width / 2,
