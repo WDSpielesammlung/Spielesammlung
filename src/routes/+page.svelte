@@ -269,7 +269,7 @@
 		}
 
 		// Intersection Observer erstellen
-		var observer = new IntersectionObserver(fadeInElement, options);
+		const observer = new IntersectionObserver(fadeInElement, options);
 
 		// Ziel-DIV-Container beobachten
 		observer.observe(targetElement);
