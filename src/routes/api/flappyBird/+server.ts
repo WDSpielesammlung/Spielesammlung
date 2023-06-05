@@ -1,12 +1,15 @@
 import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
-export async function POST({ request, locals }) {
+import type { RequestHandler } from './$types';
+
+export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!locals.user) {
 		throw error(401, { message: 'User not logged in' });
 	}
 	const body = await request.json();
+
 	const highscore = await db.flappybird.findUnique({
-		where: { userId: locals.user.id }
+		where: { userId: locals.user.id } as any
 	});
 
 	if (highscore) {
@@ -37,7 +40,7 @@ export async function POST({ request, locals }) {
 			throw error(500, { message: 'database connection failed, error: ' + err });
 		}
 	}
-}
+};
 export async function GET({ url }) {
 	const difficulty = url.searchParams.get('difficulty');
 	if (!difficulty) {

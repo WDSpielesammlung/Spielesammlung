@@ -1,5 +1,14 @@
 <script lang="ts">
 	export let form;
+	let usernameTaken: null | boolean = null;
+
+	async function validateUsername(name: string) {
+		const res = await fetch('/api/validate/' + name);
+
+		const data = await res.json();
+
+		usernameTaken = data.taken;
+	}
 </script>
 
 <main>
@@ -27,6 +36,9 @@
 							placeholder="Username"
 							class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 						/>
+						{#if usernameTaken}
+							<div class="tet-red-500">Your username is already taken.</div>
+						{/if}
 					</label>
 				</div>
 				<div class="mt-4">
