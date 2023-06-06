@@ -18,9 +18,11 @@ export const actions: Actions = {
 		}
 
 		if (!password) {
-			return fail(400, { message: 'Please enter your Password!',
-			username: username,
-			password: password });
+			return fail(400, {
+				message: 'Please enter your Password!',
+				username: username,
+				password: password
+			});
 		}
 
 		try {
@@ -45,6 +47,8 @@ export const actions: Actions = {
 				cookies.set('session', authenticatedUser.userAuthToken, {
 					path: '/',
 					sameSite: 'strict',
+					httpOnly: true,
+					secure: true,
 					maxAge: 60 * 60 * 24
 				});
 			}
