@@ -1,7 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
+import type { RequestHandler } from '../$types';
 //get highscore for current user
-export async function GET({ url }) {
+export const GET: RequestHandler = async ({ url }) => {
 	const userId = url.searchParams.get('userId');
 	if (!userId) {
 		throw error(400, { message: 'userId not set' });
@@ -18,4 +19,4 @@ export async function GET({ url }) {
 	} catch (err) {
 		throw error(500, { message: 'database connection failed, error: ' + err });
 	}
-}
+};

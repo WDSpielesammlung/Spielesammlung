@@ -1,7 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
+import type { RequestHandler } from './$types';
 //save new highscore for current user
-export async function POST({ request, locals }) {
+export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!locals.user) {
 		throw error(401, { message: 'User not logged in' });
 	}
@@ -37,13 +38,13 @@ export async function POST({ request, locals }) {
 			throw error(500, { message: 'database connection failed, error: ' + err });
 		}
 	}
-}
+};
 //get all user highscores
-export async function GET() {
+export const GET: RequestHandler = async () => {
 	try {
 		const highscores = await db.wordle.findMany({});
 		return json(highscores, { status: 200 });
 	} catch (err) {
 		throw error(500, { message: 'database connection failed, error: ' + err });
 	}
-}
+};
