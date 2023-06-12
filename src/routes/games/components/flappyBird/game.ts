@@ -36,7 +36,9 @@ export type Frame = {
   
   export class GameController {
     private difficulty = 1;
-
+    getDifficulty(){
+      return this.difficulty;
+    }
 	  setDifficulty(selected: number) {
 		  this.difficulty = selected;
       if(this.difficulty === 0)
@@ -65,14 +67,16 @@ export type Frame = {
       }
 	  }
 
-    getDifficulty()
+    public setHighscores(overall, user)
     {
-      return this.difficulty;
+        this.highscoreOverall= overall
+        this.highscoreUser = user
     }
+
     private frame!: Frame;
     private velocity = 0;
-    //ersetzen durch get highscore
-    private highscore = 0;
+    public highscoreUser = new Array(0,0,0);
+    public highscoreOverall = new Array(0,0,0);
     constructor(
       public  pipeGap = 20,
       public  generateNewPipePercent = 0.4,
@@ -89,8 +93,6 @@ export type Frame = {
       public readonly jumpVelocity = 0.7,
       public readonly slowVelocityBy = 0.02,
       
-
-
     ) {}
   
     public newGame() {
@@ -127,10 +129,15 @@ export type Frame = {
         this.frame.score +=1;
       }
       this.frame.gameOver = this.checkGameOver(this.frame.bird, this.frame.height, this.frame.ground.height, this.frame.pipes)
-      if(this.frame.gameOver && this.frame.score > this.highscore)
+      if(this.frame.gameOver && this.highscoreUser[this.difficulty] < this.frame.score)
       {
-        this.highscore = this.frame.score;
-        this.frame.newHighscore = true;
+        this.frame.newHighscore= true;
+        this.highscoreUser[this.difficulty] = this.frame.score;
+        if(this.highscoreOverall[this.difficulty] < this.frame.score)
+        {
+          this.highscoreOverall[this.difficulty] = this.frame.score;
+        }
+        this.checkNewHighscore(this.frame.score, this.difficulty.toString());
       }
       return this.frame;
     }
@@ -277,5 +284,15 @@ export type Frame = {
         this.velocity =2;
       }
     }
+
+    async checkNewHighscore(s:number, diff: String) {
+      const response = await fetch('/api/flappyBird', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: s, difficulty : diff })
+      }).catch(err=> {console.log(err)});
+    }
     
   }
+
+  

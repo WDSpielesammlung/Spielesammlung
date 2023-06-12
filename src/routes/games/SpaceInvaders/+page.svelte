@@ -5,7 +5,7 @@
 	import type { PageData } from './$types';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
-
+	
 	function onFullscreenChange() {
 		fullscreen = document.fullscreenElement ? true : false;
 		if (fullscreen) {

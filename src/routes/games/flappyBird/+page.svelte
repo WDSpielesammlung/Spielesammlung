@@ -2,10 +2,13 @@
 	import { GameController } from '../components/flappyBird/game';
 	import Pipe from '../components/flappyBird/Pipe.svelte';
 	import Bird from '../components/flappyBird/Bird.svelte';
+	import { invalidateAll } from '$app/navigation';
 	const game = new GameController();
 	let fullscreen = false;
 	let frame = game.newGame();
+	export let data;
 
+	game.setHighscores(data.user, data.overall);
 	function enterFullscreen(element: any) {
 		if (element.requestFullscreen) {
 			element.requestFullscreen();
@@ -108,8 +111,8 @@
 						<button class="button" on:click={play}>Play</button>
 					</span>
 				</div>
-				<h2>Your Personal Highscore:</h2>
-				<h2>Overall Highscore:</h2>
+				<h2>Your Personal Highscore: {game.highscoreUser[selected.id]}</h2>
+				<h2>Overall Highscore: {game.highscoreOverall[selected.id]}</h2>
 			</section>
 		{/if}
 	</main>
@@ -167,9 +170,10 @@
 		color: white;
 		font-family: Minecraft;
 		font-size: calc(20px + 2vh);
+		padding: 10px;
 	}
 	.button {
-		font-size: calc(20px + 2vh);
+		font-size: calc(10px + 1.5vh);
 		font-weight: bold;
 		z-index: 2;
 		border: white;
@@ -197,15 +201,20 @@
 		width: 100vw;
 	}
 	#init-screen h2 {
+		padding-top: 1vh;
 		text-align: center;
 		color: white;
 		font-family: Minecraft;
 		font-size: calc(20px + 2vh);
+		padding: 20px;
+
 	}
 
 	#init-screen h1 {
+		size: 100vh;
 		text-align: center;
 		font-family: Minecraft;
+		padding: 5vh;
 		font-size: calc(20px + 5vh);
 		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 		-webkit-text-fill-color: transparent;
@@ -214,15 +223,9 @@
 		animation: gradient 15s ease infinite;
 	}
 
-	/* The container must be positioned relative: */
-	.custom-select {
-		font-size: calc(20px + 2vh);
-		font-weight: bold;
-		margin-right: 1vw;
-	}
 
 	.custom-select select {
-		font-size: calc(20px + 2vh);
+		font-size: calc(10px + 1.5vh);
 		font-weight: bold;
 		font-family: Minecraft;
 		border: white;
@@ -237,16 +240,17 @@
 	}
 
 	.custom-select option {
-		font-size: calc(20px + 2vh);
+		font-size: calc(10px + 2vh);
 		font-weight: bold;
 		font-family: Minecraft;
 		color: white;
-		padding: 5px;
+		padding: 20px;
 		background-color: black;
 		margin: 1vw;
 	}
 
 	#score {
+		padding: 10px;
 		position: absolute;
 		right: 1vh;
 		top: 1vh;
@@ -255,7 +259,6 @@
 		z-index: 2;
 		border: white;
 		color: white;
-		padding: 10px;
 		border-style: solid;
 		border-width: 0.15vh;
 		font-family: Minecraft;
