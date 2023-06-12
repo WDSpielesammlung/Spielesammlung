@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 	const body = await request.json();
 	const highscore = await db.flappybird.findUnique({
-		where: { userId: locals.user.id } as any
+		where: { userId: locals.user.id }
 	});
 
 	if (highscore) {
