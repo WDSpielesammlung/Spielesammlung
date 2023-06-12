@@ -5,8 +5,9 @@ export async function load({ locals }) {
 	if (!locals.user) {
 		throw redirect(302, '/login');
 	}
-	const url1 = process.env.API_URL + 'spaceInvaders/user?userId=' + locals.user.id;
-	const url2 = process.env.API_URL + 'spaceInvaders';
+	const url1 = process.env.API_URL + '/SpaceInvaders/user?userId=' + locals.user.id;
+	const url2 = process.env.API_URL + '/SpaceInvaders';
+
 	try {
 		const userHighscoreResponse = await fetch(url1);
 		const userHighscoreData = await userHighscoreResponse.json();
