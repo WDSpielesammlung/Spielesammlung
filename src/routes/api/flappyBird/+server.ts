@@ -2,12 +2,13 @@ import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
 import type { RequestHandler } from './$types.js';
 export const POST: RequestHandler = async ({ request, locals }) => {
+
 	if (!locals.user) {
 		throw error(401, { message: 'User not logged in' });
 	}
 	const body = await request.json();
 	const highscore = await db.flappybird.findUnique({
-		where: { userId: locals.user.id } as any
+		where: { id: locals.user.id } as any
 	});
 
 	if (highscore) {
