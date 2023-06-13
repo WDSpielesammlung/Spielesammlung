@@ -2,10 +2,15 @@
 	import * as Game from './Game';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
-	import type { PageData } from './$types';
+	import { Table } from '@skeletonlabs/skeleton';
+	import type { TableSource } from '@skeletonlabs/skeleton';
+	import { tableMapperValues } from '@skeletonlabs/skeleton';
+	import type { Test } from 'vitest';
+	import type { Data } from '@skeletonlabs/skeleton/dist/utilities/DataTable/types';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
-	
+	export let data;
+
 	function onFullscreenChange() {
 		fullscreen = document.fullscreenElement ? true : false;
 		if (fullscreen) {
@@ -42,6 +47,24 @@
 		$canvas!.height = screen.height;
 		canvasCtx.set($canvas!.getContext('2d'));
 	});
+	const tableBody = [['no score yet', '2']];
+	// data.allHighscoresData.forEach((score: any) => {
+	// 	tableBody.push([String(score.user.username), String(score.score)]);
+	// });
+	for (let i = 0; i < data.allHighscoresData.length; i++) {
+		tableBody[i] = [
+			String(data.allHighscoresData[i].user.username),
+			String(data.allHighscoresData[i].score)
+		];
+	}
+	console.log(tableBody);
+
+	const table: TableSource = {
+		// A list of heading labels.
+		head: ['Username', 'Score'],
+		// The data visibly shown in your table body UI.
+		body: tableBody
+	};
 </script>
 
 <main
@@ -52,16 +75,12 @@
 	<canvas id="canvas" hidden bind:this={$canvas} />
 
 	{#if !fullscreen}
-		<section id="init-screen">
-			<h1>Space Invaders</h1>
-			<div class="flex">
-				<span>
-					<button class="button" on:click={start}>Play</button>
-				</span>
-			</div>
-			<h2>Your Personal Highscore:</h2>
-			<h2>Overall Highscore:</h2>
-		</section>
+		<div class="flex">
+			<span>
+				<button class="button" on:click={start}>Play</button>
+			</span>
+		</div>
+		<Table source={table} />
 	{/if}
 </main>
 <svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={Game.onMouseMove} />
