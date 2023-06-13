@@ -8,7 +8,7 @@
 	let frame = game.newGame();
 	export let data;
 
-	game.setHighscores(data.user, data.overall);
+	game.setHighscores(data.userHighscores, data.overallHighscores);
 	function enterFullscreen(element: any) {
 		if (element.requestFullscreen) {
 			element.requestFullscreen();
@@ -26,7 +26,7 @@
 	let interval: NodeJS.Timer;
 
 	function startGame() {
-    clearInterval(interval)
+		clearInterval(interval);
 		interval = setInterval(() => {
 			if (frame.gameStarted && !frame.gameOver) {
 				frame = game.nextFrame();
@@ -55,67 +55,71 @@
 	}
 </script>
 
-	<main
-		style="width: 100%; height: 100%; overflow: hidden; margin:0px; padding: 0px; "
-		class="game"
-		id="game"
-	>
-		<div class="stars" />
-		<div class="twinkleMask" />
-		<div class="twinkleMask2" />
-		<div class="clouds" />
-		<div class="fogContainer">
-			<div class="fog" />
-		</div>
+<main
+	style="width: 100%; height: 100%; overflow: hidden; margin:0px; padding: 0px; "
+	class="game"
+	id="game"
+>
+	<div class="stars" />
+	<div class="twinkleMask" />
+	<div class="twinkleMask2" />
+	<div class="clouds" />
+	<div class="fogContainer">
+		<div class="fog" />
+	</div>
 
-		{#if fullscreen}
-			<section id="score">{frame.score}</section>
-			<Bird bird={frame.bird} />
-			{#each frame.pipes as pipe}
-				<Pipe pipePair={pipe} />
-			{/each}
-			<section style="height: {frame.ground.height}vh;" id="ground" />
-			{#if frame.gameOver || !frame.gameStarted}
-				<section id="start-screen">
-					{#if frame.newHighscore}
-						<h2>New Highscore!!</h2>
-					{/if}
-					{#if frame.gameOver}
-						<h2>Game Over</h2>
-						<h2>Score: {frame.score}</h2>
-					{/if}
-					<div class="flex">
-						<span>
-							<button class="button" on:click={startGame}>Start Game</button>
-						</span>
-						<span>
-							<button class="button" on:click={leave}>Leave Game</button>
-						</span>
-					</div>
-				</section>
-			{/if}
-		{:else}
-			<section id="init-screen">
-				<h1>Flappy Bird</h1>
+	{#if fullscreen}
+		<section id="score">{frame.score}</section>
+		<Bird bird={frame.bird} />
+		{#each frame.pipes as pipe}
+			<Pipe pipePair={pipe} />
+		{/each}
+		<section style="height: {frame.ground.height}vh;" id="ground" />
+		{#if frame.gameOver || !frame.gameStarted}
+			<section id="start-screen">
+				{#if frame.newHighscore}
+					<h2>New Highscore!!</h2>
+				{/if}
+				{#if frame.gameOver}
+					<h2>Game Over</h2>
+					<h2>Score: {frame.score}</h2>
+				{/if}
 				<div class="flex">
-					<div class="custom-select">
-						<select bind:value={selected} on:change={updateDifficulty}>
-							{#each difficulties as diff}
-								<option value={diff}>
-									{diff.text}
-								</option>
-							{/each}
-						</select>
-					</div>
 					<span>
-						<button class="button" on:click={play}>Play</button>
+						<button class="button" on:click={startGame}>Start Game</button>
+					</span>
+					<span>
+						<button class="button" on:click={leave}>Leave Game</button>
 					</span>
 				</div>
-				<h2>Your Personal Highscore: {game.highscoreUser[selected.id]}</h2>
-				<h2>Overall Highscore: {game.highscoreOverall[selected.id]}</h2>
 			</section>
 		{/if}
-	</main>
+	{:else}
+		<section id="init-screen">
+			<h1>Flappy Bird</h1>
+			<div class="flex">
+				<div class="custom-select">
+					<select bind:value={selected} on:change={updateDifficulty}>
+						{#each difficulties as diff}
+							<option value={diff}>
+								{diff.text}
+							</option>
+						{/each}
+					</select>
+				</div>
+				<span>
+					<button class="button" on:click={play}>Play</button>
+				</span>
+			</div>
+			{#if data.userHighscores}
+				<h2>Your Personal Highscore: {data.userHighscores[selected.id]}</h2>
+			{/if}
+			{#if data.overallHighscores}
+				<h2>Overall Highscore: {data.overallHighscores[selected.id]}</h2>
+			{/if}
+		</section>
+	{/if}
+</main>
 
 <svelte:window
 	on:click={jump}
@@ -207,7 +211,6 @@
 		font-family: Minecraft;
 		font-size: calc(20px + 2vh);
 		padding: 20px;
-
 	}
 
 	#init-screen h1 {
@@ -222,7 +225,6 @@
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
 	}
-
 
 	.custom-select select {
 		font-size: calc(10px + 1.5vh);

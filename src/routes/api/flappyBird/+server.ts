@@ -2,13 +2,12 @@ import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
 import type { RequestHandler } from './$types.js';
 export const POST: RequestHandler = async ({ request, locals }) => {
-
 	if (!locals.user) {
 		throw error(401, { message: 'User not logged in' });
 	}
 	const body = await request.json();
-	const highscore = await db.flappybird.findUnique({
-		where: { id: locals.user.id } as any
+	const highscore = await db.flappybird.findFirst({
+		where: { userId: locals.user.id, difficulty: body.difficulty }
 	});
 
 	if (highscore) {
@@ -41,14 +40,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 };
 export const GET = async ({ url }) => {
-	const difficulty = url.searchParams.get('difficulty');
-	if (!difficulty) {
-		throw error(400, { message: 'no difficulty parameter' });
-	}
 	try {
-		const highscores = await db.flappybird.findMany({
-			where: { difficulty: difficulty }
-		});
+		const highscores = await db.flappybird.findMany();
 		return json(highscores, { status: 200 });
 	} catch (err) {
 		throw error(500, { message: 'database connection failed, error: ' + err });
