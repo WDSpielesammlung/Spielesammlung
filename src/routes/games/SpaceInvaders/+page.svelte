@@ -4,9 +4,6 @@
 	import { canvas, canvasCtx } from '../../../Store';
 	import { Table } from '@skeletonlabs/skeleton';
 	import type { TableSource } from '@skeletonlabs/skeleton';
-	import { tableMapperValues } from '@skeletonlabs/skeleton';
-	import type { Test } from 'vitest';
-	import type { Data } from '@skeletonlabs/skeleton/dist/utilities/DataTable/types';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
 	export let data;
@@ -48,21 +45,14 @@
 		canvasCtx.set($canvas!.getContext('2d'));
 	});
 	const tableBody = [['no score yet', '2']];
-	// data.allHighscoresData.forEach((score: any) => {
-	// 	tableBody.push([String(score.user.username), String(score.score)]);
-	// });
 	for (let i = 0; i < data.allHighscoresData.length; i++) {
 		tableBody[i] = [
 			String(data.allHighscoresData[i].user.username),
 			String(data.allHighscoresData[i].score)
 		];
 	}
-	console.log(tableBody);
-
 	const table: TableSource = {
-		// A list of heading labels.
 		head: ['Username', 'Score'],
-		// The data visibly shown in your table body UI.
 		body: tableBody
 	};
 </script>
@@ -75,12 +65,13 @@
 	<canvas id="canvas" hidden bind:this={$canvas} />
 
 	{#if !fullscreen}
-		<div class="flex">
-			<span>
-				<button class="button" on:click={start}>Play</button>
-			</span>
+		<div class="w-full h-screen flex flex-col items-center justify-center p-10">
+			<button type="button" class="btn btn-xl variant-filled" on:click={start}>Play</button>
+			<h1 class="m-10 text-4xl">
+				Your Highscore: {data.userHighscoreData.score ? data.userHighscoreData.score : '0'}
+			</h1>
+			<Table class="table-comfortable w-auto min-w-[25vw]" source={table} />
 		</div>
-		<Table source={table} />
 	{/if}
 </main>
 <svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={Game.onMouseMove} />
