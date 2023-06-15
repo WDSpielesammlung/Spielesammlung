@@ -66,6 +66,7 @@
 
 	{#if !fullscreen}
 		<div class="w-full h-screen flex flex-col items-center justify-center p-10">
+			<h1 class="m-10 text-5xl">Space Invaders</h1>
 			<button type="button" class="btn btn-xl variant-filled" on:click={start}>Play</button>
 			<h1 class="m-10 text-4xl">
 				Your Highscore: {data.userHighscoreData.score ? data.userHighscoreData.score : '0'}
