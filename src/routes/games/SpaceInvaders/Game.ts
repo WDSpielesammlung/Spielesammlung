@@ -54,6 +54,7 @@ export function startGame() {
 	playerattributes.bulletVelocity = -5;
 	playerattributes.firerate = 500;
 	upgradeCost.bulletvelocityUpgrade = 10;
+	upgradeCost.firerateUpgrade = 10;
 	ambientSound = new Audio('/sounds/background.mp3');
 	ambientSound.loop = true;
 	ambientSound.play();
