@@ -1,12 +1,13 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export async function load({ locals }) {
+export const load = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(302, '/login');
 	}
-	const url1 = process.env.API_URL + 'spaceInvaders/user?userId=' + locals.user.id;
-	const url2 = process.env.API_URL + 'spaceInvaders';
+	const url1 = process.env.API_URL + '/SpaceInvaders/user?userId=' + locals.user.id;
+	const url2 = process.env.API_URL + '/SpaceInvaders';
+
 	try {
 		const userHighscoreResponse = await fetch(url1);
 		const userHighscoreData = await userHighscoreResponse.json();
@@ -16,4 +17,4 @@ export async function load({ locals }) {
 	} catch (err) {
 		console.log(err);
 	}
-}
+};

@@ -77,7 +77,7 @@ function resetTimer() {
 async function gameOver() {
 	if (gameRunning) {
 		gameRunning = false;
-		const response = await fetch('/api/spaceInvaders', {
+		const response = await fetch('/api/SpaceInvaders', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ score: playerattributes.score })
