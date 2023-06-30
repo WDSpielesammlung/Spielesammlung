@@ -42,7 +42,16 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 //get all user highscores
 export const GET: RequestHandler = async () => {
 	try {
-		const highscores = await db.wordle.findMany({});
+		const highscores = await db.wordle.findMany({
+			select: {
+				score: true,
+				user: {
+					select: {
+						username: true
+					}
+				}
+			}
+		});
 		return json(highscores, { status: 200 });
 	} catch (err) {
 		throw error(500, { message: 'database connection failed, error: ' + err });
