@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(302, '/login');
 	}
@@ -16,7 +16,7 @@ export const load = async ({ locals }) => {
 
 		let overallHighscores = new Array(0, 0, 0);
 		let userHighscores = new Array(0, 0, 0);
-		allHighscoresData.forEach((highscore) => {
+		allHighscoresData.forEach((highscore: any) => {
 			if (highscore.difficulty === 0 && highscore.score > overallHighscores[0]) {
 				overallHighscores[0] = highscore.score;
 			} else if (highscore.difficulty === 1 && highscore.score > overallHighscores[1]) {
@@ -25,7 +25,7 @@ export const load = async ({ locals }) => {
 				overallHighscores[2] = highscore.score;
 			}
 		});
-		userHighscoreData.forEach((highscore) => {
+		userHighscoreData.forEach((highscore: any) => {
 			if (highscore.difficulty === 0) {
 				userHighscores[0] = highscore.score;
 			} else if (highscore.difficulty === 1) {

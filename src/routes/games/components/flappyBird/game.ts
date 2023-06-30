@@ -267,7 +267,7 @@ export class GameController {
 
 	async newHighscore(s: number, diff: number) {
 		try {
-			const reponse = await fetch('/api/flappyBird', {
+			const response = await fetch('/api/flappyBird', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ score: s, difficulty: diff })
