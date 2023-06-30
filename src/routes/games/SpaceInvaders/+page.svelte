@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
 	import { Table } from '@skeletonlabs/skeleton';
+	import { invalidateAll } from '$app/navigation';
 	import type { TableSource } from '@skeletonlabs/skeleton';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
@@ -13,6 +14,7 @@
 		if (fullscreen) {
 			mainWindow!.style.cursor = 'none';
 		} else {
+			invalidateAll();
 			$canvas!.hidden = true;
 			Game.leaveGame();
 			mainWindow!.style.cursor = 'auto';
@@ -44,17 +46,6 @@
 		$canvas!.height = screen.height;
 		canvasCtx.set($canvas!.getContext('2d'));
 	});
-	const tableBody = [['no score yet', '2']];
-	for (let i = 0; i < data.allHighscoresData.length; i++) {
-		tableBody[i] = [
-			String(data.allHighscoresData[i].user.username),
-			String(data.allHighscoresData[i].score)
-		];
-	}
-	const table: TableSource = {
-		head: ['Username', 'Score'],
-		body: tableBody
-	};
 </script>
 
 <main
@@ -71,7 +62,9 @@
 			<h1 class="m-10 text-4xl">
 				Your Highscore: {data.userHighscoreData.score ? data.userHighscoreData.score : '0'}
 			</h1>
-			<Table class="table-comfortable w-auto min-w-[25vw]" source={table} />
+			{#if data.table}
+				<Table class="table-comfortable w-auto min-w-[25vw]" source={data.table} />
+			{/if}
 		</div>
 	{/if}
 </main>
