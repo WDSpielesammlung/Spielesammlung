@@ -74,8 +74,7 @@ export const actions: Actions = {
 					maxAge: 60 * 60 * 24
 				});
 			}
-
-			return { username: '', password: '', usernameFilled: false, passwordFilled: false };
+			throw redirect(308, '/');
 		} catch (error) {
 			console.log('database connection failed \n' + error);
 		}
