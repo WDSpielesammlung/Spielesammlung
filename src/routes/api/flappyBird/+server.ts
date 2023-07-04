@@ -41,7 +41,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 };
 export const GET = async ({ url }) => {
 	try {
-		const highscores = await db.flappybird.findMany();
+		const highscores = await db.flappybird.findMany({
+			select: {
+				score: true,
+				difficulty: true,
+				user: {
+					select: {
+						username: true
+					}
+				}
+			}
+		});
 		return json(highscores, { status: 200 });
 	} catch (err) {
 		throw error(500, { message: 'database connection failed, error: ' + err });
