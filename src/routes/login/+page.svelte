@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let form;
-
+	import type { ActionData } from './$types';
+	export let form: ActionData;
 </script>
 
 <main>
@@ -13,11 +13,7 @@
 				</div>
 			</div>
 
-			<form
-				class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white"
-				action="?/login"
-				method="post"
-			>
+			<form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white" action="?/login" method="post">
 				<div>
 					<label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Username</span>
@@ -30,7 +26,16 @@
 							class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 						/>
 					</label>
+					{#if !form?.usernameFilled && form != null}
+						<div class="float-left mt-1 mb-6">
+							<div class="justify-between flex items-center">
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+								<p class="ml-2">Bitte gebe einen Usernamen an!</p>
+							</div>
+						</div>
+					{/if}
 				</div>
+
 				<div class="mt-4">
 					<label for="pass" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Password</span>
@@ -44,14 +49,17 @@
 						/>
 					</label>
 				</div>
-				<div class="flow-root">
+				{#if !form?.passwordFilled && form != null}
+					<div class="float-left mt-1">
+						<div class="justify-between flex items-center">
+							<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+							<p class="ml-2">Bitte gebe ein Passwort an!</p>
+						</div>
+					</div>
+				{/if}
+				<div class="">
 					<div class="mt-6 float-left">
 						<button type="submit" class="btn variant-filled">Log-In</button>
-					</div>
-					<div class="float-right mt-6 pt-2">
-						{#if form?.message}
-							<p class="text-red-600">{form.message}</p>
-						{/if}
 					</div>
 				</div>
 			</form>
