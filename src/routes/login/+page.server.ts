@@ -74,9 +74,9 @@ export const actions: Actions = {
 					maxAge: 60 * 60 * 24
 				});
 			}
-			throw redirect(308, '/');
 		} catch (error) {
 			console.log('database connection failed \n' + error);
 		}
+		throw redirect(303, '/');
 	}
 };

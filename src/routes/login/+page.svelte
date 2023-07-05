@@ -5,14 +5,13 @@
 
 <main>
 	<div class="w-full h-screen flex items-center justify-center">
-		<div class="grid grid-cols-2">
+		<div class="grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2">
 			<div>
 				<div class="h-full flex flex-col justify-center items-center">
 					<p class="text-4xl">Sign in at</p>
 					<p class="text-6xl mt-4 animate-bounce" style="color: #df49a6">Gamebox</p>
 				</div>
 			</div>
-
 			<form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white" action="?/login" method="post">
 				<div>
 					<label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
@@ -60,6 +59,15 @@
 				<div class="">
 					<div class="mt-6 float-left">
 						<button type="submit" class="btn variant-filled">Log-In</button>
+					</div>
+					<div class="float-right items-center m-4 mt-8">
+						<p class="text-sm font-light text-gray-500 dark:text-gray-400">
+							Don’t have an account yet? <a
+								href="#"
+								class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+								>Sign up</a
+							>
+						</p>
 					</div>
 				</div>
 			</form>
