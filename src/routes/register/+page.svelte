@@ -1,5 +1,56 @@
 <script lang="ts">
-	export let form;
+	let usernameInput: string = '';
+	let emailInput: string = '';
+
+	let usernameTaken: boolean = false;
+	let emailTaken: boolean = false;
+	let initialStateUsername: boolean = true;
+	let initialStateEmail: boolean = true;
+
+	async function checkUsername(username: string) {
+		const url = 'http://localhost:5173/api/user/username?userName=' + username;
+
+		try {
+			const promise = await fetch(url);
+			usernameTaken = await promise.json();
+		} catch (err) {
+			console.log(err);
+		}
+
+		if (usernameInput == '') {
+			initialStateUsername = true;
+		} else {
+			initialStateUsername = false;
+		}
+	}
+
+	async function checkEmail(email: string) {
+		const url = 'http://localhost:5173/api/user/email?email=' + email;
+		if (
+			email
+				.toLowerCase()
+				.match(
+					/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+				) == null
+		) {
+			initialStateEmail = true;
+		} else {
+			try {
+				const promise = await fetch(url);
+				emailTaken = await promise.json();
+			} catch (err) {
+				console.log(err);
+			}
+			if (emailInput == '') {
+				initialStateEmail = true;
+			} else {
+				initialStateEmail = false;
+			}
+		}
+	}
+
+	$: checkUsername(usernameInput);
+	$: checkEmail(emailInput);
 </script>
 
 <main>
@@ -16,28 +67,55 @@
 				class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white"
 				action="?/register"
 				method="post"
+				novalidate
 			>
 				<div>
 					<label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
-						<span>Username</span>
+						{#if initialStateUsername}
+							<span class="">Username</span>
+						{:else if usernameTaken}
+							<div class="flex">
+								<span class="">Username</span>
+								<p class="ml-1 text-red-500">already taken!</p>
+							</div>
+						{:else}
+							<div class="flex">
+								<span>Username</span>
+								<i class="fa-solid fa-check pt-2 ml-2 fa-lg" style="color: #00ff04;" />
+							</div>
+						{/if}
 						<input
 							name="username"
 							type="text"
 							id="username"
 							placeholder="Username"
 							class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							bind:value={usernameInput}
 						/>
 					</label>
 				</div>
 				<div class="mt-4">
 					<label for="email" class="label block text-gray-700 text-sm font-bold mb-2">
-						<span>E-Mail</span>
+						{#if initialStateEmail}
+							<span>E-Mail</span>
+						{:else if emailTaken}
+							<div>
+								<span>E-Mail</span>
+								<p class="ml-1 text-red-500">Seems like your already registered!</p>
+							</div>
+						{:else}
+							<div class="flex">
+								<span>E-Mail</span>
+								<i class="fa-solid fa-check pt-2 ml-2 fa-lg" style="color: #00ff04;" />
+							</div>
+						{/if}
 						<input
 							name="email"
 							type="email"
 							id="email"
 							placeholder="E-Mail"
 							class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							bind:value={emailInput}
 						/>
 					</label>
 				</div>
@@ -69,10 +147,13 @@
 					<div class="mt-6 float-left">
 						<button type="submit" class="btn variant-filled">Register</button>
 					</div>
-					<div class="mt-6 pt-2 float-right">
-						{#if form?.message}
-							<p class="text-red-600">{form.message}</p>
-						{/if}
+					<div class="float-right items-center m-4 mt-8 pr-6">
+						<p class="text-sm font-light text-gray-500 dark:text-gray-400">
+							Already registered? <a
+								href="/login"
+								class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login</a
+							>
+						</p>
 					</div>
 				</div>
 			</form>

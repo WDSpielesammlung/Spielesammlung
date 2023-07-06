@@ -36,10 +36,11 @@ export const actions: Actions = {
 					password: await bcrypt.hash(password, 10)
 				}
 			});
-			return { status: 201 };
+			//return { status: 201 };
 		} catch (error) {
 			console.log('database connection failed \n' + error);
-			return fail(500, {message: 'Internal Server Error'})
+			return fail(500, { message: 'Internal Server Error' });
 		}
+		throw redirect(303, '/');
 	}
 };

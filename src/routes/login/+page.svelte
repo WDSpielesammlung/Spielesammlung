@@ -60,10 +60,10 @@
 					<div class="mt-6 float-left">
 						<button type="submit" class="btn variant-filled">Log-In</button>
 					</div>
-					<div class="float-right items-center m-4 mt-8">
+					<div class="float-right items-center m-4 mt-10">
 						<p class="text-sm font-light text-gray-500 dark:text-gray-400">
 							Don’t have an account yet? <a
-								href="#"
+								href="/register"
 								class="font-medium text-primary-600 hover:underline dark:text-primary-500"
 								>Sign up</a
 							>
