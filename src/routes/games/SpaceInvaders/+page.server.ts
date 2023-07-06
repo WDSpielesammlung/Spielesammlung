@@ -1,7 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import type { TableSource } from '@skeletonlabs/skeleton';
 
-export async function load({ locals }) {
+export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(302, '/login');
 	}
@@ -13,8 +14,21 @@ export async function load({ locals }) {
 		const userHighscoreData = await userHighscoreResponse.json();
 		const allHighscoresResponse = await fetch(url2);
 		const allHighscoresData = await allHighscoresResponse.json();
-		return { userHighscoreData, allHighscoresData };
+
+		const tableBody = [['no score yet', '2']];
+		for (let i = 0; i < allHighscoresData.length; i++) {
+			tableBody[i] = [
+				String(allHighscoresData[i].user.username),
+				String(allHighscoresData[i].score)
+			];
+		}
+		const table: TableSource = {
+			head: ['Username', 'Score'],
+			body: tableBody
+		};
+
+		return { userHighscoreData, table };
 	} catch (err) {
 		console.log(err);
 	}
-}
+};

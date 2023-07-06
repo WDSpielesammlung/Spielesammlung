@@ -6,8 +6,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		throw error(401, { message: 'User not logged in' });
 	}
 	const body = await request.json();
-	const highscore = await db.flappybird.findUnique({
-		where: { userId: locals.user.id }
+	const highscore = await db.flappybird.findFirst({
+		where: { userId: locals.user.id, difficulty: body.difficulty }
 	});
 
 	if (highscore) {
@@ -40,13 +40,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 };
 export const GET = async ({ url }) => {
-	const difficulty = url.searchParams.get('difficulty');
-	if (!difficulty) {
-		throw error(400, { message: 'no difficulty parameter' });
-	}
 	try {
 		const highscores = await db.flappybird.findMany({
-			where: { difficulty: difficulty }
+			select: {
+				score: true,
+				difficulty: true,
+				user: {
+					select: {
+						username: true
+					}
+				}
+			}
 		});
 		return json(highscores, { status: 200 });
 	} catch (err) {
