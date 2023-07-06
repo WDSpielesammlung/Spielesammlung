@@ -99,9 +99,9 @@
 						{#if initialStateEmail}
 							<span>E-Mail</span>
 						{:else if emailTaken}
-							<div>
+							<div class="flex">
 								<span>E-Mail</span>
-								<p class="ml-1 text-red-500">Seems like your already registered!</p>
+								<p class="ml-2 text-red-500">Seems like your already registered!</p>
 							</div>
 						{:else}
 							<div class="flex">
