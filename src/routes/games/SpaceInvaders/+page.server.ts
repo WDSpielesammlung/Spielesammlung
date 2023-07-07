@@ -15,7 +15,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 		const allHighscoresResponse = await fetch(url2);
 		const allHighscoresData = await allHighscoresResponse.json();
 
-		const tableBody = [['no score yet', '2']];
+		allHighscoresData.sort((a: any, b: any) => {
+			if (a.score > b.score) {
+				return -1;
+			}
+		});
+
+		const tableBody = [['', '']];
 		for (let i = 0; i < allHighscoresData.length; i++) {
 			tableBody[i] = [
 				String(allHighscoresData[i].user.username),
