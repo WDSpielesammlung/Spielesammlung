@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PUBLIC_API_URL } from '$env/static/public';
+
 	let usernameInput: string = '';
 	let emailInput: string = '';
 
@@ -8,7 +10,7 @@
 	let initialStateEmail: boolean = true;
 
 	async function checkUsername(username: string) {
-		const url = 'http://localhost:5173/api/user/username?userName=' + username;
+		const url = PUBLIC_API_URL + 'user/username?userName=' + username;
 
 		try {
 			const promise = await fetch(url);
@@ -25,7 +27,7 @@
 	}
 
 	async function checkEmail(email: string) {
-		const url = 'http://localhost:5173/api/user/email?email=' + email;
+		const url = process.env.API_URL + 'user/email?email=' + email;
 		if (
 			email
 				.toLowerCase()
