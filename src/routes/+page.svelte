@@ -354,7 +354,7 @@
 					/>
 					<g id="g"
 						><text font-size="1.5" text-anchor="middle"
-							><a href="https://www.google.com/">©Spielewebsite DHBW | All Rights Reserved</a></text
+							>©Spielewebsite DHBW | All Rights Reserved</text
 						></g
 					>
 					<g id="twitterIcon">
