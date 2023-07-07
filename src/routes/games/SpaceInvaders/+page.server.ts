@@ -1,13 +1,14 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { TableSource } from '@skeletonlabs/skeleton';
+import { PUBLIC_API_URL } from '$env/static/public';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(302, '/login');
 	}
-	const url1 = process.env.API_URL + '/SpaceInvaders/user?userId=' + locals.user.id;
-	const url2 = process.env.API_URL + '/SpaceInvaders';
+	const url1 = PUBLIC_API_URL + '/SpaceInvaders/user?userId=' + locals.user.id;
+	const url2 = PUBLIC_API_URL + '/SpaceInvaders';
 
 	try {
 		const userHighscoreResponse = await fetch(url1);
