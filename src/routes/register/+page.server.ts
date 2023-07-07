@@ -2,7 +2,6 @@ import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { db } from '../../lib/database';
 import bcrypt from 'bcrypt';
-import { goto } from '$app/navigation';
 
 export const actions: Actions = {
 	register: async ({ request }) => {
