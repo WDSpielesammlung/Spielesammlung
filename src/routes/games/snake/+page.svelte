@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte/internal";
   
-    let TICK_DELAY = 200;
-    let GRID_SIZE = 20;
+    const TICK_DELAY = 200;
+    const GRID_SIZE = 20;
     let SNAKE_HEAD = 0;
     let lost = false;
     type Cell = "empty" | "snake" | "food";
@@ -35,7 +35,7 @@
         gridWithSnake[x][y] = "snake";
       });
     }
-    const fn = (n: number) => {
+    const reBuild = (n: number) => {
       setTimeout(() => {
         const [x, y] = snakePosition[SNAKE_HEAD];
         const [dx, dy] = direction;
@@ -67,11 +67,11 @@
         }
   
         snakePosition = [newHead, ...snakeBody];
-        fn(TICK_DELAY - Math.min(snakePosition.length, 15) * 10);
+        reBuild(TICK_DELAY - Math.min(snakePosition.length, 15) * 10);
       }, n);
     };
     onMount(() => {
-      fn(TICK_DELAY);
+      reBuild(TICK_DELAY);
     });
   
     function restart() {
@@ -83,7 +83,7 @@
       gridWithSnake = grid;
       randomFood();
       lost = false;
-      fn(TICK_DELAY);
+      reBuild(TICK_DELAY);
     }
   </script>
   
