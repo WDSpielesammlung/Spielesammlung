@@ -39,6 +39,10 @@
 		game.startGame();
 	}
 
+	function onMouseMove(e: any) {
+		game.onMouseMove(e);
+	}
+
 	onMount(() => {
 		mainWindow = document.getElementById('game');
 		document.onkeydown = (e) => game.KeyboardHandler(e);
@@ -69,4 +73,4 @@
 		</div>
 	{/if}
 </main>
-<svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={game.onMouseMove} />
+<svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={onMouseMove} />

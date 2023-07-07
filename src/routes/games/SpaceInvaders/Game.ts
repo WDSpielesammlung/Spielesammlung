@@ -9,7 +9,6 @@ let c: HTMLCanvasElement | null;
 canvas.subscribe((canvas) => (c = canvas));
 let ctx: CanvasRenderingContext2D | null;
 canvasCtx.subscribe((canvasCtx) => (ctx = canvasCtx));
-let animationFrame: number;
 
 type Playerattributes = {
 	score: number;
@@ -36,6 +35,7 @@ export class Game {
 	ambientSound: HTMLAudioElement;
 	highscore: boolean;
 	colorChange: number;
+	animationFrame: number;
 	gameRunning: boolean;
 
 	constructor() {
@@ -59,9 +59,9 @@ export class Game {
 		};
 		this.ambientSound = new Audio('/sounds/background.mp3');
 		this.ambientSound.loop = true;
-		this.ambientSound.play();
 		this.highscore = false;
 		this.colorChange = 0;
+		this.animationFrame = 0;
 		this.gameRunning = false;
 	}
 
@@ -86,10 +86,15 @@ export class Game {
 		};
 		this.ambientSound = new Audio('/sounds/background.mp3');
 		this.ambientSound.loop = true;
-		this.ambientSound.play();
 		this.highscore = false;
 		this.colorChange = 0;
-		this.startGame();
+	}
+
+	leaveGame() {
+		this.ambientSound.pause();
+		this.resetTimer();
+		this.resetAttributes();
+		document.exitFullscreen();
 	}
 
 	startGame() {
@@ -100,9 +105,11 @@ export class Game {
 		this.shoot();
 		this.invadershoot();
 		this.animate();
+		this.ambientSound.play();
 	}
 
 	resetTimer() {
+		cancelAnimationFrame(this.animationFrame);
 		this.intervallIDs?.forEach((intervallID, index) => {
 			clearInterval(intervallID);
 		});
@@ -119,20 +126,12 @@ export class Game {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ score: this.playerattributes.score })
 			});
-			console.log(response.status);
 			if (response.status === 201) {
 				this.highscore = true;
 			}
 			const gameOverSound = new Audio('/sounds/gameOver.mp3');
 			gameOverSound.play();
 		}
-	}
-
-	leaveGame() {
-		this.ambientSound.pause();
-		this.resetTimer();
-		cancelAnimationFrame(animationFrame);
-		document.exitFullscreen();
 	}
 
 	shoot() {
@@ -215,7 +214,9 @@ export class Game {
 			case 'a':
 				if (!this.gameRunning) {
 					this.ambientSound.pause();
+					this.resetTimer();
 					this.resetAttributes();
+					this.startGame();
 				}
 				break;
 			case 'e':
@@ -251,7 +252,7 @@ export class Game {
 	}
 
 	animate() {
-		animationFrame = requestAnimationFrame(() => this.animate());
+		this.animationFrame = requestAnimationFrame(() => this.animate());
 		ctx!.fillStyle = 'black';
 		ctx?.fillRect(0, 0, screen.width, screen.height);
 		this.update();
@@ -366,7 +367,7 @@ export class Game {
 		const playAgainText = 'press [a] to play again';
 		const exitText = 'press [e] to exit';
 		const highscoreText = 'NEW HIGHSCORE!';
-		const fontSize = screen.height / 35;
+		const fontSize = screen.width / 60;
 
 		ctx!.fillStyle = 'white';
 		ctx!.font = fontSize + 'px Arial';
