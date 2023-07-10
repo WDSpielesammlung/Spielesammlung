@@ -199,12 +199,6 @@
 
 <style>
 
-	:global(html),
-  	:global(body),
-  	:global(#svelte) {
-		background-color: var(--color-bg-0);
-	}
-
 	form {
 		width: 100%;
 		height: 100%;
@@ -219,8 +213,9 @@
 	}
 
 	.page {
-		margin: 0;
-		padding: 0;
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
 		background-color: var(--color-bg-0);
 	}
 
