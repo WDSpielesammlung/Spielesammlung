@@ -72,6 +72,21 @@ export class Game {
 		return true;
 	}
 
+	
+	async postHighscore(score: number) {
+		try{
+		const response = await fetch('/api/wordle', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ score: score })
+		});
+		console.log(response.status);
+		}
+		catch (err) {
+			console.log(err)
+		}
+	}
+
 	/**
 	 * Serialize game state so it can be set as a cookie
 	 */

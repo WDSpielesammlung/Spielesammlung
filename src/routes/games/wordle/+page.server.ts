@@ -1,10 +1,29 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { Game } from './game';
 import type { PageServerLoad, Actions } from './$types';
+import { PUBLIC_API_URL } from '$env/static/public';
 
-export const load = (({ cookies }) => {
+type userHighscoreData = {username: string, score: number}
+
+export const load = (async ({ cookies, locals }) => {
 	const game = new Game(cookies.get('wordle'));
+	if (!locals.user) {
+		throw redirect(302, '/login');
+	}
 	
+	const url = PUBLIC_API_URL + "/wordle/user?userId=" + locals.user.id
+	let userHighscoreData: userHighscoreData; 
+	userHighscoreData = {username: "error", score: -1};
+
+	try{
+		const userHighscoreResponse = await fetch(url);
+		userHighscoreData = await userHighscoreResponse.json();
+	}
+	catch (err) {
+		console.log(err);
+	}
+	
+
 	return {
 		/**
 		 * The player's guessed words so far
@@ -27,7 +46,11 @@ export const load = (({ cookies }) => {
 		 */
 		score: game.score, // Add the score property
 
+		userHighscore: userHighscoreData.score
+
+	
 	};
+	
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -73,3 +96,26 @@ export const actions = {
 		cookies.delete('wordle');
 	}
 } satisfies Actions;
+function async(arg0: ({ cookies, locals }: { cookies: any; locals: any; }) => {
+	/**
+	 * The player's guessed words so far
+	 */
+	guesses: string[];
+	/**
+	 * An array of strings like '__x_c' corresponding to the guesses, where 'x' means
+	 * an exact match, and 'c' means a close match (right letter, wrong place)
+	 */
+	answers: string[];
+	/**
+	 * The correct answer, revealed if the game is over
+	 */
+	answer: string | null;
+	/**
+	 * The current score
+	 */
+	score: number; // Add the score property
+	userHighscore: any;
+} | undefined): PageServerLoad {
+	throw new Error('Function not implemented.');
+}
+
