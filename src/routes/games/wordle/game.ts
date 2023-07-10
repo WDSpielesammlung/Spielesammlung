@@ -69,6 +69,7 @@ export class Game {
 		this.answers.push(answer.join(''));
 		this.score = 500 - (this.answers.length - 1) * 100; // Update the score
 		this.postHighscore()
+		console.log("Beim POST angekommen")
 
 		return true;
 	}
