@@ -9,18 +9,34 @@ export const actions: Actions = {
 		const username = String(data.get('username'));
 		const password = String(data.get('password'));
 
+		if (!username && !password) {
+			return fail(400, {
+				message: 'Please enter your Username!',
+				username: username,
+				password: password,
+				usernameFilled: false,
+				passwordFilled: false
+			});
+		}
+
 		if (!username) {
 			return fail(400, {
 				message: 'Please enter your Username!',
 				username: username,
-				password: password
+				password: password,
+				usernameFilled: false,
+				passwordFilled: true
 			});
 		}
 
 		if (!password) {
-			return fail(400, { message: 'Please enter your Password!',
-			username: username,
-			password: password });
+			return fail(400, {
+				message: 'Please enter your Password!',
+				username: username,
+				password: password,
+				usernameFilled: true,
+				passwordFilled: false
+			});
 		}
 
 		try {
@@ -30,11 +46,19 @@ export const actions: Actions = {
 				}
 			});
 			if (!user) {
-				return fail(400, { message: 'user does not  exist' });
+				return fail(400, {
+					message: 'user does not  exist',
+					usernameFilled: true,
+					passwordFilled: true
+				});
 			}
 			const userPassword = await bcrypt.compare(password, user.password);
 			if (!userPassword) {
-				return fail(400, { message: 'password incorrect' });
+				return fail(400, {
+					message: 'password incorrect',
+					usernameFilled: true,
+					passwordFilled: true
+				});
 			}
 			const authenticatedUser = await db.user.update({
 				where: { username: user.username },
@@ -45,11 +69,14 @@ export const actions: Actions = {
 				cookies.set('session', authenticatedUser.userAuthToken, {
 					path: '/',
 					sameSite: 'strict',
+					httpOnly: true,
+					secure: true,
 					maxAge: 60 * 60 * 24
 				});
 			}
 		} catch (error) {
 			console.log('database connection failed \n' + error);
 		}
+		throw redirect(303, '/');
 	}
 };
