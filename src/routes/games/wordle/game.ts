@@ -68,17 +68,18 @@ export class Game {
 
 		this.answers.push(answer.join(''));
 		this.score = 500 - (this.answers.length - 1) * 100; // Update the score
+		this.postHighscore()
 
 		return true;
 	}
 
 	
-	async postHighscore(score: number) {
+	async postHighscore() {
 		try{
 		const response = await fetch('/api/wordle', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ score: score })
+			body: JSON.stringify({ score: this.score })
 		});
 		console.log(response.status);
 		}
