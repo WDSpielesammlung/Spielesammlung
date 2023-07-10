@@ -83,119 +83,128 @@
 
 <svelte:window on:keydown={keydown} />
 
-<div class="header">
-	<h1>Wordle</h1>
+<div class="page">
+	<div class="header">
+		<h1>Wordle</h1>
+	</div>
+
+	<form
+		method="POST"
+		action="?/enter"
+		use:enhance={() => {
+			// prevent default callback from resetting the form
+			return ({ update }) => {
+				update({ reset: false });
+			};
+		}}
+	>
+		
+
+		<div class="grid" class:playing={!won} class:bad-guess={form?.badGuess}>
+			{#each Array.from(Array(6).keys()) as row (row)}
+				{@const current = row === i}
+				<h2 class="visually-hidden">Row {row + 1}</h2>
+				<div class="row" class:current>
+					{#each Array.from(Array(5).keys()) as column (column)}
+						{@const answer = data.answers[row]?.[column]}
+						{@const value = data.guesses[row]?.[column] ?? ''}
+						{@const selected = current && column === data.guesses[row].length}
+						{@const exact = answer === 'x'}
+						{@const close = answer === 'c'}
+						{@const missing = answer === '_'}
+						<div class="letter" class:exact class:close class:missing class:selected>
+							{value}
+							<span class="visually-hidden">
+								{#if exact}
+									(correct)
+								{:else if close}
+									(present)
+								{:else if missing}
+									(absent)
+								{:else}
+									empty
+								{/if}
+							</span>
+							<input name="guess" disabled={!current} type="hidden" {value} />
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+
+		<div class="controls">
+			{#if won || data.answers.length >= 6}
+				{#if !won && data.answer}
+					<p>the answer was "{data.answer}"</p>
+				{/if}
+				<button data-key="enter" class="restart selected" formaction="?/restart">
+					{won ? 'you won :)' : `game over :(`} play again?
+				</button>
+				<div class="score-container">
+					<div class="score">Your score: {data.score}</div>
+				</div>
+			{:else}
+				<div class="keyboard">
+					<button data-key="enter" class:selected={submittable} disabled={!submittable}>enter</button>
+
+					<button
+						on:click|preventDefault={update}
+						data-key="backspace"
+						formaction="?/update"
+						name="key"
+						value="backspace"
+					>
+						back
+					</button>
+
+					{#each ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'] as row}
+						<div class="row">
+							{#each row as letter}
+								<button
+									on:click|preventDefault={update}
+									data-key={letter}
+									class={classnames[letter]}
+									disabled={data.guesses[i].length === 5}
+									formaction="?/update"
+									name="key"
+									value={letter}
+									aria-label="{letter} {description[letter] || ''}"
+								>
+									{letter}
+								</button>
+							{/each}
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
+	</form>
+
+	{#if won}
+		<div
+			style="position: absolute; left: 50%; top: 30%"
+			use:confetti={{
+				particleCount: $reduced_motion ? 0 : undefined,
+				force: 0.7,
+				stageWidth: window.innerWidth,
+				stageHeight: window.innerHeight,
+				colors: ['#ff3e00', '#40b3ff', '#676778']
+			}}	
+		/>
+		<div class="score-container">
+			<div class="score">Your score: {data.score}</div>
+		</div>
+	{/if}
 </div>
 
-<form
-	method="POST"
-	action="?/enter"
-	use:enhance={() => {
-		// prevent default callback from resetting the form
-		return ({ update }) => {
-			update({ reset: false });
-		};
-	}}
->
-	
-
-	<div class="grid" class:playing={!won} class:bad-guess={form?.badGuess}>
-		{#each Array.from(Array(6).keys()) as row (row)}
-			{@const current = row === i}
-			<h2 class="visually-hidden">Row {row + 1}</h2>
-			<div class="row" class:current>
-				{#each Array.from(Array(5).keys()) as column (column)}
-					{@const answer = data.answers[row]?.[column]}
-					{@const value = data.guesses[row]?.[column] ?? ''}
-					{@const selected = current && column === data.guesses[row].length}
-					{@const exact = answer === 'x'}
-					{@const close = answer === 'c'}
-					{@const missing = answer === '_'}
-					<div class="letter" class:exact class:close class:missing class:selected>
-						{value}
-						<span class="visually-hidden">
-							{#if exact}
-								(correct)
-							{:else if close}
-								(present)
-							{:else if missing}
-								(absent)
-							{:else}
-								empty
-							{/if}
-						</span>
-						<input name="guess" disabled={!current} type="hidden" {value} />
-					</div>
-				{/each}
-			</div>
-		{/each}
-	</div>
-
-	<div class="controls">
-		{#if won || data.answers.length >= 6}
-			{#if !won && data.answer}
-				<p>the answer was "{data.answer}"</p>
-			{/if}
-			<button data-key="enter" class="restart selected" formaction="?/restart">
-				{won ? 'you won :)' : `game over :(`} play again?
-			</button>
-			<div class="score-container">
-				<div class="score">Your score: {data.score}</div>
-			</div>
-		{:else}
-			<div class="keyboard">
-				<button data-key="enter" class:selected={submittable} disabled={!submittable}>enter</button>
-
-				<button
-					on:click|preventDefault={update}
-					data-key="backspace"
-					formaction="?/update"
-					name="key"
-					value="backspace"
-				>
-					back
-				</button>
-
-				{#each ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'] as row}
-					<div class="row">
-						{#each row as letter}
-							<button
-								on:click|preventDefault={update}
-								data-key={letter}
-								class={classnames[letter]}
-								disabled={data.guesses[i].length === 5}
-								formaction="?/update"
-								name="key"
-								value={letter}
-								aria-label="{letter} {description[letter] || ''}"
-							>
-								{letter}
-							</button>
-						{/each}
-					</div>
-				{/each}
-			</div>
-		{/if}
-	</div>
-</form>
-
-{#if won}
-	<div
-		style="position: absolute; left: 50%; top: 30%"
-		use:confetti={{
-			particleCount: $reduced_motion ? 0 : undefined,
-			force: 0.7,
-			stageWidth: window.innerWidth,
-			stageHeight: window.innerHeight,
-			colors: ['#ff3e00', '#40b3ff', '#676778']
-		}}	
-	/>
-	<div class="score-container">
-		<div class="score">Your score: {data.score}</div>
-	</div>
-{/if}
-
 <style>
+
+	:global(html),
+  	:global(body),
+  	:global(#svelte) {
+		background-color: var(--color-bg-0);
+	}
+
 	form {
 		width: 100%;
 		height: 100%;
@@ -206,6 +215,13 @@
 		gap: 1rem;
 		flex: 1;
 		margin-top: 2rem;
+		background-color: var(--color-bg-0);
+	}
+
+	.page {
+		margin: 0;
+		padding: 0;
+		background-color: var(--color-bg-0);
 	}
 
 	.how-to-play {
@@ -261,6 +277,8 @@
 	.header {
     text-align: center;
     margin-top: 2rem;
+	background-color: var(--color-bg-0);
+	color: white;
   	}
 
   	.header h1 {
@@ -279,23 +297,24 @@
 		border: none;
 		font-size: calc(0.08 * var(--width));
 		border-radius: 2px;
-		background: white;
+		background: var(--color-bg-1);
 		margin: 0;
-		color: rgba(0, 0, 0, 0.7);
+		color: var(--color-text);
 	}
 
 	.letter.missing {
-		background: rgba(255, 255, 255, 0.5);
-		color: rgba(0, 0, 0, 0.5);
+		background: var(--color-bg-2);
+    	color: rgba(255, 255, 255, 0.5);
 	}
 
 	.letter.exact {
 		background: var(--color-theme-2);
-		color: white;
+    	color: white;
 	}
 
 	.letter.close {
-		border: 2px solid var(--color-theme-2);
+		background: var(--color-theme-3);
+    	color: white;
 	}
 
 	.selected {
@@ -306,6 +325,8 @@
 		text-align: center;
 		justify-content: center;
 		height: min(18vh, 10rem);
+		background-color: var(--color-bg-0);
+		color: white;
 	}
 
 	.keyboard {
@@ -327,8 +348,8 @@
 	.keyboard button,
 	.keyboard button:disabled {
 		--size: min(8vw, 4vh, 40px);
-		background-color: white;
-		color: black;
+		background-color: var(--color-bg-1);
+		color: var(--color-text);
 		width: var(--size);
 		border: none;
 		border-radius: 2px;
@@ -342,11 +363,12 @@
 	}
 
 	.keyboard button.missing {
-		opacity: 0.5;
+		opacity: 0.7;
 	}
 
 	.keyboard button.close {
-		border: 2px solid var(--color-theme-2);
+		background: var(--color-theme-3);
+		color: white;
 	}
 
 	.keyboard button:focus {
@@ -381,9 +403,11 @@
 	.restart {
 		width: 100%;
 		padding: 1rem;
-		background: rgba(255, 255, 255, 0.5);
+		background: var(--color-bg-1);
 		border-radius: 2px;
 		border: none;
+		color: var(--color-text);
+		margin-top: 1rem;
 	}
 
 	.restart:focus,
@@ -418,26 +442,28 @@
 	}
 
 	:root {
-	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	--font-mono: 'Fira Mono', monospace;
-	--color-bg-0: rgb(202, 216, 228);
-	--color-bg-1: hsl(209, 36%, 86%);
-	--color-bg-2: hsl(224, 44%, 95%);
-	--color-theme-1: #ff3e00;
-	--color-theme-2: #4075a6;
-	--color-text: rgba(0, 0, 0, 0.7);
-	--column-width: 42rem;
-	--column-margin-top: 4rem;
-	font-family: var(--font-body);
-	color: var(--color-text);
+		--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+			Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		--font-mono: 'Fira Mono', monospace;
+		--color-bg-0: #101419;
+		--color-bg-1: #1c222a;
+		--color-bg-2: #242b34;
+		--color-theme-1: #ff6330;
+		--color-theme-2: #3c943c;
+		--color-theme-3: #97952b;
+		--color-text: rgba(255, 255, 255, 0.9);
+		--column-width: 42rem;
+		--column-margin-top: 4rem;
+		font-family: var(--font-body);
+		color: var(--color-text);
 	}
 
 	.score-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		background-color: var(--color-bg-0);
 	}
 
 	.score {
