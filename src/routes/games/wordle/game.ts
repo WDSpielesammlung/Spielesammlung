@@ -5,21 +5,25 @@ export class Game {
 	guesses: string[];
 	answers: string[];
 	answer: string;
+	score: number;
+
 
 	/**
 	 * Create a game object from the player's cookie, or initialise a new game
 	 */
 	constructor(serialized: string | undefined = undefined) {
 		if (serialized) {
-			const [index, guesses, answers] = serialized.split('-');
+			const [index, guesses, answers, score] = serialized.split('-');
 
 			this.index = +index;
 			this.guesses = guesses ? guesses.split(' ') : [];
 			this.answers = answers ? answers.split(' ') : [];
+			this.score = +score;
 		} else {
 			this.index = Math.floor(Math.random() * words.length);
 			this.guesses = ['', '', '', '', '', ''];
 			this.answers = [];
+			this.score = 500;
 		}
 
 		this.answer = words[this.index];
@@ -59,9 +63,11 @@ export class Game {
 					available[index] = ' ';
 				}
 			}
+
 		}
 
 		this.answers.push(answer.join(''));
+		this.score = 500 - (this.answers.length - 1) * 100; // Update the score
 
 		return true;
 	}
@@ -70,6 +76,6 @@ export class Game {
 	 * Serialize game state so it can be set as a cookie
 	 */
 	toString() {
-		return `${this.index}-${this.guesses.join(' ')}-${this.answers.join(' ')}`;
+		return `${this.index}-${this.guesses.join(' ')}-${this.answers.join(' ')}-${this.score}`;
 	}
 }

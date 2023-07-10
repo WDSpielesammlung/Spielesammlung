@@ -4,7 +4,7 @@ import type { PageServerLoad, Actions } from './$types';
 
 export const load = (({ cookies }) => {
 	const game = new Game(cookies.get('wordle'));
-
+	
 	return {
 		/**
 		 * The player's guessed words so far
@@ -20,7 +20,13 @@ export const load = (({ cookies }) => {
 		/**
 		 * The correct answer, revealed if the game is over
 		 */
-		answer: game.answers.length >= 6 ? game.answer : null
+		answer: game.answers.length >= 6 ? game.answer : null,
+
+		/**
+		 * The current score
+		 */
+		score: game.score, // Add the score property
+
 	};
 }) satisfies PageServerLoad;
 

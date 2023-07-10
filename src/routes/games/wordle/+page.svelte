@@ -83,12 +83,9 @@
 
 <svelte:window on:keydown={keydown} />
 
-<svelte:head>
-	<title>wordle</title>
-	<meta name="description" content="A wordle clone written in SvelteKit" />
-</svelte:head>
-
-<h1 class="visually-hidden">wordle</h1>
+<div class="header">
+	<h1>Wordle</h1>
+</div>
 
 <form
 	method="POST"
@@ -100,7 +97,7 @@
 		};
 	}}
 >
-	<a class="how-to-play" href="/wordle/how-to-play">How to play</a>
+	
 
 	<div class="grid" class:playing={!won} class:bad-guess={form?.badGuess}>
 		{#each Array.from(Array(6).keys()) as row (row)}
@@ -142,6 +139,9 @@
 			<button data-key="enter" class="restart selected" formaction="?/restart">
 				{won ? 'you won :)' : `game over :(`} play again?
 			</button>
+			<div class="score-container">
+				<div class="score">Your score: {data.score}</div>
+			</div>
 		{:else}
 			<div class="keyboard">
 				<button data-key="enter" class:selected={submittable} disabled={!submittable}>enter</button>
@@ -188,8 +188,11 @@
 			stageWidth: window.innerWidth,
 			stageHeight: window.innerHeight,
 			colors: ['#ff3e00', '#40b3ff', '#676778']
-		}}
+		}}	
 	/>
+	<div class="score-container">
+		<div class="score">Your score: {data.score}</div>
+	</div>
 {/if}
 
 <style>
@@ -202,6 +205,7 @@
 		justify-content: center;
 		gap: 1rem;
 		flex: 1;
+		margin-top: 2rem;
 	}
 
 	.how-to-play {
@@ -253,6 +257,15 @@
 	.grid.playing .row.current {
 		filter: drop-shadow(3px 3px 10px var(--color-bg-0));
 	}
+
+	.header {
+    text-align: center;
+    margin-top: 2rem;
+  	}
+
+  	.header h1 {
+    font-size: 2rem;
+  	}
 
 	.letter {
 		aspect-ratio: 1;
@@ -403,5 +416,96 @@
 			transform: translateX(0);
 		}
 	}
+
+	:root {
+	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-mono: 'Fira Mono', monospace;
+	--color-bg-0: rgb(202, 216, 228);
+	--color-bg-1: hsl(209, 36%, 86%);
+	--color-bg-2: hsl(224, 44%, 95%);
+	--color-theme-1: #ff3e00;
+	--color-theme-2: #4075a6;
+	--color-text: rgba(0, 0, 0, 0.7);
+	--column-width: 42rem;
+	--column-margin-top: 4rem;
+	font-family: var(--font-body);
+	color: var(--color-text);
+	}
+
+	.score-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+	}
+
+	.score {
+		font-size: 2rem;
+		font-weight: bold;
+		padding: 1rem;
+		background-color: var(--color-theme-1);
+		color: white;
+		border-radius: 2px;
+	}
+
+	h1,
+	h2,
+	p {
+		font-weight: 400;
+	}
+
+	p {
+		line-height: 1.5;
+	}
+
+
+	h1 {
+		font-size: 2rem;
+		text-align: center;
+	}
+
+	h2 {
+		font-size: 1rem;
+	}
+
+	.text-column {
+		display: flex;
+		max-width: 48rem;
+		flex: 0.6;
+		flex-direction: column;
+		justify-content: center;
+		margin: 0 auto;
+	}
+	
+	input,
+	button {
+		font-size: inherit;
+		font-family: inherit;
+	}
+
+	button:focus:not(:focus-visible) {
+		outline: none;
+	}
+
+	@media (min-width: 720px) {
+		h1 {
+			font-size: 2.4rem;
+		}
+	}
+
+	.visually-hidden {
+		border: 0;
+		clip: rect(0 0 0 0);
+		height: auto;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+		white-space: nowrap;
+	}
 </style>
+
+
 
