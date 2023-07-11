@@ -62,15 +62,10 @@ export class GameController {
 		}
 	}
 
-	public setHighscores(overallScore: number[] | undefined, userScore: number[] | undefined) {
-		this.highscoreOverall = overallScore;
-		this.highscoreUser = userScore;
-	}
-
 	private frame!: Frame;
 	private velocity = 0;
-	public highscoreUser = [];
-	public highscoreOverall = [];
+	public highscoreUser: number[] | undefined = [];
+	public highscoreOverall: number[] | undefined = [];
 	constructor(
 		public pipeGap = 20,
 		public generateNewPipePercent = 0.4,
@@ -111,6 +106,11 @@ export class GameController {
 		return this.frame;
 	}
 
+	public setHighscores(overallScore: number[] | undefined, userScore: number[] | undefined) {
+		this.highscoreOverall = overallScore;
+		this.highscoreUser = userScore;
+	}
+
 	public nextFrame() {
 		if (this.frame.gameOver || !this.frame.gameStarted) {
 			return this.frame;
@@ -126,11 +126,11 @@ export class GameController {
 			this.frame.ground.height,
 			this.frame.pipes
 		);
-		if (this.frame.gameOver && this.highscoreUser[this.difficulty] < this.frame.score) {
+		if (this.frame.gameOver && this.highscoreUser![this.difficulty] < this.frame.score) {
 			this.frame.newHighscore = true;
-			this.highscoreUser[this.difficulty] = this.frame.score;
-			if (this.highscoreOverall[this.difficulty] < this.frame.score) {
-				this.highscoreOverall[this.difficulty] = this.frame.score;
+			this.highscoreUser![this.difficulty] = this.frame.score;
+			if (this.highscoreOverall![this.difficulty] < this.frame.score) {
+				this.highscoreOverall![this.difficulty] = this.frame.score;
 			}
 			this.newHighscore(this.frame.score, this.difficulty);
 		}
