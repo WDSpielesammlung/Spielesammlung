@@ -88,25 +88,26 @@ export class Game {
 		this.ambientSound.loop = true;
 		this.highscore = false;
 		this.colorChange = 0;
-  }
-async function gameOver() {
-	if (gameRunning) {
-		gameRunning = false;
-		try{
-		const response = await fetch('/api/SpaceInvaders', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ score: playerattributes.score })
-		});
-		console.log(response.status);
-		if (response.status === 201) {
-			highscore = true;
+	}
+	async gameOver() {
+		if (this.gameRunning) {
+			this.gameRunning = false;
+			try {
+				const response = await fetch('/api/SpaceInvaders', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ score: this.playerattributes.score })
+				});
+				console.log(response.status);
+				if (response.status === 201) {
+					this.highscore = true;
+				}
+			} catch (err) {
+				console.log(err);
+			}
+			const gameOverSound = new Audio('/sounds/gameOver.mp3');
+			gameOverSound.play();
 		}
-		} catch(err){
-			console.log(err)
-		}
-		const gameOverSound = new Audio('/sounds/gameOver.mp3');
-		gameOverSound.play();
 	}
 
 	leaveGame() {
@@ -135,22 +136,6 @@ async function gameOver() {
 		this.timeoutIDs?.forEach((timeoutID, index) => {
 			clearTimeout(timeoutID);
 		});
-	}
-
-	async gameOver() {
-		if (this.gameRunning) {
-			this.gameRunning = false;
-			const response = await fetch('/api/SpaceInvaders', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ score: this.playerattributes.score })
-			});
-			if (response.status === 201) {
-				this.highscore = true;
-			}
-			const gameOverSound = new Audio('/sounds/gameOver.mp3');
-			gameOverSound.play();
-		}
 	}
 
 	shoot() {
