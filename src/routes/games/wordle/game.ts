@@ -27,6 +27,7 @@ export class Game {
 		}
 
 		this.answer = words[this.index];
+		console.log(this.answer)
 	}
 
 	/**
@@ -36,6 +37,7 @@ export class Game {
 	enter(letters: string[]) {
 		const word = letters.join('');
 		const valid = allowed.has(word);
+		
 
 		if (!valid) return false;
 
@@ -43,6 +45,7 @@ export class Game {
 
 		const available = Array.from(this.answer);
 		const answer = Array(5).fill('_');
+		
 
 		// first, find exact matches
 		for (let i = 0; i < 5; i += 1) {
@@ -69,6 +72,7 @@ export class Game {
 		this.answers.push(answer.join(''));
 		this.score = 500 - (this.answers.length - 1) * 100; // Update the score
 		this.postHighscore()
+		console.log("Beim POST angekommen")
 
 		return true;
 	}

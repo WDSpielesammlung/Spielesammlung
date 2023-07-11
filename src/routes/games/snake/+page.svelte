@@ -18,7 +18,15 @@
     }
   
     function randomFood() {
-      grid[getRandomInt(GRID_SIZE)][getRandomInt(GRID_SIZE)] = "food";
+
+      while(true){
+        let x_food: number = getRandomInt(GRID_SIZE)
+        let y_food: number = getRandomInt(GRID_SIZE)
+        if(gridWithSnake[x_food][y_food]="empty"){
+          grid[x_food][y_food] = "food";
+          break;
+        }
+    }
     }
   
     randomFood();
