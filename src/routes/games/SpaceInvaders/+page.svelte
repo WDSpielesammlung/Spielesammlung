@@ -1,13 +1,13 @@
 <script lang="ts">
-	import * as Game from './Game';
+	import { Game } from './Game';
 	import { onMount } from 'svelte';
 	import { canvas, canvasCtx } from '../../../Store';
 	import { Table } from '@skeletonlabs/skeleton';
 	import { invalidateAll } from '$app/navigation';
-	import type { TableSource } from '@skeletonlabs/skeleton';
 	let mainWindow: HTMLElement | null;
 	let fullscreen = false;
 	export let data;
+	let game: Game;
 
 	function onFullscreenChange() {
 		fullscreen = document.fullscreenElement ? true : false;
@@ -16,7 +16,7 @@
 		} else {
 			invalidateAll();
 			$canvas!.hidden = true;
-			Game.leaveGame();
+			game.leaveGame();
 			mainWindow!.style.cursor = 'auto';
 		}
 	}
@@ -36,15 +36,20 @@
 	function start() {
 		$canvas!.hidden = false;
 		enterFullScreen(mainWindow);
-		Game.startGame();
+		game.startGame();
+	}
+
+	function onMouseMove(e: any) {
+		game.onMouseMove(e);
 	}
 
 	onMount(() => {
 		mainWindow = document.getElementById('game');
-		document.onkeydown = (e) => Game.KeyboardHandler(e);
+		document.onkeydown = (e) => game.KeyboardHandler(e);
 		$canvas!.width = screen.width;
 		$canvas!.height = screen.height;
 		canvasCtx.set($canvas!.getContext('2d'));
+		game = new Game();
 	});
 </script>
 
@@ -68,4 +73,4 @@
 		</div>
 	{/if}
 </main>
-<svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={Game.onMouseMove} />
+<svelte:window on:fullscreenchange={onFullscreenChange} on:mousemove={onMouseMove} />
