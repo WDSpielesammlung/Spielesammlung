@@ -12,7 +12,7 @@
 	let direction = [0, 1];
 	let gridWithSnake = grid;
 	export let data;
-	let highscore: number = 0;
+	let highscore: number = data.userHighscoreData.score;
 
 	function getRandomInt(max: number) {
 		return Math.floor(Math.random() * Math.floor(max));
@@ -30,25 +30,20 @@
 	}
 
 	async function uploadHighscore() {
+
+		if(snakePosition.length > data.userHighscoreData.score)
+				highscore = snakePosition.length
+
 		try {
 			const response = await fetch('/api/snake', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ score: snakePosition.length })
 			});
+
+			
 		} catch (err) {
 			console.log(err);
-		}
-	}
-
-	export async function getHighscore() {
-		const url = PUBLIC_API_URL + '/snake/user?userId=' + data.user.id;
-
-		const response = await fetch(url);
-
-		const highscore_details = await response.json();
-		if (highscore < highscore_details.score) {
-			highscore = highscore_details.score;
 		}
 	}
 
@@ -78,7 +73,6 @@
 
 			if (isOutOfBounds(newHead[0]) || isOutOfBounds(newHead[1])) {
 				uploadHighscore();
-				getHighscore();
 				lost = true;
 				return;
 			}
@@ -93,7 +87,6 @@
 
 			if (snakeBody.some((x) => x[0] === newHead[0] && x[1] === newHead[1])) {
 				uploadHighscore();
-				getHighscore();
 				lost = true;
 				return;
 			}
@@ -103,7 +96,6 @@
 		}, n);
 	};
 	onMount(() => {
-		getHighscore();
 		reBuild(TICK_DELAY);
 	});
 

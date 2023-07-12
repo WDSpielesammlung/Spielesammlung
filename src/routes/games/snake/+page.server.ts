@@ -3,8 +3,15 @@ import type { PageServerLoad } from './$types';
 import type { TableSource } from '@skeletonlabs/skeleton';
 import { PUBLIC_API_URL } from '$env/static/public';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, url, cookies }) => {
 	if (!locals.user) {
+		cookies.set('previousPage', url.href, {
+			path: '/',
+			sameSite: 'strict',
+			httpOnly: true,
+			secure: true,
+			maxAge: 60 * 60
+		});
 		throw redirect(302, '/login');
 	}
 	const url1 = PUBLIC_API_URL + '/snake/user?userId=' + locals.user.id;
@@ -24,19 +31,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 			}
 		});
 
-		const tableBody = [['', '']];
-		for (let i = 0; i < allHighscoresData.length; i++) {
-			tableBody[i] = [
-				String(allHighscoresData[i].user.username),
-				String(allHighscoresData[i].score)
-			];
-		}
-		const table: TableSource = {
-			head: ['Username', 'Score'],
-			body: tableBody
-		};
-
-		return { userHighscoreData, table };
+		return { userHighscoreData};
 	} catch (err) {
 		console.log(err);
 	}
