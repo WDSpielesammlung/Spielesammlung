@@ -15,12 +15,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 	try {
 		const user = await db.user.findUnique({
 			where: { userAuthToken: decryptedAuthToken },
-			select: { id: true, username: true }
+			select: { id: true, username: true, email: true }
 		});
 		if (user) {
 			event.locals.user = {
 				id: user.id,
-				name: user.username
+				name: user.username,
+				email: user.email
 			};
 		}
 	} catch (error) {
