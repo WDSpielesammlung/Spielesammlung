@@ -2,6 +2,8 @@ import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { db } from '../../lib/database';
 import bcrypt from 'bcrypt';
+import CryptoJS from 'crypto-js';
+import { PUBLIC_AES_KEY } from '$env/static/public';
 
 export const actions: Actions = {
 	login: async ({ cookies, request }) => {
@@ -66,7 +68,11 @@ export const actions: Actions = {
 			});
 
 			if (authenticatedUser.userAuthToken) {
-				cookies.set('session', authenticatedUser.userAuthToken, {
+				const encryptedAuthToken: string = CryptoJS.AES.encrypt(
+					authenticatedUser.userAuthToken,
+					PUBLIC_AES_KEY
+				).toString();
+				cookies.set('Token', encryptedAuthToken, {
 					path: '/',
 					sameSite: 'strict',
 					httpOnly: true,
