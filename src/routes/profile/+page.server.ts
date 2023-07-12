@@ -8,6 +8,6 @@ export const load: PageServerLoad = async () => {
 		const data = await response.json();
 		console.log(data);
 	} catch (err) {
-		console.log('leg mich');
+		console.log(err);
 	}
 };
