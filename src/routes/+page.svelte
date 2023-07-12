@@ -417,7 +417,7 @@
 					</g>
 					<g id="impressumText">
 						<text font-size="1.3" text-anchor="middle">
-							<a href="https://www.google.com/">Impressum</a>
+							<a href='/impressum'>Impressum</a>
 						</text>
 					</g>
 				</defs>
@@ -716,6 +716,7 @@
 
 	.footerContainer {
 		background-color: transparent;
+		max-width: 100%
 	}
 
 	.facebook:hover svg {
