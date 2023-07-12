@@ -21,15 +21,6 @@ export const load: PageServerLoad = async ({ locals, url, cookies }) => {
 		
 		const userHighscoreResponse = await fetch(url1);
 		const userHighscoreData = await userHighscoreResponse.json();
-		const allHighscoresResponse = await fetch(url2);
-		const allHighscoresData = await allHighscoresResponse.json();
-
-
-		allHighscoresData.sort((a: any, b: any) => {
-			if (a.score > b.score) {
-				return -1;
-			}
-		});
 
 		return { userHighscoreData};
 	} catch (err) {
