@@ -29,21 +29,20 @@
 		}
 	}
 
+	// compare current score with highscore
+	// if current score is bigger, highscore is beeing updated
 	async function uploadHighscore() {
-
-		if(snakePosition.length > data.userHighscoreData.score)
-				highscore = snakePosition.length
-
-		try {
-			const response = await fetch('/api/snake', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ score: snakePosition.length })
-			});
-
-			
-		} catch (err) {
-			console.log(err);
+		if (snakePosition.length > data.userHighscoreData.score) {
+			highscore = snakePosition.length;
+			try {
+				const response = await fetch('/api/snake', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ score: snakePosition.length })
+				});
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	}
 
@@ -139,11 +138,7 @@
 	{/if}
 	<h3 class="tcenter">Your Score: {snakePosition.length}</h3>
 	<h3 class="tcenter">
-		Overall Highscore: {highscore
-			? highscore >= snakePosition.length
-				? highscore
-				: snakePosition.length
-			: 'Loading...'}
+		Overall Highscore: {highscore >= snakePosition.length ? highscore : snakePosition.length}
 	</h3>
 	<div class="center">
 		<div>
