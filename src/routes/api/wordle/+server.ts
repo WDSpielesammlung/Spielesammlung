@@ -12,18 +12,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	});
 
 	if (highscore) {
-		if (highscore.score < body.score) {
-			try {
-				await db.wordle.update({
-					where: { id: highscore.id },
-					data: { score: body.score }
-				});
-				return json({ message: 'new highscore added' }, { status: 201 });
-			} catch (err) {
-				throw error(500, { message: 'database connection failed, error: ' + err });
-			}
-		} else {
-			return json({ message: 'old highscore greater than current score' }, { status: 200 });
+		try {
+			await db.wordle.update({
+				where: { id: highscore.id },
+				data: { score: { increment: body.score } }
+			});
+			return json({ message: 'new highscore added' }, { status: 201 });
+		} catch (err) {
+			throw error(500, { message: 'database connection failed, error: ' + err });
 		}
 	} else {
 		try {

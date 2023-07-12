@@ -20,5 +20,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	} catch (error) {
 		console.log('db connection failed \n' + error);
 	}
+
 	return await resolve(event);
 };
