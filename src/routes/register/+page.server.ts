@@ -64,10 +64,10 @@ export const actions: Actions = {
 					maxAge: 60 * 60
 				});
 			}
-			throw redirect(303, cookies.get('previousPage')!);
 		} catch (error) {
 			console.log('database connection failed \n' + error);
 			return fail(500, { message: 'Internal Server Error' });
 		}
+		throw redirect(303, cookies.get('previousPage')!);
 	}
 };

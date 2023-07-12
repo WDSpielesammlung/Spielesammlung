@@ -4,6 +4,7 @@ import { db } from '../../lib/database';
 import bcrypt from 'bcrypt';
 import CryptoJS from 'crypto-js';
 import { PUBLIC_AES_KEY } from '$env/static/public';
+import { goto } from '$app/navigation';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -91,9 +92,10 @@ export const actions: Actions = {
 					maxAge: 60 * 60 * 24
 				});
 			}
-			throw redirect(303, cookies.get('previousPage')!);
 		} catch (error) {
 			console.log('database connection failed \n' + error);
+			return fail(500, { message: 'Internal Server Error' });
 		}
+		throw redirect(303, cookies.get('previousPage')!);
 	}
 };
