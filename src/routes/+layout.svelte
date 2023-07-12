@@ -90,7 +90,7 @@
 		</li>
 
 		<li class="nav-item">
-			<a href="/" class="nav-link">
+			<a href="/impressum" class="nav-link">
 				<img src="/images/Navbar/SmileyAnimated.gif" alt="" />
 				<img class="static-image" src="/images/Navbar/SmileyStatic.png" alt="" />
 				<span class="link-text">Impressum</span>
