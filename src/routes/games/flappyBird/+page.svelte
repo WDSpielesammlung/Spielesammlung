@@ -1,4 +1,5 @@
 <script lang="ts">
+// ursprüngiche Orientierung an Video: https://www.youtube.com/watch?v=nhrYBoVI8pQ
 	import { GameController } from './game';
 	import Pipe from './Pipe.svelte';
 	import Bird from './Bird.svelte';
