@@ -62,15 +62,15 @@ export class GameController {
 		}
 	}
 
-	public setHighscores(overallScore: number[] | undefined, userScore: number[] | undefined) {
+	public setHighscores(overallScore: number[], userScore: number[]) {
 		this.highscoreOverall = overallScore;
 		this.highscoreUser = userScore;
 	}
 
 	private frame!: Frame;
 	private velocity = 0;
-	public highscoreUser = [];
-	public highscoreOverall = [];
+	public highscoreUser: number[] = [];
+	public highscoreOverall: number[] = [];
 	constructor(
 		public pipeGap = 20,
 		public generateNewPipePercent = 0.4,

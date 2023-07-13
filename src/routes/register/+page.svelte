@@ -10,7 +10,7 @@
 	let initialStateEmail: boolean = true;
 
 	async function checkUsername(username: string) {
-		const url = PUBLIC_API_URL + 'user/username?userName=' + username;
+		const url = PUBLIC_API_URL + '/user/username?userName=' + username;
 
 		try {
 			const promise = await fetch(url);
@@ -27,7 +27,7 @@
 	}
 
 	async function checkEmail(email: string) {
-		const url = process.env.API_URL + 'user/email?email=' + email;
+		const url = PUBLIC_API_URL + '/user/email?email=' + email;
 		if (
 			email
 				.toLowerCase()

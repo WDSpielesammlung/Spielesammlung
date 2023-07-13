@@ -6,26 +6,22 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		throw error(401, { message: 'User not logged in' });
 	}
 	const body = await request.json();
-	const highscore = await db.flappybird.findFirst({
-		where: { userId: locals.user.id, difficulty: body.difficulty }
-	});
+	try {
+		const highscore = await db.flappybird.findFirst({
+			where: { userId: locals.user.id, difficulty: body.difficulty }
+		});
 
-	if (highscore) {
-		if (highscore.score < body.score) {
-			try {
+		if (highscore) {
+			if (highscore.score < body.score) {
 				await db.flappybird.update({
 					where: { id: highscore.id },
 					data: { score: body.score, difficulty: body.difficulty }
 				});
 				return json({ message: 'new highscore added' }, { status: 201 });
-			} catch (err) {
-				throw error(500, { message: 'database connection failed, error: ' + err });
+			} else {
+				return json({ message: 'old highscore greater than current score' }, { status: 200 });
 			}
 		} else {
-			return json({ message: 'old highscore greater than current score' }, { status: 200 });
-		}
-	} else {
-		try {
 			await db.flappybird.create({
 				data: {
 					score: body.score,
@@ -34,12 +30,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				}
 			});
 			return json({ message: 'new highscore added' }, { status: 201 });
-		} catch (err) {
-			throw error(500, { message: 'database connection failed, error: ' + err });
 		}
+	} catch (err) {
+		throw error(500, { message: 'database connection failed, error: ' + err });
 	}
 };
-export const GET = async ({ url }) => {
+export const GET = async () => {
 	try {
 		const highscores = await db.flappybird.findMany({
 			select: {

@@ -16,8 +16,7 @@ model User {
   username      String        @unique
   password      String
   userAuthToken String?       @unique
-  flappybird    flappybird? @relation(fields: [flappyBirdId], references: [id])
-  flappyBirdId String? @unique
+  flappybird    flappybird[]
   spaceinvader  spaceinvader?
   snake         snake?
   wordle        wordle?
@@ -28,8 +27,8 @@ model flappybird {
   id         String @id @default(uuid())
   score      Int    @default(0)
   difficulty Int
-  user       User[] 
-  userId     String 
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
 }
 
 model spaceinvader {
