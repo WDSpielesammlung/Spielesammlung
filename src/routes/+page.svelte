@@ -85,24 +85,6 @@
 			moveObjectY: -6,
 			moveSceneX: 0,
 			requestAnimationFrame: 0
-		},
-		{
-			id: 'quizDuell',
-			title: 'Quiz',
-			path: '/games/quiz',
-			clicked: false,
-			description:
-				'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.',
-			cameraFov: 50,
-			cameraNear: 0.1,
-			cameraFar: 1000,
-			cameraX: 0,
-			cameraY: 0.32,
-			cameraZ: 1.383,
-			modelpath: '/models/quiz/scene.gltf',
-			moveObjectY: -0.1,
-			moveSceneX: 0,
-			requestAnimationFrame: 0
 		}
 	];
 
@@ -287,7 +269,7 @@
 <div class="backgroundRainbow" />
 <content class="contentClass" id="content">
 	<div class="container">
-		<h1 class="animated-text">The Gamebox</h1>
+		<img class="gameboxLogo" src="/images/HomePage/LogoGamebox.png" alt="" />
 	</div>
 	{#each gamecards as gamecard, i}
 		<div class="containerhülle" id={gamecard.id + 'containerhülle'}>
@@ -482,13 +464,10 @@
 		height: 100vh;
 	}
 
-	.animated-text {
-		font-family: 'Arial', sans-serif;
-		font-size: 48px;
-		color: #fff;
-		animation: slide-in 1s cubic-bezier(0.42, 0, 0.58, 1) forwards;
-		opacity: 0;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+	.gameboxLogo{
+		margin-left: 20vw;
+		margin-right: auto;
+		display: flex;
 	}
 
 	@keyframes slide-in {
@@ -692,6 +671,11 @@
 			height: 50vh;
 			transition: 1s;
 		}
+		.gameboxLogo{
+		margin-left: 5vw;
+		margin-right: auto;
+		display: flex;
+	}
 	}
 
 	footer {

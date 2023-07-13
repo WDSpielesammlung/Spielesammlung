@@ -44,9 +44,11 @@
 		"@playwright/test": "^1.35.0",
 		"@prisma/client": "^4.15.0",
 		"@types/crypto-js": "^4.1.1",
+		"@types/js-cookie": "^3.0.3",
 		"bcrypt": "^5.1.0",
 		"crypto-js": "^4.1.1",
 		"gsap": "^3.12.1",
+		"js-cookie": "^3.0.5",
 		"three": "^0.152.2",
 		"three-addons": "^1.2.0"
 	}

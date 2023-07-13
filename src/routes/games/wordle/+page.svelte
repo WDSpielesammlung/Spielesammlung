@@ -3,6 +3,7 @@
 	import { enhance } from '$app/forms';
 	import type { PageData, ActionData } from './$types';
 	import { reduced_motion } from './reduced-motion';
+	import { PUBLIC_API_URL } from '$env/static/public';
 
 	export let data: PageData;
 
@@ -28,6 +29,19 @@
 	 * used for adding text for assistive technology (e.g. screen readers)
 	 */
 	let description: Record<string, string>;
+
+	async function postHighscore(score: number) {
+	try {
+	  const response = await fetch(PUBLIC_API_URL + '/wordle', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ score })
+	  });
+	  console.log(response.status);
+	} catch (err) {
+	  console.log(err);
+	}
+  	}
 
 	$: {
 		classnames = {};
@@ -83,8 +97,9 @@
 
 <svelte:window on:keydown={keydown} />
 
-<body>
+<main>
 <div class="page">
+	<div class="buffer"></div>
 	<div class="header">
 		<h1>Wordle</h1>
 	</div>
@@ -182,6 +197,7 @@
 	</form>
 
 	{#if won}
+		{postHighscore(data.score)}
 		<div
 			style="position: absolute; left: 50%; top: 30%"
 			use:confetti={{
@@ -192,23 +208,23 @@
 				colors: ['#ff3e00', '#40b3ff', '#676778']
 			}}	
 		/>
-		<div class="score-container">
-			<div class="score">Your score: {data.score}</div>
-		</div>
 	{/if}
 </div>
-</body>
+</main>
 
 <style>
-	body{
+	main{
 		background-color: var(--color-bg-0);
 		margin: 0px;
 		padding: 0px;
+		height: 100%;
+		width: 100%;
+		bottom: 0;
+		top: 0;
 	}
 
 	form {
 		width: 100%;
-		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -219,11 +235,16 @@
 		background-color: var(--color-bg-0);
 	}
 
+	.buffer{
+		height: 4vh;
+	}
+
 	.page {
-		height: 100%;
-		margin: 0px;
+		height: 100vh;
+		margin-top: 0px;
 		padding: 0px;
 		background-color: var(--color-bg-0);
+
 	}
 
 	.grid {
@@ -232,7 +253,6 @@
 		align-self: center;
 		justify-self: center;
 		width: 100%;
-		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
@@ -257,7 +277,6 @@
 
 	.header {
     text-align: center;
-    margin-top: 2rem;
 	background-color: var(--color-bg-0);
 	color: white;
   	}
@@ -423,7 +442,7 @@
 	}
 
 	:root {
-		--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		--font-main: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 			Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		--font-mono: 'Fira Mono', monospace;
 		--color-bg-0: #101419;
@@ -435,7 +454,7 @@
 		--color-text: rgba(255, 255, 255, 0.9);
 		--column-width: 42rem;
 		--column-margin-top: 4rem;
-		font-family: var(--font-body);
+		font-family: var(--font-main);
 		color: var(--color-text);
 	}
 
