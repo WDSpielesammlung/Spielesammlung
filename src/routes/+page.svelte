@@ -103,8 +103,6 @@
 
 	function handleBeschreibungClick(i: number) {
 		gamecards[i].clicked = !gamecards[i].clicked; // Hier wird der "clicked"-Wert der entsprechenden Gamecard geändert
-
-		//console.log(gamecards[i].clicked); // Beispielhaft wird die Beschreibung in der Konsole ausgegeben
 	}
 	/**Three js part*/
 
@@ -195,7 +193,6 @@
 			width = container.clientWidth;
 			height = container.clientHeight;
 			camera.aspect = width / height;
-			console.log(width + ' ' + height);
 			camera.updateProjectionMatrix();
 			renderer.setSize(width, height);
 		}); // Anpassung bei Fenstergrößenänderung

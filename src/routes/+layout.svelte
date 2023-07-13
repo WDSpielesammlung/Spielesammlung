@@ -15,8 +15,6 @@
 	import { page } from '$app/stores';
 	import Cookies from "js-cookie";
 
-	console.log($page.data.user)
-
 	//function for navigation bar
 	function scrollIntoView({ target }: any) {
 		let j = 1;
