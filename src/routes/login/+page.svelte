@@ -12,7 +12,11 @@
 					<p class="text-6xl mt-4 animate-bounce" style="color: #df49a6">Gamebox</p>
 				</div>
 			</div>
-			<form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col" action="?/login" method="post">
+			<form
+				class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col"
+				action="?/login"
+				method="post"
+			>
 				<div class="h-auto">
 					{#if form?.userNotExisting}
 						<p class="my-2" style="color: #ff0000;">Dieser Username existiert leider nicht.</p>
@@ -30,19 +34,17 @@
 					</label>
 				</div>
 				{#if !form?.usernameFilled && form != null}
-				<ul class="list">
-					<li>
-						<span>
+					<ul class="list">
+						<li>
+							<span>
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
-						</span>
-						<span>
-							<p class="ml-2">Bitte gebe einen Usernamen an!</p>
-						</span>
-					
-					</li>
-				</ul>
-								
-					{/if}
+							</span>
+							<span>
+								<p class="ml-2">Bitte gebe einen Usernamen an!</p>
+							</span>
+						</li>
+					</ul>
+				{/if}
 
 				<div class="mt-4">
 					{#if form?.passwordIncorrect}
@@ -64,19 +66,17 @@
 				</div>
 
 				{#if !form?.passwordFilled && form != null}
-				<ul class="list mb-2">
-					<li>
-						<span>
-							<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
-						</span>
-						<span>
-							<p class="ml-2 float-left">Bitte gebe ein Passwort an!</p>
-						</span>
-					</li>
-				</ul>
-							
-							
-					{/if}
+					<ul class="list mb-2">
+						<li>
+							<span>
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+							</span>
+							<span>
+								<p class="ml-2 float-left">Bitte gebe ein Passwort an!</p>
+							</span>
+						</li>
+					</ul>
+				{/if}
 
 				<div class="grid grid-cols-2 items-center w-max mt-4">
 					<div class=" float-left">
@@ -92,7 +92,6 @@
 						</p>
 					</div>
 				</div>
-				
 			</form>
 		</div>
 	</div>

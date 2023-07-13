@@ -11,11 +11,45 @@ export const actions: Actions = {
 		const username = String(data.get('username'));
 		const email = String(data.get('email'));
 		const password = String(data.get('password'));
+		const passwordRepeat = String(data.get('passwordRep'))
+
+		let usernameSet = true;
+		let emailSet = true;
+		let passwordSet = true;
+		let passwordRepSet = true;
+
+
 		console.log(email);
 		console.log(username);
 
-		if (!username || !email || !password) {
-			return fail(400, { message: 'invalid input' });
+		if (!username){
+			usernameSet = false;
+		}
+		if(!password){
+			passwordSet = false;
+		}
+
+		if(!email){
+			emailSet = false;
+		}
+
+		if(!passwordRepeat){
+			passwordRepSet = false;
+		}
+
+		if(!usernameSet || !passwordSet || !emailSet || !passwordRepSet){
+			return fail(400, {
+				message: "Please fill out all fields!",
+				usernameSet: usernameSet,
+				passwordSet: passwordSet,
+				emailSet: emailSet,
+				passwordRepSet: passwordRepSet,
+				username: username,
+				password: password,
+				email: email,
+				passwordRepeat: passwordRepeat,
+				userAlreadyExists: false
+			})
 		}
 
 		try {
@@ -27,7 +61,18 @@ export const actions: Actions = {
 
 			if (user.length > 0) {
 				console.log('user: ' + user);
-				return fail(400, { message: 'user already exists' });
+				return fail(400, { 
+					message: 'user already exists',
+					usernameSet: usernameSet,
+					passwordSet: passwordSet,
+					emailSet: emailSet,
+					passwordRepSet: passwordRepSet,
+					username: username,
+					password: password,
+					email: email,
+					passwordRepeat: passwordRepeat,
+					userAlreadyExists: true
+				 });
 			}
 
 			await db.user.create({
@@ -66,7 +111,18 @@ export const actions: Actions = {
 			}
 		} catch (error) {
 			console.log('database connection failed \n' + error);
-			return fail(500, { message: 'Internal Server Error' });
+			return fail(500, { 
+				message: 'Internal Server Error',
+				usernameSet: usernameSet,
+				passwordSet: passwordSet,
+				emailSet: emailSet,
+				passwordRepSet: passwordRepSet,
+				username: username,
+				password: password,
+				email: email,
+				passwordRepeat: passwordRepeat,
+				userAlreadyExists: false
+			 });
 		}
 		let previousPage = cookies.get('previousPage');
 		if(!previousPage){

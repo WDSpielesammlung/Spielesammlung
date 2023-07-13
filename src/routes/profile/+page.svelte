@@ -1,30 +1,46 @@
 <script lang="ts">
 	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
+	import { Table } from '@skeletonlabs/skeleton';
+	import type { TableSource } from '@skeletonlabs/skeleton';
+	export let data;
 	let tabSet: number = 0;
 </script>
 
 <main>
-	<div class="grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2">
+	<div class="grid grid-rows-2">
 		<div>
 			<p>userdata</p>
 		</div>
-		<div class="bg-white">
+		<div>
 			<TabGroup>
 				<Tab class="font-bold" bind:group={tabSet} name="Highscores" value={0}>
-					<svelte:fragment slot="lead">
-						<img class="static-image h-20 w-20" src="/images/Navbar/FlappyBirdStatic.png" alt="" />
-					</svelte:fragment>
-					<span>Flappybird</span>
+					<span>FlappyBird</span>
 				</Tab>
-				<Tab bind:group={tabSet} name="Rankings" value={1}>Friends</Tab>
+				<Tab class="font-bold" bind:group={tabSet} name="Spaceinvaders" value={1}>
+					<span class="">Space Invaders</span>
+				</Tab>
+				<Tab class="font-bold" bind:group={tabSet} name="snake" value={2}>
+					<span class="">Snake</span>
+				</Tab>
+				<Tab class="font-bold" bind:group={tabSet} name="wordle" value={3}>
+					<span class="">Wordle</span>
+				</Tab>
 				<!-- Tab Panels --->
 				<svelte:fragment slot="panel">
 					{#if tabSet === 0}
 						(tab panel 1 contents)
 					{:else if tabSet === 1}
-						(tab panel 2 contents)
+						{#if data.spaceinvaders}
+							<Table source={data.spaceinvaders} />
+						{/if}
 					{:else if tabSet === 2}
-						(tab panel 3 contents)
+						{#if data.snake}
+							<Table source={data.snake} />
+						{/if}
+					{:else if tabSet === 3}
+						{#if data.spaceinvaders}
+							<Table source={data.spaceinvaders} />
+						{/if}
 					{/if}
 				</svelte:fragment>
 			</TabGroup>
