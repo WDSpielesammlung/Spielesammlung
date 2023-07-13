@@ -274,7 +274,7 @@
 
 	/* Small screens */
 	
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 800px) {
 		.navbar {
 			bottom: 0;
 			width: 100vw;
@@ -304,7 +304,7 @@
 	
 	/* Large screens */
 	
-	@media only screen and (min-width: 600px) {
+	@media only screen and (min-width: 800px) {
 		.navbar {
 			top: 0;
 			width: 5rem;
