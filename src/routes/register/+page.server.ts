@@ -68,6 +68,10 @@ export const actions: Actions = {
 			console.log('database connection failed \n' + error);
 			return fail(500, { message: 'Internal Server Error' });
 		}
-		throw redirect(303, cookies.get('previousPage')!);
+		let previousPage = cookies.get('previousPage');
+		if(!previousPage){
+			previousPage = "/";
+		}
+		throw redirect(303, previousPage);
 	}
 };

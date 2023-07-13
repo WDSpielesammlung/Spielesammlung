@@ -24,7 +24,9 @@ export const actions: Actions = {
 				usernameFilled: false,
 				passwordFilled: false,
 				userNotExisting: false,
-				passwordIncorrect: false
+				passwordIncorrect: false,
+				username: username,
+				password: password
 			});
 		}
 
@@ -34,7 +36,9 @@ export const actions: Actions = {
 				usernameFilled: false,
 				passwordFilled: true,
 				userNotExisting: false,
-				passwordIncorrect: false
+				passwordIncorrect: false,
+				username: username,
+				password: password
 			});
 		}
 
@@ -44,7 +48,9 @@ export const actions: Actions = {
 				usernameFilled: true,
 				passwordFilled: false,
 				userNotExisting: false,
-				passwordIncorrect: false
+				passwordIncorrect: false,
+				username: username,
+				password: password
 			});
 		}
 
@@ -60,17 +66,22 @@ export const actions: Actions = {
 					userNotExisting: true,
 					passwordIncorrect: false,
 					usernameFilled: true,
-					passwordFilled: true
+					passwordFilled: true,
+					username: username,
+					password: password
 				});
 			}
 			const userPassword = await bcrypt.compare(password, user.password);
 			if (!userPassword) {
+				console.log("ich lande hier doch!")
 				return fail(400, {
 					message: 'password incorrect',
 					userNotExisting: false,
-					paswordIncorrect: true,
+					passwordIncorrect: true,
 					usernameFilled: true,
-					passwordFilled: true
+					passwordFilled: true,
+					username: username,
+					password: password
 				});
 			}
 			const authenticatedUser = await db.user.update({
@@ -96,6 +107,10 @@ export const actions: Actions = {
 			console.log('database connection failed \n' + error);
 			return fail(500, { message: 'Internal Server Error' });
 		}
-		throw redirect(303, cookies.get('previousPage')!);
+		let previousPage = cookies.get('previousPage');
+		if(!previousPage){
+			previousPage = "/";
+		}
+		throw redirect(303, previousPage);
 	}
 };

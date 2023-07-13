@@ -12,10 +12,10 @@
 					<p class="text-6xl mt-4 animate-bounce" style="color: #df49a6">Gamebox</p>
 				</div>
 			</div>
-			<form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white" action="?/login" method="post">
-				<div>
+			<form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white flex flex-col" action="?/login" method="post">
+				<div class="h-auto">
 					{#if form?.userNotExisting}
-						<p>user not existing</p>
+						<p class="my-2" style="color: #ff0000;">Dieser Username existiert leider nicht.</p>
 					{/if}
 					<label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Username</span>
@@ -28,42 +28,61 @@
 							class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 						/>
 					</label>
-					{#if !form?.usernameFilled && form != null}
-						<div class="float-left mt-1 mb-6">
-							<div class="justify-between flex items-center">
-								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
-								<p class="ml-2">Bitte gebe einen Usernamen an!</p>
-							</div>
-						</div>
-					{/if}
 				</div>
+				{#if !form?.usernameFilled && form != null}
+				<ul class="list">
+					<li>
+						<span>
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+						</span>
+						<span>
+							<p class="ml-2">Bitte gebe einen Usernamen an!</p>
+						</span>
+					
+					</li>
+				</ul>
+								
+					{/if}
 
 				<div class="mt-4">
-					<label for="pass" class="label block text-gray-700 text-sm font-bold mb-2">
-						<span>Password</span>
-						<input
-							value={form?.password ?? ''}
-							name="password"
-							type="password"
-							id="pass"
-							placeholder="Password"
-							class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-						/>
-					</label>
-				</div>
-				{#if !form?.passwordFilled && form != null}
-					<div class="float-left mt-1">
-						<div class="justify-between flex items-center">
-							<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
-							<p class="ml-2">Bitte gebe ein Passwort an!</p>
-						</div>
+					{#if form?.passwordIncorrect}
+						<p style="color: #ff0000;">Falsches Passwort!</p>
+					{/if}
+					<div>
+						<label for="pass" class="label block text-gray-700 text-sm font-bold mb-2 h">
+							<span>Password</span>
+							<input
+								value={form?.password ?? ''}
+								name="password"
+								type="password"
+								id="pass"
+								placeholder="Password"
+								class="font-medium input shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							/>
+						</label>
 					</div>
-				{/if}
-				<div class="">
-					<div class="mt-6 float-left">
+				</div>
+
+				{#if !form?.passwordFilled && form != null}
+				<ul class="list mb-2">
+					<li>
+						<span>
+							<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+						</span>
+						<span>
+							<p class="ml-2 float-left">Bitte gebe ein Passwort an!</p>
+						</span>
+					</li>
+				</ul>
+							
+							
+					{/if}
+
+				<div class="grid grid-cols-2 items-center w-max mt-4">
+					<div class=" float-left">
 						<button type="submit" class="btn variant-filled">Log-In</button>
 					</div>
-					<div class="float-right items-center m-4 mt-10">
+					<div class="float-right">
 						<p class="text-sm font-light text-gray-500 dark:text-gray-400">
 							Don’t have an account yet? <a
 								href="/register"
@@ -73,6 +92,7 @@
 						</p>
 					</div>
 				</div>
+				
 			</form>
 		</div>
 	</div>
