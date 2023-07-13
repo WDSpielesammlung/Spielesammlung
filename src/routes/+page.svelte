@@ -321,8 +321,8 @@
 			</div>
 		</div>
 	{/each}
-	<footer>
-		<div class="footerContainer">
+	<footer class="footerContainer">
+		<div class="footerDivContainer">
 			<svg viewBox="0 0 120 28">
 				<defs>
 					<mask id="xxx">
@@ -347,7 +347,6 @@
 					<icons id="twitter">
 						<twitter x="250" y="145" xlink:href="https://img.icons8.com/ios/50/twitter--v1.png" />
 					</icons>
-
 					<path
 						id="wave"
 						d="M 0,10 C 30,10 30,15 60,15 90,15 90,10 120,10 150,10 150,15 180,15 210,15 210,10 240,10 v 28 h -240 z"
@@ -417,23 +416,17 @@
 					</g>
 					<g id="impressumText">
 						<text font-size="1.3" text-anchor="middle">
-							<a href='/impressum'>Impressum</a>
+							<a href="/impressum">Impressum</a>
 						</text>
 					</g>
 				</defs>
-
-				<!-- 
-				<svg xmlns="http://www.w3.org/2000/svg" width="2.5" height="2.5" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-				
-			  </svg><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
-				-->
-				<use id="wave3" class="wave" xlink:href="#wave" x="0" y="-2" />
-				<use id="wave2" class="wave" xlink:href="#wave" x="0" y="0" />
+				<use id="wave3" class="wave" xlink:href="#wave" x="0" y="-2" width="100" />
+				<use id="wave2" class="wave" xlink:href="#wave" x="0" y="0" width="100" />
 
 				<circle class="drop drop1" cx="20" cy="2" r="1.8" />
 				<circle class="drop drop2" cx="55" cy="2.5" r="1.5" />
 				<circle class="drop drop3" cx="80" cy="2.8" r="1.2" />
-				<use id="wave1" class="wave" xlink:href="#wave" x="0" y="1" />
+				<use id="wave1" class="wave" xlink:href="#wave" x="0" y="1" width="100" />
 				<use id="text" xlink:href="#g" class="text" x="50%" y="27" />
 				<use id="iconTwitter" xlink:href="#twitterIcon" class="text" x="50%" y="17.5" />
 				<use id="iconFacebook" xlink:href="#facebookIcon" class="text" x="55%" y="17.5" />
@@ -716,7 +709,12 @@
 
 	.footerContainer {
 		background-color: transparent;
-		max-width: 100%
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.footerDivContainer {
+		background-color: transparent;
 	}
 
 	.facebook:hover svg {
