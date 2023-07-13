@@ -1,7 +1,16 @@
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { db } from '../../lib/database';
 import bcrypt from 'bcrypt';
+import CryptoJS from 'crypto-js';
+import { PUBLIC_AES_KEY } from '$env/static/public';
+import { goto } from '$app/navigation';
+
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.user) {
+		throw redirect(303, '/');
+	}
+};
 
 export const actions: Actions = {
 	login: async ({ cookies, request }) => {
@@ -66,7 +75,12 @@ export const actions: Actions = {
 			});
 
 			if (authenticatedUser.userAuthToken) {
-				cookies.set('session', authenticatedUser.userAuthToken, {
+				const encryptedAuthToken: string = CryptoJS.AES.encrypt(
+					authenticatedUser.userAuthToken,
+					PUBLIC_AES_KEY
+				).toString();
+
+				cookies.set('Token', encryptedAuthToken, {
 					path: '/',
 					sameSite: 'strict',
 					httpOnly: true,
@@ -76,7 +90,8 @@ export const actions: Actions = {
 			}
 		} catch (error) {
 			console.log('database connection failed \n' + error);
+			return fail(500, { message: 'Internal Server Error' });
 		}
-		throw redirect(303, '/');
+		throw redirect(303, cookies.get('previousPage')!);
 	}
 };
