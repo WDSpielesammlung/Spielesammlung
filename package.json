@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"build": "pnpm prisma db push --accept-data-loss && pnpm prisma generate && vite build",
+		"build": "pnpm prisma db push --accept-data-loss && pnpm prisma generate && vite build && pnpm test ",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
