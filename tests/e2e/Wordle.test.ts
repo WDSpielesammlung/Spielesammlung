@@ -13,17 +13,17 @@ test('register and start playing wordle', async ({ page }) => {
 	await page.getByText('Sign Up').click();
 	//redirect zu Registrierung
 	await expect(page).toHaveURL('/register');
-	await page.getByPlaceholder('Username').fill('WorldeTest');
+	await page.getByPlaceholder('Username').fill('WordleTest');
 	await page.getByPlaceholder('E-Mail').fill('Wordle@Test.com');
 	await page.getByPlaceholder('Password', { exact: true }).fill('WordlePassword');
 	await page.getByPlaceholder('repeat password', { exact: true }).fill('WordlePassword');
 	await page.getByText('Register', { exact: true }).click();
 	//nach Registrierung redirect zum Spiel
 	await expect(page).toHaveURL('/games/wordle');
-    //after Worlde was opened game is ready to start
+	//after Worlde was opened game is ready to start
 	try {
 		await db.user.delete({
-			where: { username: 'WordlePassword' }
+			where: { username: 'WordleTest' }
 		});
 	} catch (err) {
 		console.log('DB connection failed error:' + err);
