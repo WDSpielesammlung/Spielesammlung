@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { PUBLIC_API_URL } from '$env/static/public';
 	import { onMount } from 'svelte/internal';
 
 	const TICK_DELAY = 200;
