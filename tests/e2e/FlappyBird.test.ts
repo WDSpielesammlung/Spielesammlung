@@ -2,24 +2,24 @@ import { expect, test } from '@playwright/test';
 import { db } from '../../src/lib/database';
 
 test('redirect if user is not logged in', async ({ page }) => {
-	await page.goto('/games/SpaceInvaders');
+	await page.goto('/games/flappyBird');
 	await expect(page).toHaveURL('/login');
 });
 
-test('register and start playing the best game on this website', async ({ page }) => {
-	await page.goto('games/SpaceInvaders');
+test('register and start playing Flappy Bird', async ({ page }) => {
+	await page.goto('games/flappyBird');
 	//redirect zu Login
 	await expect(page).toHaveURL('/login');
 	await page.getByText('Sign Up').click();
 	//redirect zu Registrierung
 	await expect(page).toHaveURL('/register');
-	await page.getByPlaceholder('Username').fill('SpaceInvadersTest');
-	await page.getByPlaceholder('E-Mail').fill('SpaceInvaders@Test.com');
+	await page.getByPlaceholder('Username').fill('FlappyBirdTest');
+	await page.getByPlaceholder('E-Mail').fill('FlappyBird@Test.com');
 	await page.getByPlaceholder('Password', { exact: true }).fill('extremlySafePassword');
 	await page.getByPlaceholder('repeat password', { exact: true }).fill('extremlySafePassword');
 	await page.getByText('Register', { exact: true }).click();
 	//nach Registrierung redirect zum Spiel
-	await expect(page).toHaveURL('/games/SpaceInvaders');
+	await expect(page).toHaveURL('/games/flappyBird');
 	await page.getByText('Play').click();
 
 	const screenWidth = await page.evaluate(() => window.screen.width);
@@ -33,7 +33,7 @@ test('register and start playing the best game on this website', async ({ page }
 	expect(screenWidth).toEqual(innerWidth);
 	try {
 		await db.user.delete({
-			where: { username: 'SpaceInvadersTest' }
+			where: { username: 'FlappyBirdTest' }
 		});
 	} catch (err) {
 		console.log('DB connection failed error:' + err);
