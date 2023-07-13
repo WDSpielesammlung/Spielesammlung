@@ -7,26 +7,22 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		throw error(401, { message: 'User not logged in' });
 	}
 	const body = await request.json();
-	const highscore = await db.spaceinvader.findUnique({
-		where: { userId: locals.user.id }
-	});
+	try {
+		const highscore = await db.spaceinvader.findUnique({
+			where: { userId: locals.user.id }
+		});
 
-	if (highscore) {
-		if (highscore.score < body.score) {
-			try {
+		if (highscore) {
+			if (highscore.score < body.score) {
 				await db.spaceinvader.update({
 					where: { id: highscore.id },
 					data: { score: body.score }
 				});
 				return json({ message: 'new highscore added' }, { status: 201 });
-			} catch (err) {
-				throw error(500, { message: 'database connection failed, error: ' + err });
+			} else {
+				return json({ message: 'old highscore greater than current score' }, { status: 200 });
 			}
 		} else {
-			return json({ message: 'old highscore greater than current score' }, { status: 200 });
-		}
-	} else {
-		try {
 			await db.spaceinvader.create({
 				data: {
 					score: body.score,
@@ -34,9 +30,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				}
 			});
 			return json({ message: 'new highscore added' }, { status: 201 });
-		} catch (err) {
-			throw error(500, { message: 'database connection failed, error: ' + err });
 		}
+	} catch (err) {
+		throw error(500, { message: 'database connection failed, error: ' + err });
 	}
 };
 //get all user highscores

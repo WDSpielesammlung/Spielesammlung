@@ -13,6 +13,9 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import Cookies from "js-cookie";
+
+	console.log($page.data.user)
 
 	//function for navigation bar
 	function scrollIntoView({ target }: any) {
@@ -75,27 +78,37 @@
 
 		<li class="nav-item">
 			<a href="#wordle" class="nav-link" on:click|preventDefault={scrollIntoView}>
-				<img src="" alt="" />
-				<img class="static-image" src="" alt="" />
+				<img src="/images/Navbar/LetterWAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/LetterWStatic.png" alt="" />
 				<span class="link-text">Wordle</span>
 			</a>
 		</li>
-
+		
 		<li class="nav-item">
-			<a href="#quizDuell" class="nav-link" on:click|preventDefault={scrollIntoView}>
-				<img src="" alt="" />
-				<img class="static-image" src="" alt="" />
-				<span class="link-text">Quiz</span>
+			{#if !$page.data.user}
+			<a href="/login" class="nav-link" on:click = { () => {Cookies.set("previousPage", window.location.href)} }>
+				<img src="/images/Navbar/LoginAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/LoginStatic.png" alt="" />
+				<span class="link-text">Login</span>
 			</a>
+			{/if}
+			{#if $page.data.user}
+			<a href="/profile" class="nav-link">
+				<img src="/images/Navbar/ProfileAnimated.gif" alt="" />
+				<img class="static-image" src="/images/Navbar/ProfileStatic.png" alt="" />
+				<span class="link-text">Profile</span>
+			</a>
+			{/if}
 		</li>
 
 		<li class="nav-item">
-			<a href="/" class="nav-link">
+			<a href="/impressum" class="nav-link">
 				<img src="/images/Navbar/SmileyAnimated.gif" alt="" />
 				<img class="static-image" src="/images/Navbar/SmileyStatic.png" alt="" />
 				<span class="link-text">Impressum</span>
 			</a>
 		</li>
+
 	</ul>
 </nav>
 
@@ -119,16 +132,14 @@
 		--transition-speed: 600ms;
 	}
 
-	body {
-		color: black;
-		margin: 0;
-		padding: 0;
-		max-width: 100%;
-	}
 	main {
 		margin-left: 5rem;
 		transition: margin-left var(--transition-speed) ease;
 		z-index: -9999;
+		color: black;
+		margin: 0;
+		padding: 0;
+		max-width: 100%;
 	}
 
 	.static-image {
@@ -262,6 +273,7 @@
 	}
 
 	/* Small screens */
+	
 	@media only screen and (max-width: 600px) {
 		.navbar {
 			bottom: 0;
@@ -285,9 +297,13 @@
 			margin: 0;
 			margin-bottom: 5rem;
 		}
+		.nav-item:nth-last-child(2) {
+  			margin-top: 0rem; 
+		}
 	}
-
+	
 	/* Large screens */
+	
 	@media only screen and (min-width: 600px) {
 		.navbar {
 			top: 0;
@@ -316,5 +332,8 @@
 			left: 0px;
 			color: #df49a6;
 		}
+	
+		
 	}
+	
 </style>

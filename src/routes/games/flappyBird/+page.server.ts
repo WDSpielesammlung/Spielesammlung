@@ -1,12 +1,20 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { PUBLIC_API_URL } from '$env/static/public';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, cookies, url }) => {
 	if (!locals.user) {
+		cookies.set('previousPage', url.href, {
+			path: '/',
+			sameSite: 'strict',
+			httpOnly: true,
+			secure: true,
+			maxAge: 60 * 60
+		});
 		throw redirect(302, '/login');
 	}
-	const url1 = process.env.API_URL + '/flappyBird/user?userId=' + locals.user.id;
-	const url2 = process.env.API_URL + '/flappyBird';
+	const url1 = PUBLIC_API_URL + '/flappyBird/user?userId=' + locals.user.id;
+	const url2 = PUBLIC_API_URL + '/flappyBird';
 
 	try {
 		const userHighscoreResponse = await fetch(url1);
