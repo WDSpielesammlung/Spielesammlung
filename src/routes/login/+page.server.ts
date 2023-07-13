@@ -11,31 +11,31 @@ export const actions: Actions = {
 
 		if (!username && !password) {
 			return fail(400, {
-				message: 'Please enter your Username!',
-				username: username,
-				password: password,
+				message: 'No values filled!',
 				usernameFilled: false,
-				passwordFilled: false
+				passwordFilled: false,
+				userNotExisting: false,
+				passwordIncorrect: false
 			});
 		}
 
 		if (!username) {
 			return fail(400, {
 				message: 'Please enter your Username!',
-				username: username,
-				password: password,
 				usernameFilled: false,
-				passwordFilled: true
+				passwordFilled: true,
+				userNotExisting: false,
+				passwordIncorrect: false
 			});
 		}
 
 		if (!password) {
 			return fail(400, {
 				message: 'Please enter your Password!',
-				username: username,
-				password: password,
 				usernameFilled: true,
-				passwordFilled: false
+				passwordFilled: false,
+				userNotExisting: false,
+				passwordIncorrect: false
 			});
 		}
 
@@ -48,6 +48,8 @@ export const actions: Actions = {
 			if (!user) {
 				return fail(400, {
 					message: 'user does not  exist',
+					userNotExisting: true,
+					passwordIncorrect: false,
 					usernameFilled: true,
 					passwordFilled: true
 				});
@@ -56,6 +58,8 @@ export const actions: Actions = {
 			if (!userPassword) {
 				return fail(400, {
 					message: 'password incorrect',
+					userNotExisting: false,
+					paswordIncorrect: true,
 					usernameFilled: true,
 					passwordFilled: true
 				});

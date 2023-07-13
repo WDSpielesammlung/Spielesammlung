@@ -14,6 +14,9 @@
 			</div>
 			<form class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-white" action="?/login" method="post">
 				<div>
+					{#if form?.userNotExisting}
+						<p>user not existing</p>
+					{/if}
 					<label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Username</span>
 						<input
