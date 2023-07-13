@@ -18,11 +18,10 @@ export const load: PageServerLoad = async ({ locals, url, cookies }) => {
 	const url2 = PUBLIC_API_URL + '/snake';
 
 	try {
-		
 		const userHighscoreResponse = await fetch(url1);
 		const userHighscoreData = await userHighscoreResponse.json();
 
-		return { userHighscoreData};
+		return { userHighscoreData };
 	} catch (err) {
 		console.log(err);
 	}

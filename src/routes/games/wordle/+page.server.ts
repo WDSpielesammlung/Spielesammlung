@@ -99,9 +99,6 @@ export const actions = {
 	}
 } satisfies Actions;
 
-
-  
-
 function async(
 	arg0: ({ cookies, locals }: { cookies: any; locals: any }) =>
 		| {
@@ -128,5 +125,3 @@ function async(
 ): PageServerLoad {
 	throw new Error('Function not implemented.');
 }
-
-

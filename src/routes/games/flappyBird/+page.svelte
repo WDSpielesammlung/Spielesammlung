@@ -1,5 +1,5 @@
 <script lang="ts">
-// ursprüngiche Orientierung an Video: https://www.youtube.com/watch?v=nhrYBoVI8pQ
+	// ursprüngiche Orientierung an Video: https://www.youtube.com/watch?v=nhrYBoVI8pQ
 	import { GameController } from './game';
 	import Pipe from './Pipe.svelte';
 	import Bird from './Bird.svelte';
@@ -9,7 +9,7 @@
 	let frame = game.newGame();
 	export let data;
 
-	game.setHighscores(data.userHighscores, data.overallHighscores);
+	game.setHighscores(data.userHighscores!, data.overallHighscores!);
 	function enterFullscreen(element: any) {
 		if (element.requestFullscreen) {
 			element.requestFullscreen();
