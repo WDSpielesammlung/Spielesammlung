@@ -285,7 +285,7 @@
 					</div>
 					<div class="field3">
 						<div class="wrap">
-							<button class="buttonSpielen"
+							<button id={gamecard.id + i} class="buttonSpielen"
 								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
 								></button
 							>
@@ -340,7 +340,7 @@
 					>
 					<g id="twitterIcon">
 						<a class="twitter" href="https://r.mtdv.me/lGtwhWwQxa">
-							<rect width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
+							<rect  width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2.5"
@@ -357,7 +357,7 @@
 					</g>
 					<g id="facebookIcon">
 						<a class="facebook" href="https://r.mtdv.me/lGtwhWwQxa">
-							<rect width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
+							<rect  width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2.5"
@@ -381,7 +381,7 @@
 								<stop stop-color="#d6249f" offset="0.6" />
 								<stop stop-color="#285AEB" offset="0.9" />
 							</radialGradient>
-							<rect width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
+							<rect  width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2.5"
@@ -396,9 +396,9 @@
 							</svg>
 						</a>
 					</g>
-					<g id="impressumText">
-						<text font-size="1.3" text-anchor="middle">
-							<a href="/impressum">Impressum</a>
+					<g  id="impressumText">
+						<text  font-size="1.3" text-anchor="middle">
+							<a data-pw="impressumTest"href="/impressum">Impressum</a>
 						</text>
 					</g>
 				</defs>
