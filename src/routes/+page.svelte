@@ -1,4 +1,13 @@
 <script lang="ts">
+	// JS/TS
+	import { onMount } from 'svelte';
+	import * as THREE from 'three';
+	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
 	type Gamecard = {
 		id: string;
 		cameraFov: number;
@@ -98,14 +107,6 @@
 		//console.log(gamecards[i].clicked); // Beispielhaft wird die Beschreibung in der Konsole ausgegeben
 	}
 	/**Three js part*/
-	// JS/TS
-	import { onMount } from 'svelte';
-	import * as THREE from 'three';
-	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 	function renderModelsThreeJs(gamecard: Gamecard) {
 		let renderer: THREE.WebGLRenderer;
@@ -115,7 +116,7 @@
 		let baseRotationSpeed = 0.01;
 		let rotationSpeed: number;
 
-		const container = document.getElementById(gamecard.id)!;
+		let container = document.getElementById(gamecard.id)!;
 
 		let width = container.clientWidth;
 		let height = container.clientHeight;
@@ -132,7 +133,7 @@
 		camera.position.set(gamecard.cameraX, gamecard.cameraY, gamecard.cameraZ); // positioniere die Kamera vor dem Objekt
 		camera.lookAt(scene.position); // schaue auf das Zentrum der Szene
 
-		const loader = new GLTFLoader();
+		let loader = new GLTFLoader();
 		/**load model in scene*/
 		loader.load(gamecard.modelpath, function (gltf) {
 			gltf.scene.position.y = gamecard.moveObjectY;
@@ -141,10 +142,10 @@
 			/**Lights*/
 
 			// Lichteinstellungen
-			const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Ambient Light mit weißer Farbe und Intensität 1
+			let ambientLight = new THREE.AmbientLight(0xffffff, 1); // Ambient Light mit weißer Farbe und Intensität 1
 			scene.add(ambientLight);
 
-			const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional Light mit weißer Farbe und Intensität 1
+			let directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional Light mit weißer Farbe und Intensität 1
 			directionalLight.position.set(0, 1, 1); // Setze die Position des Directional Lights
 			scene.add(directionalLight);
 
@@ -194,6 +195,7 @@
 			width = container.clientWidth;
 			height = container.clientHeight;
 			camera.aspect = width / height;
+			console.log(width + ' ' + height);
 			camera.updateProjectionMatrix();
 			renderer.setSize(width, height);
 		}); // Anpassung bei Fenstergrößenänderung
@@ -206,6 +208,7 @@
 		}
 		animate();
 	}
+
 	function renderTextOnMouseposition(gamecard: Gamecard) {
 		const containerhülle = document.getElementById(gamecard.id + 'containerhülle')!;
 		const containerfield1 = document.getElementById(gamecard.id + 'field1')!;
@@ -258,11 +261,11 @@
 	}
 
 	onMount(() => {
-		for (const gamecard of gamecards) {
+		gamecards.forEach((gamecard) => {
 			renderModelsThreeJs(gamecard);
 			renderTextOnMouseposition(gamecard);
 			animationGamecardContainer(gamecard);
-		}
+		});
 	});
 </script>
 
@@ -424,10 +427,38 @@
 </content>
 
 <style>
-	@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700');
+	:root {
+		--primary-color: #fff;
+		--secondary-color: rgba(0, 0, 0, 0.5);
+		--accent-color: #ff6384;
+		--accent-color-gradient: linear-gradient(
+			90deg,
+			rgba(255, 99, 132, 1) 0%,
+			rgba(255, 157, 167, 1) 100%
+		);
+		--accent-color-shadow: rgba(255, 157, 167, 0.64);
+		--accent-color-hover: #ffffff;
+		--accent-color-border: #ff6384;
+		--accent-color-border-shadow: rgba(255, 99, 132, 0.64);
+		--accent-color2: #4fd1c5;
+		--accent-color2-gradient: linear-gradient(
+			90deg,
+			rgba(129, 230, 217, 1) 0%,
+			rgba(79, 209, 197, 1) 100%
+		);
+		--accent-color2-shadow: rgba(79, 209, 197, 0.64);
+		--accent-color2-border: #00ffcb;
+		--accent-color2-border-shadow: rgba(0, 255, 203, 0.64);
+		--accent-color-gradient-spielen: linear-gradient(90deg, #009dff 0%, #00ffcb 100%);
+		--accent-color-shadow-spielen: rgba(0, 255, 203, 0.3);
+		--accent-color-border-spielen: #00ffcb;
+		--accent-color-border-shadow-spielen: rgba(0, 255, 203, 0.3);
+		--accent-color-border-pulse-spielen: rgba(0, 255, 203, 0.6);
+		--accent-color-border-pulse: hsla(20, 67%, 55%, 0.6);
+	}
 
 	.backgroundRainbow {
-		position: fixed; /* Festlegung der Positionierung */
+		position: fixed;
 		top: 0;
 		left: 0;
 		height: 100%;
@@ -436,8 +467,8 @@
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
 		z-index: -1;
-		z-index: -1;
 	}
+
 	@keyframes gradient {
 		0% {
 			background-position: 0% 50%;
@@ -451,13 +482,14 @@
 	}
 
 	.contentClass {
-		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
-		color: white;
+		background-color: transparent;
+		color: var(--primary-color);
 		margin: 0;
 		padding: 0;
 	}
+
 	.container {
-		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
+		background-color: transparent;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -489,7 +521,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-bottom: 10vh;
-		transform: 0.3s;
+		transition: transform 0.3s;
 		transform-style: preserve-3d;
 		transform: translateZ(0);
 	}
@@ -519,15 +551,18 @@
 		flex-grow: 1;
 		z-index: 1;
 	}
+
 	.field1 {
-		font-size: 3rem;
+		font-size: 200%;
 		text-align: center;
 	}
+
 	.renderObject {
 		height: 100%;
 		width: 100%;
 	}
-	/*Button Beschreibung*/
+
+	/* Button Beschreibung */
 	.beschreibung {
 		min-width: 200px;
 		min-height: 40px;
@@ -536,12 +571,11 @@
 		text-transform: uppercase;
 		letter-spacing: 1.3px;
 		font-weight: 700;
-		color: #ffffff;
-		background: #ff6384;
-		background: linear-gradient(90deg, rgba(255, 99, 132, 1) 0%, rgba(255, 157, 167, 1) 100%);
+		color: var(--primary-color);
+		background: var(--accent-color-gradient);
 		border: none;
 		border-radius: 1000px;
-		box-shadow: 12px 12px 24px rgba(255, 157, 167, 0.64);
+		box-shadow: 12px 12px 24px var(--accent-color-shadow);
 		transition: all 0.3s ease-in-out 0s;
 		cursor: pointer;
 		outline: none;
@@ -554,8 +588,8 @@
 		border-radius: 1000px;
 		min-width: calc(200px + 12px);
 		min-height: calc(40px + 12px);
-		border: 6px solid #ff6384;
-		box-shadow: 0 0 60px rgba(255, 99, 132, 0.64);
+		border: 6px solid var(--accent-color-border);
+		box-shadow: 0 0 60px var(--accent-color-border-shadow);
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -565,8 +599,8 @@
 
 	.beschreibung:hover,
 	.beschreibung:focus {
-		color: #ffffff;
-		scale: 105%;
+		color: var(--primary-color);
+		transform: scale(1.05);
 	}
 
 	.beschreibung:hover::before,
@@ -577,7 +611,7 @@
 	@keyframes pulseRed {
 		0% {
 			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(255, 99, 132, 0.4);
+			box-shadow: 0 0 0 0 var(--accent-color-border-pulse);
 		}
 		70% {
 			transform: scale(1.05);
@@ -588,7 +622,8 @@
 			box-shadow: 0 0 0 0 rgba(255, 99, 132, 0);
 		}
 	}
-	/*Button Spielen*/
+
+	/* Button Spielen */
 	.wrap {
 		height: 100%;
 		display: flex;
@@ -604,25 +639,24 @@
 		text-transform: uppercase;
 		letter-spacing: 1.3px;
 		font-weight: 700;
-		color: #313133;
-		background: #4fd1c5;
-		background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%, rgba(79, 209, 197, 1) 100%);
+		color: var(--text-color);
+		background: var(--accent-color-gradient-spielen);
 		border: none;
 		border-radius: 1000px;
-		box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+		box-shadow: 12px 12px 24px var(--accent-color-shadow-spielen);
 		transition: all 0.3s ease-in-out 0s;
 		outline: none;
 		position: relative;
 		padding: 10px;
-		animation: pulse 2s infinite;
+		animation: pulseSpielen 2s infinite;
 	}
 
 	.buttonSpielen::before {
 		border-radius: 1000px;
 		min-width: calc(200px + 12px);
 		min-height: calc(40px + 12px);
-		border: 6px solid #00ffcb;
-		box-shadow: 0 0 60px rgba(0, 255, 203, 0.64);
+		border: 6px solid var(--accent-color-border-spielen);
+		box-shadow: 0 0 60px var(--accent-color-border-shadow-spielen);
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -631,22 +665,23 @@
 	}
 
 	.buttonSpielen:hover {
-		color: #313133;
-		scale: 105%;
+		color: var(--text-color);
+		transform: scale(1.05);
 	}
 
 	.buttonSpielen:hover::before {
 		opacity: 1;
 	}
+
 	.pagelink {
-		text-decoration: none; /* Entfernt die Unterstreichung */
-		color: white; /* Vererbt die Farbe des umgebenden Elements */
+		text-decoration: none;
+		color: var(--primary-color);
 	}
 
-	@keyframes pulse {
+	@keyframes pulseSpielen {
 		0% {
 			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(0, 255, 203, 0.4);
+			box-shadow: 0 0 0 0 var(--accent-color-border-pulse-spielen);
 		}
 		70% {
 			transform: scale(1.05);

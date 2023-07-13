@@ -308,7 +308,7 @@
 		.navbar {
 			top: 0;
 			width: 5rem;
-			height: 100vh;
+			height: 100%;
 		}
 
 		.navbar:hover {
@@ -317,6 +317,7 @@
 		.navbar:hover + .mainContent {
 			margin-left: 16rem;
 			transition: margin-left var(--transition-speed) ease;
+			height: 100%;
 		}
 
 		.navbar:hover .link-text {
