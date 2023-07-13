@@ -71,25 +71,8 @@ export class Game {
 
 		this.answers.push(answer.join(''));
 		this.score = 500 - (this.answers.length - 1) * 100; // Update the score
-		this.postHighscore()
-		console.log("Beim POST angekommen")
 
 		return true;
-	}
-
-	
-	async postHighscore() {
-		try{
-		const response = await fetch('/api/wordle', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ score: this.score })
-		});
-		console.log(response.status);
-		}
-		catch (err) {
-			console.log(err)
-		}
 	}
 
 	/**
