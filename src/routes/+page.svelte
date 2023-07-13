@@ -538,7 +538,7 @@
 	}
 
 	.right-column {
-		flex-basis: 50%;
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 	}
@@ -694,7 +694,7 @@
 	}
 
 	/* Small screens */
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 800px) {
 		.containerCard {
 			flex-direction: column;
 			transition: 1s;
