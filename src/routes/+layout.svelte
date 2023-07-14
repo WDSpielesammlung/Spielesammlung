@@ -16,7 +16,6 @@
 
 	import Cookies from 'js-cookie';
 
-
 	//function for navigation bar
 	function scrollIntoView({ target }: any) {
 		let j = 1;
@@ -83,10 +82,9 @@
 				<span class="link-text">Wordle</span>
 			</a>
 		</li>
-		
+
 		<li class="nav-item">
 			{#if !$page.data.user}
-
 				<a
 					href="/login"
 					class="nav-link"
@@ -105,7 +103,6 @@
 					<img class="static-image" src="/images/Navbar/ProfileStatic.png" alt="" />
 					<span class="link-text">Profile</span>
 				</a>
-
 			{/if}
 		</li>
 
@@ -116,7 +113,6 @@
 				<span class="link-text">Impressum</span>
 			</a>
 		</li>
-
 	</ul>
 </nav>
 
@@ -309,7 +305,7 @@
 			margin-top: 0rem;
 		}
 	}
-	
+
 	/* Large screens */
 
 	@media only screen and (min-width: 800px) {
@@ -340,8 +336,5 @@
 			left: 0px;
 			color: #df49a6;
 		}
-	
-		
 	}
-	
 </style>
