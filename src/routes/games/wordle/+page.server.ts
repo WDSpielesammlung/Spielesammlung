@@ -98,6 +98,7 @@ export const actions = {
 		cookies.delete('wordle');
 	}
 } satisfies Actions;
+
 function async(
 	arg0: ({ cookies, locals }: { cookies: any; locals: any }) =>
 		| {

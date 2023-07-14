@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_API_URL } from '$env/static/public';
-
+	import type { ActionData } from './$types';
+	export let form: ActionData;
 	let usernameInput: string = '';
 	let emailInput: string = '';
 
@@ -96,6 +97,20 @@
 						/>
 					</label>
 				</div>
+
+				{#if !form?.usernameSet && form != null}
+					<ul class="list">
+						<li>
+							<span>
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+							</span>
+							<span>
+								<p class="ml-2">Please enter a Username!</p>
+							</span>
+						</li>
+					</ul>
+				{/if}
+
 				<div class="mt-4">
 					<label for="email" class="label block text-gray-700 text-sm font-bold mb-2">
 						{#if initialStateEmail}
@@ -103,7 +118,7 @@
 						{:else if emailTaken}
 							<div class="flex">
 								<span>E-Mail</span>
-								<p class="ml-2 text-red-500">Seems like your already registered!</p>
+								<p class="ml-2 text-red-500">Seems like you are already registered!</p>
 							</div>
 						{:else}
 							<div class="flex">
@@ -121,10 +136,25 @@
 						/>
 					</label>
 				</div>
+
+				{#if !form?.emailSet && form != null}
+					<ul class="list">
+						<li>
+							<span>
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+							</span>
+							<span>
+								<p class="ml-2">Please enter a valid E-Mail!</p>
+							</span>
+						</li>
+					</ul>
+				{/if}
+
 				<div class="mt-4">
 					<label for="pass" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Password</span>
 						<input
+							value={form?.password ?? ''}
 							name="password"
 							type="password"
 							id="pass"
@@ -133,10 +163,25 @@
 						/>
 					</label>
 				</div>
+
+				{#if !form?.passwordSet && form != null}
+					<ul class="list">
+						<li>
+							<span>
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+							</span>
+							<span>
+								<p class="ml-2">Please enter a password!</p>
+							</span>
+						</li>
+					</ul>
+				{/if}
+
 				<div class="mt-4 w-full">
 					<label for="passRepeat" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Repeat password</span>
 						<input
+							value={form?.passwordRepeat ?? ''}
 							name="passwordRep"
 							type="password"
 							id="passRepeat"
@@ -145,6 +190,20 @@
 						/>
 					</label>
 				</div>
+
+				{#if !form?.passwordRepSet && form != null}
+					<ul class="list">
+						<li>
+							<span>
+								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
+							</span>
+							<span>
+								<p class="ml-2">Please repeat your password!</p>
+							</span>
+						</li>
+					</ul>
+				{/if}
+
 				<div class="flow-root">
 					<div class="mt-6 float-left">
 						<button type="submit" class="btn variant-filled">Register</button>

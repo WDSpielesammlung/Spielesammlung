@@ -1,4 +1,13 @@
 <script lang="ts">
+	// JS/TS
+	import { onMount } from 'svelte';
+	import * as THREE from 'three';
+	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
 	type Gamecard = {
 		id: string;
 		cameraFov: number;
@@ -20,7 +29,7 @@
 			path: '/games/flappyBird',
 			clicked: false,
 			description:
-				'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.',
+				'By tapping on the screen, the player guides a bird through a game world that scrolls from right to left, whereby the bird must not touch the pairs of green tubes projecting from above and below, but must fly between them. The position of the flight path varies.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -38,7 +47,7 @@
 			path: '/games/snake',
 			clicked: false,
 			description:
-				'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.',
+				'The aim of snake games is to navigate a snake through a playing field and eat a bite of food to make the snake grow longer. You have to avoid obstacles like walls and your own tail along the way to avoid dying and losing the game.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -56,7 +65,7 @@
 			path: '/games/SpaceInvaders',
 			clicked: false,
 			description:
-				'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.',
+				'The retro game Space Invaders is a shootem up computer game. It was designed and programmed by Tomohiro Nishikado, a Japanese video game developer. In 1978 it was distributed by Taito, a Japanese company based in Tokyo.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -74,7 +83,7 @@
 			path: '/games/wordle',
 			clicked: false,
 			description:
-				'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.',
+				'The Wordle Game is a daily word puzzle developed in the UK that requires users to guess a 5 letter word in six or fewer guesses. If a player guesses the right letter in the right place, the square will turn green. If a player guesses the right letter in the wrong place, the square will turn yellow.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -83,24 +92,6 @@
 			cameraZ: 35,
 			modelpath: '/models/wordle/scene.gltf',
 			moveObjectY: -6,
-			moveSceneX: 0,
-			requestAnimationFrame: 0
-		},
-		{
-			id: 'quizDuell',
-			title: 'Quiz',
-			path: '/games/quiz',
-			clicked: false,
-			description:
-				'Das Quizduell besteht aus einer Hauptrunde und einem Finale. Im Studio stehen sich ein Kandidatenteam und ein Teamkapitän, der das "Team Deutschland" repräsentiert, gegenüber. In der Hauptrunde spielen wir fünf Runden à drei Fragen. In den ersten vier Runden stehen je drei Kategorien zur Auswahl.',
-			cameraFov: 50,
-			cameraNear: 0.1,
-			cameraFar: 1000,
-			cameraX: 0,
-			cameraY: 0.32,
-			cameraZ: 1.383,
-			modelpath: '/models/quiz/scene.gltf',
-			moveObjectY: -0.1,
 			moveSceneX: 0,
 			requestAnimationFrame: 0
 		}
@@ -112,18 +103,8 @@
 
 	function handleBeschreibungClick(i: number) {
 		gamecards[i].clicked = !gamecards[i].clicked; // Hier wird der "clicked"-Wert der entsprechenden Gamecard geändert
-
-		//console.log(gamecards[i].clicked); // Beispielhaft wird die Beschreibung in der Konsole ausgegeben
 	}
 	/**Three js part*/
-	// JS/TS
-	import { onMount } from 'svelte';
-	import * as THREE from 'three';
-	import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 	function renderModelsThreeJs(gamecard: Gamecard) {
 		let renderer: THREE.WebGLRenderer;
@@ -133,7 +114,7 @@
 		let baseRotationSpeed = 0.01;
 		let rotationSpeed: number;
 
-		const container = document.getElementById(gamecard.id)!;
+		let container = document.getElementById(gamecard.id)!;
 
 		let width = container.clientWidth;
 		let height = container.clientHeight;
@@ -150,7 +131,7 @@
 		camera.position.set(gamecard.cameraX, gamecard.cameraY, gamecard.cameraZ); // positioniere die Kamera vor dem Objekt
 		camera.lookAt(scene.position); // schaue auf das Zentrum der Szene
 
-		const loader = new GLTFLoader();
+		let loader = new GLTFLoader();
 		/**load model in scene*/
 		loader.load(gamecard.modelpath, function (gltf) {
 			gltf.scene.position.y = gamecard.moveObjectY;
@@ -159,10 +140,10 @@
 			/**Lights*/
 
 			// Lichteinstellungen
-			const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Ambient Light mit weißer Farbe und Intensität 1
+			let ambientLight = new THREE.AmbientLight(0xffffff, 1); // Ambient Light mit weißer Farbe und Intensität 1
 			scene.add(ambientLight);
 
-			const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional Light mit weißer Farbe und Intensität 1
+			let directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional Light mit weißer Farbe und Intensität 1
 			directionalLight.position.set(0, 1, 1); // Setze die Position des Directional Lights
 			scene.add(directionalLight);
 
@@ -211,6 +192,7 @@
 			// Fenstergröße aktualisieren
 			width = container.clientWidth;
 			height = container.clientHeight;
+			console.log(width + ' ' + height);
 			camera.aspect = width / height;
 			camera.updateProjectionMatrix();
 			renderer.setSize(width, height);
@@ -224,6 +206,7 @@
 		}
 		animate();
 	}
+
 	function renderTextOnMouseposition(gamecard: Gamecard) {
 		const containerhülle = document.getElementById(gamecard.id + 'containerhülle')!;
 		const containerfield1 = document.getElementById(gamecard.id + 'field1')!;
@@ -276,18 +259,18 @@
 	}
 
 	onMount(() => {
-		for (const gamecard of gamecards) {
+		gamecards.forEach((gamecard) => {
 			renderModelsThreeJs(gamecard);
 			renderTextOnMouseposition(gamecard);
 			animationGamecardContainer(gamecard);
-		}
+		});
 	});
 </script>
 
 <div class="backgroundRainbow" />
 <content class="contentClass" id="content">
 	<div class="container">
-		<h1 class="animated-text">The Gamebox</h1>
+		<img class="gameboxLogo" src="/images/HomePage/LogoGamebox.png" alt="" />
 	</div>
 	{#each gamecards as gamecard, i}
 		<div class="containerhülle" id={gamecard.id + 'containerhülle'}>
@@ -297,14 +280,14 @@
 					<div class="field2">
 						<div class="wrap">
 							<button on:click={() => handleBeschreibungClick(i)} class="beschreibung">
-								Beschreibung
+								DESCRIPTION
 							</button>
 						</div>
 					</div>
 					<div class="field3">
 						<div class="wrap">
-							<button class="buttonSpielen"
-								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
+							<button id={gamecard.id + i} class="buttonSpielen"
+								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>PLAY</a
 								></button
 							>
 						</div>
@@ -312,7 +295,7 @@
 				</div>
 				<div class="right-column">
 					<div class="field4">
-						<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
+						<div id={gamecard.id + 'description'} hidden={!gamecard.clicked} class="descriptionBox">
 							{gamecard.description}
 						</div>
 						<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
@@ -416,7 +399,7 @@
 					</g>
 					<g id="impressumText">
 						<text font-size="1.3" text-anchor="middle">
-							<a href="/impressum">Impressum</a>
+							<a data-pw="impressumTest" href="/impressum">Impressum</a>
 						</text>
 					</g>
 				</defs>
@@ -442,10 +425,45 @@
 </content>
 
 <style>
-	@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700');
+	:root {
+		--primary-color: #fff;
+		--secondary-color: rgba(0, 0, 0, 0.5);
+		--accent-color: #ff6384;
+		--accent-color-gradient: linear-gradient(
+			90deg,
+			rgba(255, 99, 132, 1) 0%,
+			rgba(255, 157, 167, 1) 100%
+		);
+		--accent-color-shadow: rgba(255, 157, 167, 0.64);
+		--accent-color-hover: #ffffff;
+		--accent-color-border: #ff6384;
+		--accent-color-border-shadow: rgba(255, 99, 132, 0.64);
+		--accent-color2: #4fd1c5;
+		--accent-color2-gradient: linear-gradient(
+			90deg,
+			rgba(129, 230, 217, 1) 0%,
+			rgba(79, 209, 197, 1) 100%
+		);
+		--accent-color2-shadow: rgba(79, 209, 197, 0.64);
+		--accent-color2-border: #00ffcb;
+		--accent-color2-border-shadow: rgba(0, 255, 203, 0.64);
+		--accent-color-gradient-spielen: linear-gradient(90deg, #009dff 0%, #00ffcb 100%);
+		--accent-color-shadow-spielen: rgba(0, 255, 203, 0.3);
+		--accent-color-border-spielen: #00ffcb;
+		--accent-color-border-shadow-spielen: rgba(0, 255, 203, 0.3);
+		--accent-color-border-pulse-spielen: rgba(0, 255, 203, 0.6);
+		--accent-color-border-pulse: hsla(20, 67%, 55%, 0.6);
+	}
+
+	.descriptionBox{
+		background-color: rgba(0, 0, 0, 0.6);
+		border-radius: 10px;
+		padding: 30px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	}
 
 	.backgroundRainbow {
-		position: fixed; /* Festlegung der Positionierung */
+		position: fixed;
 		top: 0;
 		left: 0;
 		height: 100%;
@@ -454,8 +472,8 @@
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
 		z-index: -1;
-		z-index: -1;
 	}
+
 	@keyframes gradient {
 		0% {
 			background-position: 0% 50%;
@@ -469,26 +487,24 @@
 	}
 
 	.contentClass {
-		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
-		color: white;
+		background-color: transparent;
+		color: var(--primary-color);
 		margin: 0;
 		padding: 0;
 	}
+
 	.container {
-		background-color: transparent; /* Hintergrundfarbe auf transparent setzen */
+		background-color: transparent;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
 	}
 
-	.animated-text {
-		font-family: 'Arial', sans-serif;
-		font-size: 48px;
-		color: #fff;
-		animation: slide-in 1s cubic-bezier(0.42, 0, 0.58, 1) forwards;
-		opacity: 0;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+	.gameboxLogo {
+		margin-left: 20vw;
+
+		display: flex;
 	}
 
 	@keyframes slide-in {
@@ -510,7 +526,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-bottom: 10vh;
-		transform: 0.3s;
+		transition: transform 0.3s;
 		transform-style: preserve-3d;
 		transform: translateZ(0);
 	}
@@ -527,28 +543,34 @@
 	}
 
 	.right-column {
-		flex-basis: 50%;
+		flex: 1;
 		display: flex;
 		flex-direction: column;
+		max-height: 40vh;
+		max-width: 50vw;
 	}
 
 	.field1,
 	.field2,
 	.field3,
 	.field4 {
-		padding: 10px;
+		width: 100%;
+		height: 100%;
 		flex-grow: 1;
 		z-index: 1;
 	}
+
 	.field1 {
-		font-size: 3rem;
+		font-size: 200%;
 		text-align: center;
 	}
+
 	.renderObject {
 		height: 100%;
 		width: 100%;
 	}
-	/*Button Beschreibung*/
+
+	/* Button Beschreibung */
 	.beschreibung {
 		min-width: 200px;
 		min-height: 40px;
@@ -557,12 +579,11 @@
 		text-transform: uppercase;
 		letter-spacing: 1.3px;
 		font-weight: 700;
-		color: #ffffff;
-		background: #ff6384;
-		background: linear-gradient(90deg, rgba(255, 99, 132, 1) 0%, rgba(255, 157, 167, 1) 100%);
+		color: var(--primary-color);
+		background: var(--accent-color-gradient);
 		border: none;
 		border-radius: 1000px;
-		box-shadow: 12px 12px 24px rgba(255, 157, 167, 0.64);
+		box-shadow: 12px 12px 24px var(--accent-color-shadow);
 		transition: all 0.3s ease-in-out 0s;
 		cursor: pointer;
 		outline: none;
@@ -575,8 +596,8 @@
 		border-radius: 1000px;
 		min-width: calc(200px + 12px);
 		min-height: calc(40px + 12px);
-		border: 6px solid #ff6384;
-		box-shadow: 0 0 60px rgba(255, 99, 132, 0.64);
+		border: 6px solid var(--accent-color-border);
+		box-shadow: 0 0 60px var(--accent-color-border-shadow);
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -586,8 +607,8 @@
 
 	.beschreibung:hover,
 	.beschreibung:focus {
-		color: #ffffff;
-		scale: 105%;
+		color: var(--primary-color);
+		transform: scale(1.05);
 	}
 
 	.beschreibung:hover::before,
@@ -598,7 +619,7 @@
 	@keyframes pulseRed {
 		0% {
 			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(255, 99, 132, 0.4);
+			box-shadow: 0 0 0 0 var(--accent-color-border-pulse);
 		}
 		70% {
 			transform: scale(1.05);
@@ -609,7 +630,8 @@
 			box-shadow: 0 0 0 0 rgba(255, 99, 132, 0);
 		}
 	}
-	/*Button Spielen*/
+
+	/* Button Spielen */
 	.wrap {
 		height: 100%;
 		display: flex;
@@ -625,25 +647,24 @@
 		text-transform: uppercase;
 		letter-spacing: 1.3px;
 		font-weight: 700;
-		color: #313133;
-		background: #4fd1c5;
-		background: linear-gradient(90deg, rgba(129, 230, 217, 1) 0%, rgba(79, 209, 197, 1) 100%);
+		color: var(--text-color);
+		background: var(--accent-color-gradient-spielen);
 		border: none;
 		border-radius: 1000px;
-		box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+		box-shadow: 12px 12px 24px var(--accent-color-shadow-spielen);
 		transition: all 0.3s ease-in-out 0s;
 		outline: none;
 		position: relative;
 		padding: 10px;
-		animation: pulse 2s infinite;
+		animation: pulseSpielen 2s infinite;
 	}
 
 	.buttonSpielen::before {
 		border-radius: 1000px;
 		min-width: calc(200px + 12px);
 		min-height: calc(40px + 12px);
-		border: 6px solid #00ffcb;
-		box-shadow: 0 0 60px rgba(0, 255, 203, 0.64);
+		border: 6px solid var(--accent-color-border-spielen);
+		box-shadow: 0 0 60px var(--accent-color-border-shadow-spielen);
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -652,22 +673,23 @@
 	}
 
 	.buttonSpielen:hover {
-		color: #313133;
-		scale: 105%;
+		color: var(--text-color);
+		transform: scale(1.05);
 	}
 
 	.buttonSpielen:hover::before {
 		opacity: 1;
 	}
+
 	.pagelink {
-		text-decoration: none; /* Entfernt die Unterstreichung */
-		color: white; /* Vererbt die Farbe des umgebenden Elements */
+		text-decoration: none;
+		color: var(--primary-color);
 	}
 
-	@keyframes pulse {
+	@keyframes pulseSpielen {
 		0% {
 			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(0, 255, 203, 0.4);
+			box-shadow: 0 0 0 0 var(--accent-color-border-pulse-spielen);
 		}
 		70% {
 			transform: scale(1.05);
@@ -680,7 +702,7 @@
 	}
 
 	/* Small screens */
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 800px) {
 		.containerCard {
 			flex-direction: column;
 			transition: 1s;
@@ -691,11 +713,21 @@
 			flex-basis: auto;
 			height: 50vh;
 			transition: 1s;
+			max-width: 80vw;
+		}
+		.right-column {
+			justify-content: center;
+			align-items: center;
+		}
+		.gameboxLogo {
+			margin-left: 5vw;
+			margin-right: auto;
+			display: flex;
 		}
 	}
 
 	footer {
-		width: 100vw;
+		max-width: 100vw;
 		position: relative;
 		bottom: 0px;
 	}

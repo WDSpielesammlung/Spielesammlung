@@ -11,11 +11,54 @@ export const actions: Actions = {
 		const username = String(data.get('username'));
 		const email = String(data.get('email'));
 		const password = String(data.get('password'));
+		const passwordRepeat = String(data.get('passwordRep'));
+
+		let usernameSet = true;
+		let emailSet = true;
+		let passwordSet = true;
+		let passwordRepSet = true;
+
 		console.log(email);
 		console.log(username);
 
-		if (!username || !email || !password) {
-			return fail(400, { message: 'invalid input' });
+		if (!username) {
+			usernameSet = false;
+		}
+		if (!password) {
+			passwordSet = false;
+		}
+
+		if (!email) {
+			emailSet = false;
+		}
+
+		if (
+			email
+				.toLowerCase()
+				.match(
+					/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+				) == null
+		) {
+			emailSet = false;
+		}
+		
+		if (!passwordRepeat) {
+			passwordRepSet = false;
+		}
+
+		if (!usernameSet || !passwordSet || !emailSet || !passwordRepSet) {
+			return fail(400, {
+				message: 'Please fill out all fields!',
+				usernameSet: usernameSet,
+				passwordSet: passwordSet,
+				emailSet: emailSet,
+				passwordRepSet: passwordRepSet,
+				username: username,
+				password: password,
+				email: email,
+				passwordRepeat: passwordRepeat,
+				userAlreadyExists: false
+			});
 		}
 
 		try {
@@ -27,7 +70,18 @@ export const actions: Actions = {
 
 			if (user.length > 0) {
 				console.log('user: ' + user);
-				return fail(400, { message: 'user already exists' });
+				return fail(400, {
+					message: 'user already exists',
+					usernameSet: usernameSet,
+					passwordSet: passwordSet,
+					emailSet: emailSet,
+					passwordRepSet: passwordRepSet,
+					username: username,
+					password: password,
+					email: email,
+					passwordRepeat: passwordRepeat,
+					userAlreadyExists: true
+				});
 			}
 
 			await db.user.create({
@@ -56,18 +110,29 @@ export const actions: Actions = {
 					secure: true,
 					maxAge: 60 * 60 * 24
 				});
-				cookies.set('hasRegistered', 'true', {
-					path: '/',
-					sameSite: 'strict',
-					httpOnly: true,
-					secure: true,
-					maxAge: 60 * 60
-				});
+
 			}
 		} catch (error) {
 			console.log('database connection failed \n' + error);
-			return fail(500, { message: 'Internal Server Error' });
+			return fail(500, {
+				message: 'Internal Server Error',
+				usernameSet: usernameSet,
+				passwordSet: passwordSet,
+				emailSet: emailSet,
+				passwordRepSet: passwordRepSet,
+				username: username,
+				password: password,
+				email: email,
+				passwordRepeat: passwordRepeat,
+				userAlreadyExists: false
+			});
 		}
-		throw redirect(303, cookies.get('previousPage')!);
+		let previousPage = cookies.get('previousPage');
+		if (!previousPage) {
+			previousPage = '/';
+		}
+
+		throw redirect(303, previousPage);
+
 	}
 };

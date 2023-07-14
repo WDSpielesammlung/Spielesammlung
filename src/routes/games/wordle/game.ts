@@ -7,14 +7,13 @@ export class Game {
 	answer: string;
 	score: number;
 
-
 	/**
 	 * Create a game object from the player's cookie, or initialise a new game
 	 */
 	constructor(serialized: string | undefined = undefined) {
 		if (serialized) {
-			const [index, guesses, answers, score] = serialized.split('-');
-
+			const [index, guesses, answers, score, won] = serialized.split('-');
+			
 			this.index = +index;
 			this.guesses = guesses ? guesses.split(' ') : [];
 			this.answers = answers ? answers.split(' ') : [];
@@ -25,7 +24,6 @@ export class Game {
 			this.answers = [];
 			this.score = 500;
 		}
-
 		this.answer = words[this.index];
 		console.log(this.answer)
 	}
@@ -71,25 +69,8 @@ export class Game {
 
 		this.answers.push(answer.join(''));
 		this.score = 500 - (this.answers.length - 1) * 100; // Update the score
-		this.postHighscore()
-		console.log("Beim POST angekommen")
 
 		return true;
-	}
-
-	
-	async postHighscore() {
-		try{
-		const response = await fetch('/api/wordle', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ score: this.score })
-		});
-		console.log(response.status);
-		}
-		catch (err) {
-			console.log(err)
-		}
 	}
 
 	/**

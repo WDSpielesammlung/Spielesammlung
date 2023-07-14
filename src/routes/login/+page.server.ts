@@ -19,33 +19,39 @@ export const actions: Actions = {
 		const password = String(data.get('password'));
 
 		if (!username && !password) {
-			return fail(400, {
-				message: 'Please enter your Username!',
-				username: username,
-				password: password,
+			return {
+				message: 'No values filled!',
 				usernameFilled: false,
-				passwordFilled: false
-			});
+				passwordFilled: false,
+				userNotExisting: false,
+				passwordIncorrect: false,
+				username: username,
+				password: password
+			};
 		}
 
 		if (!username) {
-			return fail(400, {
+			return {
 				message: 'Please enter your Username!',
-				username: username,
-				password: password,
 				usernameFilled: false,
-				passwordFilled: true
-			});
+				passwordFilled: true,
+				userNotExisting: false,
+				passwordIncorrect: false,
+				username: username,
+				password: password
+			};
 		}
 
 		if (!password) {
-			return fail(400, {
+			return {
 				message: 'Please enter your Password!',
-				username: username,
-				password: password,
 				usernameFilled: true,
-				passwordFilled: false
-			});
+				passwordFilled: false,
+				userNotExisting: false,
+				passwordIncorrect: false,
+				username: username,
+				password: password
+			};
 		}
 
 		try {
@@ -55,19 +61,27 @@ export const actions: Actions = {
 				}
 			});
 			if (!user) {
-				return fail(400, {
+				return {
 					message: 'user does not  exist',
+					userNotExisting: true,
+					passwordIncorrect: false,
 					usernameFilled: true,
-					passwordFilled: true
-				});
+					passwordFilled: true,
+					username: username,
+					password: password
+				};
 			}
 			const userPassword = await bcrypt.compare(password, user.password);
 			if (!userPassword) {
-				return fail(400, {
+				return {
 					message: 'password incorrect',
+					userNotExisting: false,
+					passwordIncorrect: true,
 					usernameFilled: true,
-					passwordFilled: true
-				});
+					passwordFilled: true,
+					username: username,
+					password: password
+				};
 			}
 			const authenticatedUser = await db.user.update({
 				where: { username: user.username },
@@ -92,6 +106,10 @@ export const actions: Actions = {
 			console.log('database connection failed \n' + error);
 			return fail(500, { message: 'Internal Server Error' });
 		}
-		throw redirect(303, cookies.get('previousPage')!);
+		let previousPage = cookies.get('previousPage');
+		if (!previousPage) {
+			previousPage = '/';
+		}
+		throw redirect(303, previousPage);
 	}
 };
