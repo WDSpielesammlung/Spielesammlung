@@ -32,6 +32,16 @@ export const actions: Actions = {
 			emailSet = false;
 		}
 
+		if (
+			email
+				.toLowerCase()
+				.match(
+					/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+				) == null
+		) {
+			emailSet = false;
+		}
+		
 		if (!passwordRepeat) {
 			passwordRepSet = false;
 		}

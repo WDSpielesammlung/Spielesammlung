@@ -144,7 +144,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2">Please enter a E-Mail !</p>
+								<p class="ml-2">Please enter a valid E-Mail!</p>
 							</span>
 						</li>
 					</ul>

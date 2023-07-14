@@ -163,18 +163,13 @@ export const actions: Actions = {
 		throw redirect(303, '/');
 	},
 	deleteAccount: async ({ cookies, locals }) => {
-		const promise = await fetch(PUBLIC_API_URL + '/user/delete', {
+		fetch(PUBLIC_API_URL + '/user/delete', {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ userId: locals.user.id })
 		});
 		console.log(locals.user.id);
-		const response = await promise.json();
-		console.log(response.message);
-		if (response.success) {
-			cookies.delete('Token');
-			throw redirect(303, '/');
-		}
-
+		cookies.delete('Token');
+		throw redirect(303, '/');
 	}
 };
