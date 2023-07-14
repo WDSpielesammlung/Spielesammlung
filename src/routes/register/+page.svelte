@@ -88,7 +88,6 @@
 							</div>
 						{/if}
 						<input
-							value={form?.username ?? ''}
 							name="username"
 							type="text"
 							id="username"
@@ -128,7 +127,6 @@
 							</div>
 						{/if}
 						<input
-							value={form?.email ?? ''}
 							name="email"
 							type="email"
 							id="email"
