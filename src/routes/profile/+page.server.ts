@@ -4,6 +4,7 @@ import type { TableSource } from '@skeletonlabs/skeleton';
 import { redirect, type Actions } from '@sveltejs/kit';
 type flappyTable = { username: string; score: number };
 
+
 export const load: PageServerLoad = async ({ locals }) => {
 	const spaceinvadersURL = PUBLIC_API_URL + '/SpaceInvaders';
 	const wordleURL = PUBLIC_API_URL + '/wordle';
@@ -13,7 +14,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(303, '/');
 	}
-
 	try {
 		const spaceinvaderPromise = await fetch(spaceinvadersURL);
 		const spaceinvaderHighscores = await spaceinvaderPromise.json();
@@ -152,6 +152,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return { spaceinvaders, wordle, snake, easyTable, middleTable, hardTable, username, email };
 	} catch (err) {
 		console.log(err);
+
 	}
 };
 
@@ -172,5 +173,6 @@ export const actions: Actions = {
 			cookies.delete('Token');
 			throw redirect(303, '/');
 		}
+
 	}
 };

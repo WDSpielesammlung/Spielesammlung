@@ -100,6 +100,7 @@ export const actions: Actions = {
 					secure: true,
 					maxAge: 60 * 60 * 24
 				});
+
 			}
 		} catch (error) {
 			console.log('database connection failed \n' + error);
@@ -120,6 +121,8 @@ export const actions: Actions = {
 		if (!previousPage) {
 			previousPage = '/';
 		}
+
 		throw redirect(303, previousPage);
+
 	}
 };

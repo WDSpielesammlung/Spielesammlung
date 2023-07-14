@@ -1,6 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
 import type { RequestHandler } from '@sveltejs/kit';
+
 export const DELETE: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 	try {
