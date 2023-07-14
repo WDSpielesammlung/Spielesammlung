@@ -295,7 +295,7 @@
 				</div>
 				<div class="right-column">
 					<div class="field4">
-						<div id={gamecard.id + 'description'} hidden={!gamecard.clicked}>
+						<div id={gamecard.id + 'description'} hidden={!gamecard.clicked} class="descriptionBox">
 							{gamecard.description}
 						</div>
 						<div class="renderObject" hidden={gamecard.clicked} id={gamecard.id} />
@@ -453,6 +453,13 @@
 		--accent-color-border-shadow-spielen: rgba(0, 255, 203, 0.3);
 		--accent-color-border-pulse-spielen: rgba(0, 255, 203, 0.6);
 		--accent-color-border-pulse: hsla(20, 67%, 55%, 0.6);
+	}
+
+	.descriptionBox{
+		background-color: rgba(0, 0, 0, 0.6);
+		border-radius: 10px;
+		padding: 30px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 	}
 
 	.backgroundRainbow {
