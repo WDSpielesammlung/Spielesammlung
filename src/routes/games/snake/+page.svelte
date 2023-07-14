@@ -31,11 +31,6 @@
 	// compare current score with highscore
 	// if current score is bigger, highscore is beeing updated
 	async function uploadHighscore() {
-		if (data.userHighscoreData.score) {
-			highscore = data.userHighscoreData.score;
-		} else {
-			highscore = 0;
-		}
 
 		if (snakePosition.length > highscore) {
 			highscore = snakePosition.length;
@@ -49,6 +44,17 @@
 				console.log(err);
 			}
 		}
+	}
+
+	function getHighscoresFromDatabase(){
+
+		if(data.userHighscoreData.score){
+			highscore = data.userHighscoreData.score;
+		}
+		else{
+			highscore = 0;
+		}
+
 	}
 
 	randomFood();
@@ -100,6 +106,7 @@
 		}, n);
 	};
 	onMount(() => {
+		getHighscoresFromDatabase();
 		reBuild(TICK_DELAY);
 	});
 
@@ -143,7 +150,7 @@
 	{/if}
 	<h3 class="tcenter">Your Score: {snakePosition.length}</h3>
 	<h3 class="tcenter">
-		Overall Highscore: {highscore >= snakePosition.length ? highscore : snakePosition.length}
+		Overall Highscore: {snakePosition.length > highscore ? snakePosition.length : highscore }
 	</h3>
 	<div class="center">
 		<div>
