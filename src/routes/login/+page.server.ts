@@ -110,6 +110,7 @@ export const actions: Actions = {
 		if (!previousPage) {
 			previousPage = '/';
 		}
+		cookies.delete('previousPage');
 		throw redirect(303, previousPage);
 	}
 };
