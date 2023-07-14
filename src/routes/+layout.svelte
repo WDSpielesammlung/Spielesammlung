@@ -13,7 +13,9 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Cookies from "js-cookie";
+
+	import Cookies from 'js-cookie';
+
 
 	//function for navigation bar
 	function scrollIntoView({ target }: any) {
@@ -84,18 +86,26 @@
 		
 		<li class="nav-item">
 			{#if !$page.data.user}
-			<a href="/login" class="nav-link" on:click = { () => {Cookies.set("previousPage", window.location.href)} }>
-				<img src="/images/Navbar/LoginAnimated.gif" alt="" />
-				<img class="static-image" src="/images/Navbar/LoginStatic.png" alt="" />
-				<span class="link-text">Login</span>
-			</a>
+
+				<a
+					href="/login"
+					class="nav-link"
+					on:click={() => {
+						Cookies.set('previousPage', window.location.href);
+					}}
+				>
+					<img src="/images/Navbar/LoginAnimated.gif" alt="" />
+					<img class="static-image" src="/images/Navbar/LoginStatic.png" alt="" />
+					<span class="link-text">Login</span>
+				</a>
 			{/if}
 			{#if $page.data.user}
-			<a href="/profile" class="nav-link">
-				<img src="/images/Navbar/ProfileAnimated.gif" alt="" />
-				<img class="static-image" src="/images/Navbar/ProfileStatic.png" alt="" />
-				<span class="link-text">Profile</span>
-			</a>
+				<a href="/profile" class="nav-link">
+					<img src="/images/Navbar/ProfileAnimated.gif" alt="" />
+					<img class="static-image" src="/images/Navbar/ProfileStatic.png" alt="" />
+					<span class="link-text">Profile</span>
+				</a>
+
 			{/if}
 		</li>
 
@@ -271,7 +281,7 @@
 	}
 
 	/* Small screens */
-	
+
 	@media only screen and (max-width: 800px) {
 		.navbar {
 			bottom: 0;
@@ -296,12 +306,12 @@
 			margin-bottom: 5rem;
 		}
 		.nav-item:nth-last-child(2) {
-  			margin-top: 0rem; 
+			margin-top: 0rem;
 		}
 	}
 	
 	/* Large screens */
-	
+
 	@media only screen and (min-width: 800px) {
 		.navbar {
 			top: 0;

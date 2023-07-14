@@ -20,7 +20,6 @@ model User {
   spaceinvader  spaceinvader?
   snake         snake?
   wordle        wordle?
-  quiz          quiz?
 }
 
 model flappybird {
@@ -46,13 +45,6 @@ model snake {
 }
 
 model wordle {
-  id     String @id @default(uuid())
-  score  Int    @default(0)
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
-}
-
-model quiz {
   id     String @id @default(uuid())
   score  Int    @default(0)
   user   User   @relation(fields: [userId], references: [id])
