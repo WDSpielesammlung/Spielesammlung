@@ -6,7 +6,6 @@ export class Game {
 	answers: string[];
 	answer: string;
 	score: number;
-	won: string;
 
 	/**
 	 * Create a game object from the player's cookie, or initialise a new game
@@ -15,7 +14,6 @@ export class Game {
 		if (serialized) {
 			const [index, guesses, answers, score, won] = serialized.split('-');
 			
-			this.won = won;
 			this.index = +index;
 			this.guesses = guesses ? guesses.split(' ') : [];
 			this.answers = answers ? answers.split(' ') : [];
@@ -25,7 +23,6 @@ export class Game {
 			this.guesses = ['', '', '', '', '', ''];
 			this.answers = [];
 			this.score = 500;
-			this.won = "false";
 		}
 		this.answer = words[this.index];
 		console.log(this.answer)

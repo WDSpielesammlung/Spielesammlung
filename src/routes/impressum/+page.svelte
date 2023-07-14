@@ -69,7 +69,6 @@
 		text-align: center;
 		margin-top: 0;
 		margin-bottom: 20px;
-		font-family: 'Press Start 2P', cursive;
 		color: #fff;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	}
@@ -79,7 +78,6 @@
 		text-align: center;
 		margin-top: 30px;
 		margin-bottom: 10px;
-		font-family: 'Press Start 2P', cursive;
 		color: #fff;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	}
@@ -89,7 +87,6 @@
 		text-align: center;
 		margin-top: 10px;
 		margin-bottom: 10px;
-		font-family: 'Press Start 2P', cursive;
 		color: #fff;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	}
