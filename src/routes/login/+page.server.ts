@@ -73,7 +73,6 @@ export const actions: Actions = {
 			}
 			const userPassword = await bcrypt.compare(password, user.password);
 			if (!userPassword) {
-				console.log("ich lande hier doch!")
 				return fail(400, {
 					message: 'password incorrect',
 					userNotExisting: false,
@@ -108,8 +107,8 @@ export const actions: Actions = {
 			return fail(500, { message: 'Internal Server Error' });
 		}
 		let previousPage = cookies.get('previousPage');
-		if(!previousPage){
-			previousPage = "/";
+		if (!previousPage) {
+			previousPage = '/';
 		}
 		throw redirect(303, previousPage);
 	}

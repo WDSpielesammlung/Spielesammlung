@@ -11,7 +11,6 @@
 
 <main>
 	<div class="grid grid-rows-2 justify-center">
-		<!--onClick => coockies.remove('Token') bsp siehe layout.svelte-->
 		<div>
 			<div class="grid grid-cols-3 mt-8">
 				<div>
@@ -34,30 +33,15 @@
 				</div>
 				<div>
 					<div class="flex flex-col items-center">
-						<button
-							type="button"
-							class="btn variant-filled"
-							on:click={() => {
-								Cookies.remove('Token', { path: '/login' });
-							}}>Abmelden</button
-						>
+						<form action="?/signOff" method="POST">
+							<button type="submit" class="btn variant-filled">Abmelden</button>
+						</form>
 					</div>
 				</div>
 				<div class="flex flex-col items-center">
-					<button
-						type="button"
-						class="btn variant-filled"
-						on:click={async () => {
-							const promise = await fetch(PUBLIC_API_URL + '/user/delete', {
-								method: 'DELETE'
-							});
-							const response = await promise.json();
-
-							if (response.success) {
-								throw redirect(303, '/');
-							}
-						}}>Account löschen</button
-					>
+					<form action="?/deleteAccount" method="POST">
+						<button type="submit" class="btn variant-filled">Account löschen</button>
+					</form>
 				</div>
 			</div>
 		</div>
