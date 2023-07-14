@@ -14,6 +14,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw redirect(303, '/');
 	}
+
 	try {
 		const spaceinvaderPromise = await fetch(spaceinvadersURL);
 		const spaceinvaderHighscores = await spaceinvaderPromise.json();
@@ -159,6 +160,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	signOff: async ({ cookies }) => {
 		cookies.delete('Token');
+		throw redirect(303, '/');
 	},
 	deleteAccount: async ({ cookies, locals }) => {
 		const promise = await fetch(PUBLIC_API_URL + '/user/delete', {
