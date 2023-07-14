@@ -40,7 +40,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2">Bitte gebe einen Usernamen an!</p>
+								<p class="ml-2">Please enter a Username!</p>
 							</span>
 						</li>
 					</ul>
@@ -48,7 +48,7 @@
 
 				<div class="mt-4">
 					{#if form?.passwordIncorrect}
-						<p style="color: #ff0000;">Falsches Passwort!</p>
+						<p style="color: #ff0000;">Wrong Password!</p>
 					{/if}
 					<div>
 						<label for="pass" class="label block text-gray-700 text-sm font-bold mb-2 h">
@@ -72,7 +72,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2 float-left">Bitte gebe ein Passwort an!</p>
+								<p class="ml-2 float-left">Please enter a password!</p>
 							</span>
 						</li>
 					</ul>

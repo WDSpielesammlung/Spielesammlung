@@ -16,7 +16,7 @@
 				<div>
 					<div class="grid grid-cols-2">
 						<div>
-							<label class="font-bold text-xl mr-2">Benutzername:</label>
+							<label class="font-bold text-xl mr-2">Username:</label>
 						</div>
 						<div>
 							<p class="font-medium text-gray-700 text-xl">{data.username}</p>
@@ -24,7 +24,7 @@
 					</div>
 					<div class="grid grid-cols-2">
 						<div>
-							<label class="font-bold text-xl mr-2">Email:</label>
+							<label class="font-bold text-xl mr-2">E-Mail:</label>
 						</div>
 						<div>
 							<p class="font-medium text-gray-700 text-xl">{data.email}</p>
@@ -34,13 +34,13 @@
 				<div>
 					<div class="flex flex-col items-center">
 						<form action="?/signOff" method="POST">
-							<button type="submit" class="btn variant-filled">Abmelden</button>
+							<button type="submit" class="btn variant-filled">Sign Off</button>
 						</form>
 					</div>
 				</div>
 				<div class="flex flex-col items-center">
 					<form action="?/deleteAccount" method="POST">
-						<button type="submit" class="btn variant-filled">Account löschen</button>
+						<button type="submit" class="btn variant-filled">Delete Account</button>
 					</form>
 				</div>
 			</div>
@@ -68,13 +68,13 @@
 						{/if}
 					{:else if tabSet === 1}
 						<Tab class="font-bold" bind:group={tabSet} name="Highscores" value={4}>
-							<span>Einfach</span>
+							<span>Easy</span>
 						</Tab>
 						<Tab class="font-bold" bind:group={tabSet} name="Spaceinvaders" value={5}>
-							<span class="">Mittel</span>
+							<span class="">Medium</span>
 						</Tab>
 						<Tab class="font-bold" bind:group={tabSet} name="snake" value={6}>
-							<span class="">Schwer</span>
+							<span class="">Hard</span>
 						</Tab>
 					{:else if tabSet === 2}
 						{#if data.snake}

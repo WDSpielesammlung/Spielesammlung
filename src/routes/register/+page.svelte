@@ -105,7 +105,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2">Bitte gebe einen Usernamen an!</p>
+								<p class="ml-2">Please enter a Username!</p>
 							</span>
 						</li>
 					</ul>
@@ -118,7 +118,7 @@
 						{:else if emailTaken}
 							<div class="flex">
 								<span>E-Mail</span>
-								<p class="ml-2 text-red-500">Seems like your already registered!</p>
+								<p class="ml-2 text-red-500">Seems like you are already registered!</p>
 							</div>
 						{:else}
 							<div class="flex">
@@ -144,7 +144,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2">Bitte gebe eine Email an!</p>
+								<p class="ml-2">Please enter a E-Mail !</p>
 							</span>
 						</li>
 					</ul>
@@ -171,7 +171,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2">Bitte gebe ein Passwort an!</p>
+								<p class="ml-2">Please enter a password!</p>
 							</span>
 						</li>
 					</ul>
@@ -198,7 +198,7 @@
 								<i class="fa-solid fa-circle-exclamation fa-lg" style="color: #ff0000;" />
 							</span>
 							<span>
-								<p class="ml-2">Bitte wiederhole dein Passwort!</p>
+								<p class="ml-2">Please repeat your password!</p>
 							</span>
 						</li>
 					</ul>
