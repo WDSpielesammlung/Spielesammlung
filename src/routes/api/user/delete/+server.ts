@@ -9,8 +9,9 @@ export const DELETE: RequestHandler = async ({ locals }) => {
 		await db.user.delete({
 			where: { id: locals.user.id }
 		});
-		return json({ message: 'user:' + locals.user.name + 'deleted' }, { status: 200 });
+		return json({ message: 'user:' + locals.user.name + 'deleted', success: true }, { status: 200});
 	} catch (err) {
+		console.log(err)
 		throw error(500, { message: 'database connection failed, error: ' + err });
 	}
 };

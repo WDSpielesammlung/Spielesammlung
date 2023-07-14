@@ -1,14 +1,18 @@
 import type { PageServerLoad } from './$types';
 import { PUBLIC_API_URL } from '$env/static/public';	
 import type { TableSource } from '@skeletonlabs/skeleton';
+type flappyTable = {username: string, score: number};
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({locals}) => {
 	const spaceinvadersURL = PUBLIC_API_URL + '/SpaceInvaders';
 	const wordleURL = PUBLIC_API_URL + '/wordle';
 	const snakeURL = PUBLIC_API_URL + '/snake';
 	const FlappyBirdURL = PUBLIC_API_URL + '/flappyBird'
 
-
+	/*if(!locals.user){
+		throw redirect(303, "/")
+	}
+*/
 	try {
 		const spaceinvaderPromise = await fetch(spaceinvadersURL);
 		const spaceinvaderHighscores = await spaceinvaderPromise.json();
@@ -26,6 +30,8 @@ export const load: PageServerLoad = async () => {
 				String(spaceinvaderHighscores[i].score)
 			];
 		}
+
+
 		const spaceinvaders: TableSource = {
 			head: ['Username', 'Score'],
 			body: tableBody
@@ -55,22 +61,73 @@ export const load: PageServerLoad = async () => {
 		const flappyBirdPromise = await fetch(FlappyBirdURL);
 		const flappyBirdHighscores = await flappyBirdPromise.json();
 
-		flappyBirdHighscores.sort((a: any, b: any) => {
-			if (a.score > b.score){
-				return -1;
-			}
-		});
+		let flappyEasy: flappyTable[] = [];
 
-		const flappyBirdBody = [['','']];
 		for(let i = 0; i < flappyBirdHighscores.length; i++){
-			flappyBirdBody[i] = [
-				String(flappyBirdHighscores[i].user.username),
-				String(flappyBirdHighscores[i].score)
+			if(flappyBirdHighscores[i].difficulty == 2){
+				flappyEasy.push({ username: flappyBirdHighscores[i].user.username, score: flappyBirdHighscores[i].score});
+			}
+		}
+
+		flappyEasy.sort((a: any, b: any) => a - b);
+
+		let flappyMiddle: flappyTable[] = [];
+		for(let i = 0; i < flappyBirdHighscores.length; i++){
+			if(flappyBirdHighscores[i].difficulty == 1){
+				flappyMiddle.push({username: flappyBirdHighscores[i].user.username, score: flappyBirdHighscores[i].score});
+			}
+		}
+
+		flappyMiddle.sort((a: any, b: any) => a - b);
+
+		let flappyHard: flappyTable[] = [];
+		for(let i = 0; i < flappyBirdHighscores.length; i++){
+			
+			if(flappyBirdHighscores[i].difficulty == 0){
+				flappyHard.push({username: flappyBirdHighscores[i].user.username ,score: flappyBirdHighscores[i].score});
+			}
+		}
+
+		flappyHard.sort((a: any, b: any) => a - b);
+
+
+		const easyBody = [['','']];
+		for(let i = 0; i < flappyEasy.length; i++){
+			easyBody[i] = [
+				String(flappyEasy[i].username),
+				String(flappyEasy[i].score)
 			];
 		}
-		const flappyBird: TableSource = {
+
+		const middleBody = [['','']];
+		for(let i = 0; i < flappyMiddle.length; i++){
+			middleBody[i] = [
+				String(flappyMiddle[i].username),
+				String(flappyMiddle[i].score)
+			];
+		}
+
+		const hardBody = [['','']];
+		for(let i = 0; i < flappyHard.length; i++){
+			hardBody[i] = [
+				String(flappyHard[i].username),
+				String(flappyHard[i].score)
+			];
+		}
+
+		const easyTable: TableSource = {
 			head: ['Username', 'Score'],
-			body: flappyBirdBody
+			body: easyBody
+		};
+
+		const middleTable: TableSource = {
+			head: ['Username', 'Score'],
+			body: middleBody
+		};
+
+		const hardTable: TableSource = {
+			head: ['Username', 'Score'],
+			body: hardBody
 		};
 
 		const snakePromise = await fetch(snakeURL);
@@ -93,13 +150,13 @@ export const load: PageServerLoad = async () => {
 			head: ['Username', 'Score'],
 			body: snakeBody
 		};
+		
+		const username = locals.user.name;
+		const email = locals.user.email;
 
-		return {spaceinvaders, wordle, snake, flappyBird};
+		return {spaceinvaders, wordle, snake, easyTable, middleTable, hardTable, username, email};
 
 	} catch (err) {
 		console.log(err);
 	}
-	
-
-
 };
