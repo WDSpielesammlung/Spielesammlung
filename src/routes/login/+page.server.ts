@@ -19,7 +19,7 @@ export const actions: Actions = {
 		const password = String(data.get('password'));
 
 		if (!username && !password) {
-			return fail(400, {
+			return {
 				message: 'No values filled!',
 				usernameFilled: false,
 				passwordFilled: false,
@@ -27,11 +27,11 @@ export const actions: Actions = {
 				passwordIncorrect: false,
 				username: username,
 				password: password
-			});
+			};
 		}
 
 		if (!username) {
-			return fail(400, {
+			return {
 				message: 'Please enter your Username!',
 				usernameFilled: false,
 				passwordFilled: true,
@@ -39,11 +39,11 @@ export const actions: Actions = {
 				passwordIncorrect: false,
 				username: username,
 				password: password
-			});
+			};
 		}
 
 		if (!password) {
-			return fail(400, {
+			return {
 				message: 'Please enter your Password!',
 				usernameFilled: true,
 				passwordFilled: false,
@@ -51,7 +51,7 @@ export const actions: Actions = {
 				passwordIncorrect: false,
 				username: username,
 				password: password
-			});
+			};
 		}
 
 		try {
@@ -61,7 +61,7 @@ export const actions: Actions = {
 				}
 			});
 			if (!user) {
-				return fail(400, {
+				return {
 					message: 'user does not  exist',
 					userNotExisting: true,
 					passwordIncorrect: false,
@@ -69,11 +69,11 @@ export const actions: Actions = {
 					passwordFilled: true,
 					username: username,
 					password: password
-				});
+				};
 			}
 			const userPassword = await bcrypt.compare(password, user.password);
 			if (!userPassword) {
-				return fail(400, {
+				return {
 					message: 'password incorrect',
 					userNotExisting: false,
 					passwordIncorrect: true,
@@ -81,7 +81,7 @@ export const actions: Actions = {
 					passwordFilled: true,
 					username: username,
 					password: password
-				});
+				};
 			}
 			const authenticatedUser = await db.user.update({
 				where: { username: user.username },
