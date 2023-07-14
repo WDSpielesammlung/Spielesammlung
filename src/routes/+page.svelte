@@ -29,7 +29,7 @@
 			path: '/games/flappyBird',
 			clicked: false,
 			description:
-				'Der Spieler führt durch das Tippen auf den Bildschirm einen Vogel durch eine von rechts nach links scrollende Spielwelt, wobei der Vogel die paarweise von oben und unten ins Bild ragenden grünen Röhren nicht berühren darf, sondern zwischen ihnen hindurchfliegen muss. Die Position der Flugschneise variiert dabei.',
+				'By tapping on the screen, the player guides a bird through a game world that scrolls from right to left, whereby the bird must not touch the pairs of green tubes projecting from above and below, but must fly between them. The position of the flight path varies.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -47,7 +47,7 @@
 			path: '/games/snake',
 			clicked: false,
 			description:
-				'Das Ziel der Snake Spiele ist es, eine Schlange durch ein Spielfeld zu navigieren und einen Futterhappen zu fressen, um die Snake länger werden zu lassen. Dabei müssen Hindernisse wie Wände und der eigene Schwanz auf dem Weg vermieden werden, um nicht zu sterben und das Spiel zu verlieren.',
+				'The aim of snake games is to navigate a snake through a playing field and eat a bite of food to make the snake grow longer. You have to avoid obstacles like walls and your own tail along the way to avoid dying and losing the game.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -65,7 +65,7 @@
 			path: '/games/SpaceInvaders',
 			clicked: false,
 			description:
-				'Das Retro-Spiel Space Invaders ist ein Shoot-`em-up-Computerspiel. Es wurde von Tomohiro Nishikado, einem japanischer Videospielentwickler, entworfen und programmiert. 1978 wurde es dann von Taito, einem japanischen Unternehmen mit ihrem Sitz in Tokio, vertrieben.',
+				'The retro game Space Invaders is a shootem up computer game. It was designed and programmed by Tomohiro Nishikado, a Japanese video game developer. In 1978 it was distributed by Taito, a Japanese company based in Tokyo.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -83,7 +83,7 @@
 			path: '/games/wordle',
 			clicked: false,
 			description:
-				'Das Wordle-Spiel ist ein tägliches Worträtsel, das in Großbritannien entwickelt wurde, bei dem Benutzer ein Wort mit 5 Buchstaben in sechs oder weniger Raten erraten müssen. Wenn ein Spieler den richtigen Buchstaben an der richtigen Stelle errät, wird das Quadrat grün.',
+				'The Wordle Game is a daily word puzzle developed in the UK that requires users to guess a 5 letter word in six or fewer guesses. If a player guesses the right letter in the right place, the square will turn green. If a player guesses the right letter in the wrong place, the square will turn yellow.',
 			cameraFov: 50,
 			cameraNear: 0.1,
 			cameraFar: 2000,
@@ -192,6 +192,7 @@
 			// Fenstergröße aktualisieren
 			width = container.clientWidth;
 			height = container.clientHeight;
+			console.log(width + ' ' + height);
 			camera.aspect = width / height;
 			camera.updateProjectionMatrix();
 			renderer.setSize(width, height);
@@ -279,14 +280,14 @@
 					<div class="field2">
 						<div class="wrap">
 							<button on:click={() => handleBeschreibungClick(i)} class="beschreibung">
-								Beschreibung
+								DESCRIPTION
 							</button>
 						</div>
 					</div>
 					<div class="field3">
 						<div class="wrap">
 							<button id={gamecard.id + i} class="buttonSpielen"
-								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>Spielen</a
+								><a class="pagelink" on:click={cancelAnimations} href={gamecard.path}>PLAY</a
 								></button
 							>
 						</div>
@@ -340,7 +341,7 @@
 					>
 					<g id="twitterIcon">
 						<a class="twitter" href="https://r.mtdv.me/lGtwhWwQxa">
-							<rect  width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
+							<rect width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2.5"
@@ -357,7 +358,7 @@
 					</g>
 					<g id="facebookIcon">
 						<a class="facebook" href="https://r.mtdv.me/lGtwhWwQxa">
-							<rect  width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
+							<rect width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2.5"
@@ -381,7 +382,7 @@
 								<stop stop-color="#d6249f" offset="0.6" />
 								<stop stop-color="#285AEB" offset="0.9" />
 							</radialGradient>
-							<rect  width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
+							<rect width="2.5" height="2.5" style="fill-opacity:0; stroke-opacity:0" />
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="2.5"
@@ -396,9 +397,9 @@
 							</svg>
 						</a>
 					</g>
-					<g  id="impressumText">
-						<text  font-size="1.3" text-anchor="middle">
-							<a data-pw="impressumTest"href="/impressum">Impressum</a>
+					<g id="impressumText">
+						<text font-size="1.3" text-anchor="middle">
+							<a data-pw="impressumTest" href="/impressum">Impressum</a>
 						</text>
 					</g>
 				</defs>
@@ -493,9 +494,9 @@
 		height: 100vh;
 	}
 
-	.gameboxLogo{
+	.gameboxLogo {
 		margin-left: 20vw;
-		margin-right: auto;
+
 		display: flex;
 	}
 
@@ -538,13 +539,16 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
+		max-height: 40vh;
+		max-width: 50vw;
 	}
 
 	.field1,
 	.field2,
 	.field3,
 	.field4 {
-		padding: 10px;
+		width: 100%;
+		height: 100%;
 		flex-grow: 1;
 		z-index: 1;
 	}
@@ -702,16 +706,21 @@
 			flex-basis: auto;
 			height: 50vh;
 			transition: 1s;
+			max-width: 80vw;
 		}
-		.gameboxLogo{
-		margin-left: 5vw;
-		margin-right: auto;
-		display: flex;
-	}
+		.right-column {
+			justify-content: center;
+			align-items: center;
+		}
+		.gameboxLogo {
+			margin-left: 5vw;
+			margin-right: auto;
+			display: flex;
+		}
 	}
 
 	footer {
-		width: 100vw;
+		max-width: 100vw;
 		position: relative;
 		bottom: 0px;
 	}
