@@ -58,7 +58,7 @@
 
 <main>
 	<div class="w-full h-screen flex items-center justify-center">
-		<div class="grid grid-cols-2">
+		<div class="grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2">
 			<div>
 				<div class="h-full flex flex-col justify-center items-center">
 					<p class="text-4xl">Register now at</p>

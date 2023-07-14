@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
 		command: 'pnpm run dev',
 		port: 5173
 	},
-	workers: 4,
+	workers: 6,
 	testDir: 'tests',
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/
 };
