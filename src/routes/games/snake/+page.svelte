@@ -31,7 +31,13 @@
 	// compare current score with highscore
 	// if current score is bigger, highscore is beeing updated
 	async function uploadHighscore() {
-		if (snakePosition.length > data.userHighscoreData.score) {
+		if (data.userHighscoreData.score) {
+			highscore = data.userHighscoreData.score;
+		} else {
+			highscore = 0;
+		}
+
+		if (snakePosition.length > highscore) {
 			highscore = snakePosition.length;
 			try {
 				const response = await fetch('/api/snake', {
