@@ -19,7 +19,7 @@
 			>
 				<div class="h-auto">
 					{#if form?.userNotExisting}
-						<p class="my-2" style="color: #ff0000;">Dieser Username existiert leider nicht.</p>
+						<p class="my-2" style="color: #ff0000;">User not found. Please Register first!</p>
 					{/if}
 					<label for="username" class="label block text-gray-700 text-sm font-bold mb-2">
 						<span>Username</span>
